@@ -52,17 +52,25 @@ class VISIONMenu(Screen, ProtectedScreen):
 		self["lab4"] = StaticText(_("https://openvision.tech"))
 		self["lab5"] = StaticText(_("Sources are available at:"))
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
+		BackupManager = (_("Backup Manager"))
+		ImageManager = (_("Image Manager"))
+		InstallLocalExtension = (_("Install Local Extension"))
+		MountManager = (_("Mount Manager"))
+		ScriptRunner = (_("Script Runner"))
+		SwapManager = (_("Swap Manager"))
+		ClientModeBox = (_("Client Mode Box"))
+		H9SdCardManager = (_("H9 SDcard Manager"))
 		if self.menu == 0:
-			self.list.append(("Backup Manager", _("Backup Manager"), _("Manage settings backup."), None))
-			self.list.append(("Image Manager", _("Image Manager"), _("Backup/Flash/ReBoot system image."), None))
-			self.list.append(("Opkg Install", _("Opkg Install"), _("Install IPK's from your tmp folder."), None))
-			self.list.append(("Mount Manager", _("Mount Manager"), _("Manage your devices mount points."), None))
-			self.list.append(("Script Runner", _("Script Runner"), _("Run your shell scripts."), None))
-			self.list.append(("Swap Manager", _("Swap Manager"), _("Create and Manage your SWAP files."), None))
-			self.list.append(("Client Mode Box", _("Client Mode Box"), _("Use this box as a client of a server."), None))
+			self.list.append(("%s" % BackupManager, _("Backup Manager"), (_("Manage settings backup.")), None))
+			self.list.append(("%s" % ImageManager, _("Image Manager"), (_("Backup/Flash/ReBoot system image.")), None))
+			self.list.append(("%s" % InstallLocalExtension, _("Install Local Extension"), (_("Install IPK's from your tmp folder.")), None))
+			self.list.append(("%s" % MountManager, _("Mount Manager"), (_("Manage your devices mount points.")), None))
+			self.list.append(("%s" % ScriptRunner, _("Script Runner"), (_("Run your shell scripts.")), None))
+			self.list.append(("%s" % SwapManager, _("Swap Manager"), (_("Create and Manage your SWAP files.")), None))
+			self.list.append(("%s" % ClientModeBox, _("Client Mode Box"), (_("Use this box as a client of a server.")), None))
 
 			if BoxInfo.getItem("HasH9SD"):
-				self.list.append(("H9 SDcard Manager", _("H9 SDcard Manager"), _("Move Nand root to SD card"), None))
+				self.list.append(("%s" % H9SdCardManager, _("H9 SDcard Manager"), (_("Move Nand root to SD card")), None))
 		self["menu"] = List(self.list)
 		self["key_red"] = StaticText(_("Close"))
 
@@ -119,30 +127,30 @@ class VISIONMenu(Screen, ProtectedScreen):
 		if current:
 			currentEntry = current[0]
 			if self.menu == 0:
-				if currentEntry == "Backup Manager":
+				if currentEntry == (_("Backup Manager")):
 					from BackupManager import VISIONBackupManager
 					self.session.open(VISIONBackupManager)
-				elif currentEntry == "Image Manager":
+				elif currentEntry == (_("Image Manager")):
 					from ImageManager import VISIONImageManager
 					self.session.open(VISIONImageManager)
-				elif currentEntry == "H9 SDcard Manager" and BoxInfo.getItem("HasH9SD"):
-					from H9SDmanager import H9SDmanager
-					self.session.open(H9SDmanager)
-				elif currentEntry == "Opkg Install":
+				elif currentEntry == (_("Install Local Extension")):
 					from IPKInstaller import VISIONIPKInstaller
 					self.session.open(VISIONIPKInstaller)
-				elif currentEntry == "Mount Manager":
+				elif currentEntry == (_("Mount Manager")):
 					from MountManager import VISIONDevicesPanel
 					self.session.open(VISIONDevicesPanel)
-				elif currentEntry == "Script Runner":
+				elif currentEntry == (_("Script Runner")):
 					from ScriptRunner import VISIONScriptRunner
 					self.session.open(VISIONScriptRunner, None)
-				elif currentEntry == "Swap Manager":
+				elif currentEntry == (_("Swap Manager")):
 					from SwapManager import VISIONSwap
 					self.session.open(VISIONSwap)
-				elif currentEntry == "Client Mode Box":
+				elif currentEntry == (_("Client Mode Box")):
 					from ClientModeBox import ClientModeBoxWizard
 					self.session.open(ClientModeBoxWizard)
+				elif currentEntry == (_("H9 SDcard Manager")) and BoxInfo.getItem("HasH9SD"):
+					from H9SDmanager import H9SDmanager
+					self.session.open(H9SDmanager)
 
 	def closeRecursive(self):
 		self.close(True)
