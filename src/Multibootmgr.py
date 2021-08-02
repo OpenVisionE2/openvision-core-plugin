@@ -1,15 +1,13 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 from Components.ActionMap import ActionMap
 from Components.ChoiceList import ChoiceList, ChoiceEntryComponent
 from Components.config import config
 from Components.Label import Label
-from Components.Sources.StaticText import StaticText
 from Components.SystemInfo import BoxInfo
+from Components.Sources.StaticText import StaticText
 from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
 from Tools.BoundFunction import boundFunction
-from Tools.Multiboot import GetImagelist, getCurrentImage, getCurrentImageMode, EmptySlot
+from Tools.MultiBoot import getCurrentImage, getCurrentImageMode, getImageList, emptySlot
 
 
 class MultiBoot(Screen):
@@ -33,7 +31,7 @@ class MultiBoot(Screen):
 
 	def __init__(self, session):
 		Screen.__init__(self, session)
-		self.setTitle(_("Vision Multiboot Image Manager"))
+		self.setTitle(_("Vision MultiBoot Image Manager"))
 		self["key_red"] = StaticText(_("Cancel"))
 		self["labe14"] = StaticText(_("Use the cursor keys to select an installed image and then Erase button."))
 		self["labe15"] = StaticText(_("Note: slot list does not show current image or empty slots."))
@@ -41,7 +39,7 @@ class MultiBoot(Screen):
 		self["key_yellow"] = StaticText("")
 		self["config"] = ChoiceList(list=[ChoiceEntryComponent('', ((_("Retrieving image slots - Please wait...")), "Queued"))])
 		imagedict = []
-		self.getImageList = None
+		self.imageList = None
 		self.startit()
 
 		self["actions"] = ActionMap(["OkCancelActions", "ColorActions", "DirectionActions", "KeyboardInputActions", "MenuActions"],
@@ -63,7 +61,7 @@ class MultiBoot(Screen):
 		}, -1)
 
 	def startit(self):
-		self.getImageList = GetImagelist(self.ImageList)
+		self.imageList = getImageList(self.ImageList)
 
 	def ImageList(self, imagedict):
 		list = []
@@ -89,7 +87,7 @@ class MultiBoot(Screen):
 
 	def doErase(self, answer):
 		if answer is True:
-			sloterase = EmptySlot(self.currentSelected[0][1], self.startit)
+			sloterase = emptySlot(self.currentSelected[0][1], self.startit)
 
 	def selectionChanged(self):
 		pass
