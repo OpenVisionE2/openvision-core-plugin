@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 from __future__ import print_function
 
 # required methods: Request, urlopen, HTTPError, URLError
@@ -37,7 +35,7 @@ from Screens.Standby import TryQuitMainloop
 from Screens.TaskView import JobView
 from Tools.Directories import fileExists, pathExists, fileHas
 import Tools.CopyFiles
-from Tools.Multiboot import GetImagelist, getCurrentImage
+from Tools.MultiBoot import getCurrentImage
 from Tools.Notifications import AddPopupWithCallback
 import six
 
@@ -156,7 +154,6 @@ class VISIONImageManager(Screen):
 		if BoxInfo.getItem("canMultiBoot"):
 			self.mtdboot = BoxInfo.getItem("HasRootSubdir")
 		self.imagelist = {}
-		self.getImageList = None
 		self.onChangedEntry = []
 		self.emlist = []
 		self["list"] = MenuList(self.emlist)
@@ -450,13 +447,13 @@ class VISIONImageManager(Screen):
 		if retval == 0:
 			self.session.openWithCallback(self.restore_infobox.close, MessageBox, _("Flash image unzip successful."), MessageBox.TYPE_INFO, timeout=4)
 			if model == "et8500" and self.dualboot:
-				message = _("ET8500 Multiboot: Yes to restore OS1\nNo to restore OS2:\n ") + self.sel
+				message = _("ET8500 MultiBoot: Yes to restore OS1\nNo to restore OS2:\n ") + self.sel
 				ybox = self.session.openWithCallback(self.keyRestore5_ET8500, MessageBox, message, MessageBox.TYPE_YESNO)
 				ybox.setTitle(_("ET8500 image restore"))
 			else:
 				MAINDEST = "%s/%s" % (self.TEMPDESTROOT, imagedir)
 				if pathExists("%s/SDAbackup" % MAINDEST) and self.multibootslot != 1:
-						self.session.open(MessageBox, _("Multiboot only able to restore this backup to MMC slot1"), MessageBox.TYPE_INFO, timeout=20)
+						self.session.open(MessageBox, _("MultiBoot only able to restore this backup to MMC slot1"), MessageBox.TYPE_INFO, timeout=20)
 						print("[ImageManager] SF8008 MMC restore to SDcard failed:\n", end=' ')
 						self.close()
 				else:
@@ -511,7 +508,7 @@ class VISIONImageManager(Screen):
 				if pathExists(path.join(tmp_dir, "STARTUP")):
 					copyfile(path.join(tmp_dir, BoxInfo.getItem("canMultiBoot")[self.multibootslot]["startupfile"].replace("boxmode=12'", "boxmode=1'")), path.join(tmp_dir, "STARTUP"))
 				else:
-					self.session.open(MessageBox, _("Multiboot ERROR! - no STARTUP in boot partition."), MessageBox.TYPE_INFO, timeout=20)
+					self.session.open(MessageBox, _("MultiBoot ERROR! - no STARTUP in boot partition."), MessageBox.TYPE_INFO, timeout=20)
 				Console().ePopen('umount %s' % tmp_dir)
 				if not path.ismount(tmp_dir):
 					rmdir(tmp_dir)
@@ -1242,7 +1239,7 @@ class ImageBackup(Screen):
 					line = "SF8008 indicate type of backup %s" % self.KERN
 					fileout.write(line)
 					fileout.close()
-				self.session.open(MessageBox, _("Multiboot only able to restore this backup to MMC slot1"), MessageBox.TYPE_INFO, timeout=20)
+				self.session.open(MessageBox, _("MultiBoot only able to restore this backup to MMC slot1"), MessageBox.TYPE_INFO, timeout=20)
 			if fileExists("/usr/share/enigma2/receiver/burn.bat"):
 				copy("/usr/share/enigma2/receiver/burn.bat", self.MAINDESTROOT + "/burn.bat")
 		elif BoxInfo.getItem("HasRootSubdir"):
