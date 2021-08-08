@@ -35,7 +35,7 @@ from Screens.Standby import TryQuitMainloop
 from Screens.TaskView import JobView
 from Tools.Directories import fileExists, pathExists, fileHas
 import Tools.CopyFiles
-from Tools.MultiBoot import getCurrentImage
+from Tools.MultiBoot import getCurrentImage, getImageList
 from Tools.Notifications import AddPopupWithCallback
 import six
 
@@ -387,7 +387,7 @@ class VISIONImageManager(Screen):
 		if BoxInfo.getItem("HiSilicon"):
 			if pathExists("/dev/sda4"):
 				self.HasSDmmc = True
-		imagedict = GetImagelist()
+		imagedict = getImagelist()
 		choices = []
 		HIslot = len(imagedict) + 1
 		currentimageslot = getCurrentImage()
@@ -406,7 +406,7 @@ class VISIONImageManager(Screen):
 			if BoxInfo.getItem("HiSilicon"):
 				if pathExists("/dev/sda4"):
 					self.HasSDmmc = True
-			imagedict = GetImagelist()
+			imagedict = getImagelist()
 			choices = []
 			HIslot = len(imagedict) + 1
 			currentimageslot = getCurrentImage()
