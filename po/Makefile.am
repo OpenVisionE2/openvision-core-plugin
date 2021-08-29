@@ -2,7 +2,7 @@ dist_noinst_SCRIPTS = xml2po.py
 
 plugindir = $(libdir)/enigma2/python/Plugins/SystemPlugins/Vision
 
-LANGS = ar bg ca cs da de el en es et fa fi fr fy he hr hu id is it ku lt lv nb nl nn pl pt pt_BR ro ru sk sl sr sv th tr uk vi zh_CN zh_HK sl sr th tr uk
+LANGS = ar bg ca cs da de el en es et fa fi fr fy he hr hu id is it ku lt lv nb nl nn pl pt pt_BR ro ru sk sl sr sv th tr uk vi zh_CN zh_HK sl sr th tr uk zh_CN
 LANGMO = $(LANGS:=.mo)
 LANGPO = $(LANGS:=.po)
 

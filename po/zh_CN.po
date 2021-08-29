@@ -1,22 +1,18 @@
-# English translations for plugins package.
-# Copyright (C) 2011 THE plugins'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the plugins package.
-# Automatically generated, 2011.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: enigma2-vision-core\n"
+"Project-Id-Version: enigma2-vix-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-29 12:07+0430\n"
-"PO-Revision-Date: 2013-10-20 17:17+0100\n"
-"Last-Translator: Andy Blackburn <andyblac@o2.co.uk>\n"
-"Language-Team: yngvekl <yklarsen@gmail.com>\n"
-"Language: nb\n"
+"PO-Revision-Date: 2021-07-20 23:11+0800\n"
+"Last-Translator: 孤独之剑 <haotzyy1970@163.com>\n"
+"Language-Team: 孤独之剑 <haotzyy1970@163.com>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SourceCharset: iso-8859-15\n"
+"X-Generator: Poedit 1.7.3\n"
 
 #: ../src/BackupManager.py:148 ../src/BackupManager.py:291
 #: ../src/ImageManager.py:170 ../src/ImageManager.py:302
@@ -26,7 +22,7 @@ msgstr "%a %e %b  %-H:%M"
 #: ../src/ImageManager.py:1340
 #, fuzzy, python-format
 msgid "%s downloads"
-msgstr "Nedlastinger"
+msgstr "下载"
 
 #: ../src/MountManager.py:109
 #, python-format
@@ -39,36 +35,35 @@ msgstr ""
 
 #: ../src/SwapManager.py:326
 msgid "128 Mb"
-msgstr ""
+msgstr "128 Mb"
 
 #: ../src/SwapManager.py:326
 msgid "16 Mb"
-msgstr "16 MB"
+msgstr "16 Mb"
 
 #: ../src/SwapManager.py:326
 msgid "256 Mb"
-msgstr ""
+msgstr "256 Mb"
 
 #: ../src/SwapManager.py:326
 msgid "32 Mb"
-msgstr "32 MB"
+msgstr "32 Mb"
 
 #: ../src/SwapManager.py:326
 msgid "64 Mb"
-msgstr "64 MB"
+msgstr "64 Mb"
 
 #: ../src/SwapManager.py:326
 msgid "8 Mb"
-msgstr "8 MB"
+msgstr "8 Mb"
 
 #: ../src/SwapManager.py:326
 msgid "96 Mb"
-msgstr "96 MB"
+msgstr "96 Mb"
 
 #: ../src/BackupManager.py:511 ../src/RestoreWizard.py:283
-#, fuzzy
 msgid "A background update check is in progress, please try again."
-msgstr "En oppdateringssjekk kjører i bakgrunnen, vennligst vent før du prøver igjen."
+msgstr "正在进行后台更新检查,请再试一次."
 
 #: ../src/ClientModeBox.py:491
 msgid "About"
@@ -76,34 +71,31 @@ msgstr ""
 
 #: ../src/SwapManager.py:131 ../src/SwapManager.py:267
 msgid "Activate"
-msgstr "Aktiver"
+msgstr "激活"
 
 #: ../src/SwapManager.py:129 ../src/SwapManager.py:263
 msgid "Active"
-msgstr "Aktiv"
+msgstr "活跃的"
 
 #: ../src/SoftcamManager.py:95 ../src/SoftcamManager.py:159
 msgid "Active:"
-msgstr "Aktiv:"
+msgstr "活跃的:"
 
 #: ../src/IPKInstaller.py:131
 msgid "Are you ready to install ?"
-msgstr "Klar til å installere?"
+msgstr "准备好安装了吗?"
 
 #: ../src/Multibootmgr.py:84
-#, fuzzy, python-format
+#, python-format
 msgid "Are you sure you want to delete image slot %s ?"
-msgstr ""
-"Sikker på at du vil slette backup'en:\n"
-" "
+msgstr "确实要删除镜像插槽 %s 吗?"
 
 #: ../src/BackupManager.py:299 ../src/ImageManager.py:310
-#, fuzzy
 msgid ""
 "Are you sure you want to delete this backup:\n"
 " "
 msgstr ""
-"Sikker på at du vil gjenopprette denne backup'en:\n"
+"是否确实要删除此备份:\n"
 " "
 
 #: ../src/ImageManager.py:1453
@@ -111,7 +103,7 @@ msgid ""
 "Are you sure you want to download this image:\n"
 " "
 msgstr ""
-"Sikker på at du vil laste ned dette imaget:\n"
+"是否确实要下载此镜像:\n"
 " "
 
 #: ../src/BackupManager.py:369
@@ -119,7 +111,7 @@ msgid ""
 "Are you sure you want to restore this backup:\n"
 " "
 msgstr ""
-"Sikker på at du vil gjenopprette denne backup'en:\n"
+"是否确实要还原此备份:\n"
 " "
 
 #: ../src/ClientModeBox.py:524
@@ -128,85 +120,77 @@ msgstr ""
 
 #: ../src/SoftcamManager.py:120 ../src/SwapManager.py:133
 msgid "Autostart"
-msgstr "Autostart"
+msgstr "自动启动"
 
 #: ../src/RestoreWizard.py:172
 #, fuzzy
 msgid "Background update check is in progress, please try again."
-msgstr "En oppdateringssjekk kjører i bakgrunnen, vennligst vent før du prøver igjen."
+msgstr "正在进行后台更新检查,请再试一次."
 
 #: ../src/ImageManager.py:785
 msgid "Backing up eMMC partitions for USB flash ..."
-msgstr ""
+msgstr "正在备份USB闪存的eMMC分区..."
 
 #: ../src/ImageManager.py:789
 msgid "Backing up eMMC partitions for USB flash..."
-msgstr ""
+msgstr "正在备份USB闪存的eMMC分区..."
 
 #: ../src/BackupManager.py:1151 ../src/BackupManager.py:1155
 #: ../src/BackupManager.py:1167 ../src/BackupManager.py:1171
 msgid "Backing up files..."
-msgstr "Backup av filer pågår..."
+msgstr "正在备份文件..."
 
 #: ../src/ImageManager.py:769 ../src/ImageManager.py:773
-#, fuzzy
 msgid "Backing up kernel..."
-msgstr "Backup av filer pågår..."
+msgstr "正在备份内核..."
 
 #: ../src/ImageManager.py:777 ../src/ImageManager.py:781
-#, fuzzy
 msgid "Backing up root file system..."
-msgstr "Backup av filer pågår..."
+msgstr "正在备份根文件系统..."
 
 #: ../src/ui.py:55 ../src/ui.py:64 ../src/ui.py:130
+#, fuzzy
 msgid "Backup Manager"
-msgstr "Backup Manager"
+msgstr "备份管理器"
 
 #: ../src/ImageManager.py:817
-#, fuzzy
 msgid "Backup complete."
-msgstr "Backup fullført..."
+msgstr "备份完成."
 
 #: ../src/BackupManager.py:1175
-#, fuzzy
 msgid "Backup complete..."
-msgstr "Backup fullført..."
+msgstr "备份完成..."
 
 #: ../src/ImageManager.py:341
-#, fuzzy
 msgid "Backup confirmation"
-msgstr "Bekreftelse på backup"
+msgstr "备份确认"
 
 #: ../src/BackupManager.py:962
-#, fuzzy
 msgid "Backup created"
-msgstr "Backup opprettet"
+msgstr "已创建备份"
 
 #: ../src/BackupManager.py:1329
-#, fuzzy
 msgid "Backup failed - e. g. wrong backup destination or no space left on backup device."
-msgstr "Backup mislyktes - eks. enhet er full eller feil backup destinasjon"
+msgstr "备份失败-例如备份目标错误或备份设备上没有剩余空间."
 
 #: ../src/BackupManager.py:345
-#, fuzzy
 msgid ""
 "Backup in progress,\n"
 "Please wait for it to finish, before trying again."
 msgstr ""
-"Backup pågår,\n"
-"vent til den er ferdig før du prøver igjen"
+"正在进行备份.\n"
+"请等待它完成,然后再尝试."
 
 #: ../src/BackupManager.py:173 ../src/BackupManager.py:314
 #: ../src/BackupManager.py:329 ../src/BackupManager.py:380
 #: ../src/BackupManager.py:397 ../src/BackupManager.py:1133
 #: ../src/ImageManager.py:361
-#, fuzzy
 msgid "Backup manager"
-msgstr "Backup Manager"
+msgstr "备份管理器"
 
 #: ../src/ui.py:65
 msgid "Backup/Flash/ReBoot system image."
-msgstr ""
+msgstr "备份/刷写/重新启动系统镜像."
 
 #: ../src/MountManager.py:445 ../src/BackupManager.py:735
 #: ../src/BackupManager.py:830 ../src/BackupManager.py:928
@@ -214,7 +198,7 @@ msgstr ""
 #: ../src/ClientModeBox.py:488 ../src/ClientModeBox.py:589
 #: ../src/Multibootmgr.py:35
 msgid "Cancel"
-msgstr "Avbryt"
+msgstr "取消"
 
 #: ../src/ClientModeBox.py:644
 msgid "Cannot download data. Please check your configuration"
@@ -223,12 +207,11 @@ msgstr ""
 #: ../src/MountManager.py:307
 #, fuzzy, python-format
 msgid "Cannot unmount partition '%s'.  Make sure this partition is not in use.  (SWAP, record/timeshift, etc.)"
-msgstr "Kan ikke koble fra partisjon, sjekk at denne ikke brukes til swap, opptak eller timeshift"
+msgstr "无法卸载分区;请确保它未用于交换或录制/时间偏移路径."
 
 #: ../src/IPKInstaller.py:95 ../src/IPKInstaller.py:99
-#, fuzzy
 msgid "Change location"
-msgstr "Endre destinasjon"
+msgstr "更改位置"
 
 #: ../src/SoftcamManager.py:356
 msgid "Check interval on minutes"
@@ -237,25 +220,24 @@ msgstr ""
 #: ../src/ImageManager.py:761
 #, fuzzy
 msgid "Checking free ram.."
-msgstr "Sjekker ledig minne..."
+msgstr "正在检查可用内存..."
 
 #: ../src/SoftcamManager.py:646
 msgid "Checking softcams..."
-msgstr "Sjekker softcam'er..."
+msgstr "正在检查softcams..."
 
 #: ../src/BackupManager.py:931
 #, fuzzy
 msgid "Choose IPK folder"
-msgstr "Velg lokal ipk's mappe"
+msgstr "选择本地IPK文件夹"
 
 #: ../src/BackupManager.py:930
-#, fuzzy
 msgid "Choose files"
-msgstr "Velg filer"
+msgstr "选择文件"
 
 #: ../src/MountManager.py:436
 msgid "Choose where to mount your devices to:"
-msgstr "Velg hvor enheten skal tilkobles:"
+msgstr "选择将设备装载到的位置:"
 
 #: ../src/ClientModeBox.py:590
 msgid "Choose your main device"
@@ -273,60 +255,57 @@ msgstr ""
 #: ../src/SoftcamManager.py:117 ../src/IPKInstaller.py:61
 #: ../src/IPKInstaller.py:184 ../src/SwapManager.py:130
 msgid "Close"
-msgstr "Lukk"
+msgstr "关闭"
 
 #: ../src/BackupManager.py:419 ../src/BackupManager.py:423
 msgid "Comparing against backup..."
-msgstr "Sammenligner med backup..."
+msgstr "与备份相比..."
 
 #: ../src/ImageManager.py:1421
 msgid "Compress"
-msgstr ""
+msgstr "压缩"
 
 #: ../src/SwapManager.py:132 ../src/SwapManager.py:196
 msgid "Create"
-msgstr "Opprett"
+msgstr "创建"
 
 #: ../src/ui.py:69
-#, fuzzy
 msgid "Create and Manage your SWAP files."
-msgstr "Opprett og administrer swapfilene."
+msgstr "创建和管理交换文件."
 
 #: ../src/ImageManager.py:965 ../src/ImageManager.py:968
 #: ../src/ImageManager.py:971 ../src/ImageManager.py:973
 #: ../src/ImageManager.py:975
-#, fuzzy
 msgid "Create:"
-msgstr "Opprett"
+msgstr "创建:"
 
 #: ../src/BackupManager.py:411 ../src/BackupManager.py:415
 #: ../src/BackupManager.py:1143 ../src/BackupManager.py:1147
 msgid "Creating list of installed plugins..."
-msgstr "Oppretter liste over installerte plugins..."
+msgstr "正在创建已安装插件的列表..."
 
 #: ../src/ImageManager.py:765
 #, fuzzy
 msgid "Creating swap.."
-msgstr "Oppretter swap..."
+msgstr "正在创建zip..."
 
 #: ../src/ImageManager.py:809 ../src/ImageManager.py:813
 msgid "Creating zip..."
-msgstr ""
+msgstr "正在创建zip..."
 
 #: ../src/SwapManager.py:156 ../src/SwapManager.py:263
 #: ../src/SwapManager.py:268
-#, fuzzy
 msgid "Current status:"
-msgstr "Nåværende status:"
+msgstr "现状:"
 
 #: ../src/BackupManager.py:63 ../src/ImageManager.py:74
 #: ../src/ClientModeBox.py:52
 msgid "Daily"
-msgstr "Daglig"
+msgstr "每日"
 
 #: ../src/SwapManager.py:262
 msgid "Deactivate"
-msgstr "Deaktiver"
+msgstr "停用"
 
 #: ../src/ClientModeBox.py:526
 msgid "Default username (root)"
@@ -335,16 +314,16 @@ msgstr ""
 #: ../src/BackupManager.py:129 ../src/ImageManager.py:140
 #: ../src/SwapManager.py:206 ../src/SwapManager.py:217
 msgid "Delete"
-msgstr "Slett"
+msgstr "删除"
 
 #: ../src/BackupManager.py:769
 msgid "Deselect"
-msgstr "Fjern valg"
+msgstr "取消选择"
 
 #: ../src/MountManager.py:97
 #, fuzzy, python-format
 msgid "Device %s"
-msgstr "Enhet:"
+msgstr "设备: "
 
 #: ../src/MountManager.py:153 ../src/MountManager.py:300
 #: ../src/MountManager.py:318 ../src/MountManager.py:334
@@ -353,150 +332,147 @@ msgstr "Enhet:"
 #: ../src/BackupManager.py:254 ../src/ImageManager.py:260
 #: ../src/ImageManager.py:270
 msgid "Device: "
-msgstr "Enhet:"
+msgstr "设备: "
 
 #: ../src/BackupManager.py:204
 msgid "Device: None available"
-msgstr "Enhet: ingen tilgjengelig"
+msgstr "设备:无可用"
 
 #: ../src/ImageManager.py:241
 #, fuzzy
 msgid "Device: Un-mount"
-msgstr "Enhet:"
+msgstr "设备: "
 
 #: ../src/SoftcamManager.py:155
-#, fuzzy
 msgid "Disable startup"
-msgstr "Deaktiver oppstart"
+msgstr "禁用启动"
 
 #: ../src/ImageManager.py:339
 msgid ""
 "Do you want to create a full image backup?\n"
 "This can take about 6 minutes to complete."
 msgstr ""
+"是否要创建完整映像备份?\n"
+"这可能需要6分钟才能完成."
 
 #: ../src/ImageManager.py:381
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Do you want to flash image\n"
 "%s"
 msgstr ""
-"Sikker på at du vil laste ned dette imaget:\n"
-" "
+"你想刷写镜像吗\n"
+"%s"
 
 #: ../src/IPKInstaller.py:144
-#, fuzzy
 msgid "Do you want to restart GUI now ?"
-msgstr "Vil du gjenopprette Enigma2 plugins?"
+msgstr "现在要重新启动GUI吗?"
 
 #: ../src/BackupManager.py:666
 msgid "Do you want to restore your Enigma2 plugins ?"
-msgstr "Vil du gjenopprette Enigma2 plugins?"
+msgstr "你想恢复你的Enigma2插件吗?"
 
 #: ../src/BackupManager.py:447
-#, fuzzy
 msgid "Do you want to restore your enigma2 settings ?"
-msgstr "Vil du gjenopprette Enigma2 innstillinger?"
+msgstr "你想恢复你的enigma2设置吗?"
 
 #: ../src/ClientModeBox.py:513
 #, fuzzy
 msgid "Do you want to scan for a server?"
-msgstr "Vil du gjenopprette Enigma2 innstillinger?"
+msgstr "是否要更改下载url"
 
 #: ../src/ImageManager.py:1423
-#, fuzzy
 msgid "DownLoad"
-msgstr "Last ned"
+msgstr "下载"
 
 #: ../src/ImageManager.py:1344 ../src/ImageManager.py:1353
 msgid "Download"
-msgstr "Last ned"
+msgstr "下载"
 
 #: ../src/ClientModeBox.py:640
 #, fuzzy
 msgid "Download completed"
-msgstr "Bekreftelse på nedlasting"
+msgstr "下载确认"
 
 #: ../src/ImageManager.py:1455
-#, fuzzy
 msgid "Download confirmation"
-msgstr "Bekreftelse på nedlasting"
+msgstr "下载确认"
 
 #: ../src/ImageManager.py:1470
-#, fuzzy
 msgid "Downloading"
-msgstr "Last ned"
+msgstr "下载"
 
 #: ../src/ImageManager.py:142
 msgid "Downloads"
-msgstr "Nedlastinger"
+msgstr "下载"
 
 #: ../src/ImageManager.py:450
+#, fuzzy
 msgid ""
 "ET8500 MultiBoot: Yes to restore OS1\n"
 "No to restore OS2:\n"
 " "
 msgstr ""
+"ET8500多引导:是还原OS1否还原OS2:\n"
+" "
 
 #: ../src/ImageManager.py:452
+#, fuzzy
 msgid "ET8500 image restore"
-msgstr ""
+msgstr "ET8500镜像还原"
 
 #: ../src/Multibootmgr.py:71
 msgid "Empty slot"
-msgstr ""
+msgstr "空分区"
 
 #: ../src/SoftcamManager.py:354
 msgid "Enable frozen check"
-msgstr ""
+msgstr "启用冻结检查"
 
 #: ../src/SoftcamManager.py:157
-#, fuzzy
 msgid "Enable startup"
-msgstr "Aktiver oppstart"
+msgstr "启用启动"
 
 #: ../src/SwapManager.py:270
 #, fuzzy
 msgid "Enable swap at startup"
-msgstr "Aktiver swap ved oppstart"
+msgstr "启动时启用SWAP"
 
 #: ../src/BackupManager.py:1096 ../src/ImageManager.py:638
-#, fuzzy
 msgid "Enough retries, delaying till next schedule."
-msgstr "Nok forsøk, utsetter til neste tidspunkt."
+msgstr "重试次数足够,请延迟到下一个计划."
 
 #: ../src/Multibootmgr.py:38
 msgid "Erase"
-msgstr ""
+msgstr "擦除"
 
 #: ../src/RestoreWizard.py:106
 msgid "Exit the restore wizard"
-msgstr "Avslutt veiviseren for gjenoppretting"
+msgstr "退出还原向导"
 
 #: ../src/ImageManager.py:1421
 msgid "Expand"
-msgstr ""
+msgstr "展开"
 
 #: ../src/IPKInstaller.py:90 ../src/IPKInstaller.py:109
 msgid "Extra IPK's"
-msgstr "Ekstra IPK's"
+msgstr "额外IPK"
 
 #: ../src/ImageManager.py:143
 msgid "Flash"
-msgstr ""
+msgstr "刷写"
 
 #: ../src/ImageManager.py:448
 msgid "Flash image unzip successful."
-msgstr ""
+msgstr "刷写镜像解压成功."
 
 #: ../src/SoftcamManager.py:245 ../src/SoftcamManager.py:302
-#, fuzzy
 msgid "Found non-standard softcam, trying to start, this may fail."
-msgstr "Fant ikke-standard softcam, forsøker å starte men dette kan mislykkes"
+msgstr "发现非标准softcam,尝试启动,可能失败."
 
 #: ../src/ImageManager.py:260
 msgid "Free space:"
-msgstr ""
+msgstr "可用空间:"
 
 #: ../src/ImageManager.py:277
 msgid "From which image library do you want to download?"
@@ -505,7 +481,7 @@ msgstr ""
 #: ../src/ui.py:62 ../src/ui.py:73 ../src/ui.py:151
 #, fuzzy
 msgid "H9 SDcard Manager"
-msgstr "Swap Manager"
+msgstr "H9 SD卡管理器"
 
 #: ../src/ClientModeBox.py:522
 msgid "HTTP port"
@@ -520,19 +496,18 @@ msgid "INFO"
 msgstr ""
 
 #: ../src/IPKInstaller.py:177
-#, fuzzy
 msgid "IPK installer"
-msgstr "IPK Installer"
+msgstr "IPK安装程序"
 
 #: ../src/ui.py:56 ../src/ui.py:65 ../src/ui.py:133
+#, fuzzy
 msgid "Image Manager"
-msgstr "Image Manager"
+msgstr "镜像管理器"
 
 #: ../src/ImageManager.py:190 ../src/ImageManager.py:330
 #: ../src/ImageManager.py:351 ../src/ImageManager.py:755
-#, fuzzy
 msgid "Image manager"
-msgstr "Image Manager"
+msgstr "镜像管理器"
 
 #: ../src/ClientModeBox.py:487
 msgid "Important: Do not enable OpenWebif authentication on server, neither in this Setup."
@@ -540,62 +515,62 @@ msgstr ""
 
 #: ../src/SwapManager.py:128 ../src/SwapManager.py:268
 msgid "Inactive"
-msgstr "Inaktiv"
+msgstr "不活动"
 
 #: ../src/SwapManager.py:287 ../src/SwapManager.py:353
 msgid "Info"
-msgstr "Info"
+msgstr "信息"
 
 #: ../src/H9SDmanager.py:37
 msgid "Init SDcard"
-msgstr ""
+msgstr "初始化SD卡"
 
 #: ../src/H9SDmanager.py:38
+#, fuzzy
 msgid "Init USB/SDA1"
-msgstr ""
+msgstr "初始化SD卡"
 
 #: ../src/H9SDmanager.py:50
+#, fuzzy
 msgid "Init Zgemma H9 SDcard - please reboot after use."
-msgstr ""
+msgstr "初始化Zgemma H9 SD卡-使用后请重新启动."
 
 #: ../src/H9SDmanager.py:72
 msgid "Init Zgemma H9 USB/SDA1 - please reboot after use."
-msgstr ""
+msgstr "初始化Zgemma H9 USB/SDA1卡-使用后请重新启动."
 
 #: ../src/IPKInstaller.py:62 ../src/IPKInstaller.py:185
 msgid "Install"
-msgstr "Installer"
+msgstr "安装"
 
 #: ../src/ui.py:66
 msgid "Install IPK's from your tmp folder."
-msgstr "Installer IPK's fra tmp mappe."
+msgstr "从tmp文件夹安装IPK."
 
 #: ../src/ui.py:57 ../src/ui.py:66 ../src/ui.py:136
 #, fuzzy
 msgid "Install Local Extension"
-msgstr "Bekreftelse på installering"
+msgstr "安装本地扩展"
 
 #: ../src/IPKInstaller.py:133
-#, fuzzy
 msgid "Install confirmation"
-msgstr "Bekreftelse på installering"
+msgstr "安装确认"
 
 #: ../src/plugin.py:187
 msgid "Install extensions."
-msgstr ""
+msgstr "安装扩展."
 
 #: ../src/IPKInstaller.py:141
 msgid "Installing..."
-msgstr "Installerer..."
+msgstr "正在安装...."
 
 #: ../src/IPKInstaller.py:187
 msgid "Invert"
-msgstr ""
+msgstr "倒置"
 
 #: ../src/IPKInstaller.py:93
-#, fuzzy
 msgid "It seems you have not setup an extra location. Please set it up in the Backup manager setup menu."
-msgstr "En ekstra mappe er ikke valgt, vennligst velg mappe i oppsettsmenyen til Backup Manager"
+msgstr "似乎你没有设置额外的位置.请在'备份管理器设置'菜单中设置"
 
 #: ../src/RestoreWizard.py:32
 msgid "Let's define enigma2 once more"
@@ -624,14 +599,12 @@ msgid "MENU"
 msgstr ""
 
 #: ../src/ui.py:64
-#, fuzzy
 msgid "Manage settings backup."
-msgstr "Gjenoppretter backup..."
+msgstr "管理备份设置."
 
 #: ../src/ui.py:67
-#, fuzzy
 msgid "Manage your devices mount points."
-msgstr "Administrer enhetenes tilkoblingspunkter"
+msgstr "管理设备装载点."
 
 #: ../src/BackupManager.py:63 ../src/ImageManager.py:74
 #: ../src/ClientModeBox.py:52
@@ -640,11 +613,12 @@ msgstr ""
 
 #: ../src/MountManager.py:228
 msgid "Mount"
-msgstr ""
+msgstr "安装"
 
 #: ../src/ui.py:58 ../src/ui.py:67 ../src/ui.py:139
+#, fuzzy
 msgid "Mount Manager"
-msgstr "Mount Manager"
+msgstr "安装管理器"
 
 #: ../src/MountManager.py:322
 #, python-format
@@ -655,42 +629,41 @@ msgstr ""
 #: ../src/MountManager.py:299 ../src/MountManager.py:317
 #: ../src/MountManager.py:379
 msgid "Mount: "
-msgstr "Tilkobling:"
+msgstr "安装: "
 
 #: ../src/ui.py:73
 msgid "Move Nand root to SD card"
-msgstr ""
+msgstr "将Nand根移动到SD卡"
 
 #: ../src/ImageManager.py:801 ../src/ImageManager.py:805
-#, fuzzy
 msgid "Moving to backup Location..."
-msgstr "Flytter til backup destinasjon..."
+msgstr "正在移动到备份位置..."
 
 #: ../src/ImageManager.py:511
+#, fuzzy
 msgid "MultiBoot ERROR! - no STARTUP in boot partition."
-msgstr ""
+msgstr "多重启动错误！-启动分区中没有启动."
 
 #: ../src/ImageManager.py:456 ../src/ImageManager.py:1242
+#, fuzzy
 msgid "MultiBoot only able to restore this backup to MMC slot1"
-msgstr ""
+msgstr "多引导只能将此备份还原到mmc slot1"
 
 #: ../src/BackupManager.py:127 ../src/BackupManager.py:178
-#, fuzzy
 msgid "New backup"
-msgstr "Ny backup"
+msgstr "新备份"
 
 #: ../src/ImageManager.py:195
 #, fuzzy
 msgid "New backupimage"
-msgstr "Ny backup"
+msgstr "新备份"
 
 #: ../src/BackupManager.py:148 ../src/BackupManager.py:150
 #: ../src/BackupManager.py:291 ../src/BackupManager.py:293
 #: ../src/ImageManager.py:170 ../src/ImageManager.py:172
 #: ../src/ImageManager.py:302 ../src/ImageManager.py:304
-#, fuzzy
 msgid "Next backup: "
-msgstr "Neste backup: "
+msgstr "下一次备份: "
 
 #: ../src/SoftcamManager.py:241
 #, fuzzy
@@ -698,8 +671,8 @@ msgid ""
 "No config files found, please setup Ncam first\n"
 "in /etc/tuxbox/config/ncam"
 msgstr ""
-"Finner ingen konfigurasjonsfiler, vennligst sett opp\n"
-"OScam i /etc/tuxbox/config først"
+"找不到配置文件,请先设置Oscam\n"
+"在 /etc/tuxbox/config中"
 
 #: ../src/SoftcamManager.py:292
 #, fuzzy
@@ -707,8 +680,8 @@ msgid ""
 "No config files found, please setup Ncam first\n"
 "in /etc/tuxbox/config/ncam."
 msgstr ""
-"Finner ingen konfigurasjonsfiler, vennligst sett opp\n"
-"OScam i /etc/tuxbox/config først"
+"找不到配置文件,请先设置Oscam\n"
+"在 /etc/tuxbox/config中."
 
 #: ../src/SoftcamManager.py:226
 #, fuzzy
@@ -716,8 +689,8 @@ msgid ""
 "No config files found, please setup Oscam first\n"
 "in /etc/tuxbox/config/oscam"
 msgstr ""
-"Finner ingen konfigurasjonsfiler, vennligst sett opp\n"
-"OScam i /etc/tuxbox/config først"
+"找不到配置文件,请先设置Oscam\n"
+"在 /etc/tuxbox/config中"
 
 #: ../src/SoftcamManager.py:288
 #, fuzzy
@@ -725,8 +698,8 @@ msgid ""
 "No config files found, please setup Oscam first\n"
 "in /etc/tuxbox/config/oscam."
 msgstr ""
-"Finner ingen konfigurasjonsfiler, vennligst sett opp\n"
-"OScam i /etc/tuxbox/config først"
+"找不到配置文件,请先设置Oscam\n"
+"在 /etc/tuxbox/config中."
 
 #: ../src/SoftcamManager.py:236
 #, fuzzy
@@ -734,8 +707,8 @@ msgid ""
 "No config files found, please setup Oscam-emu first\n"
 "in /etc/tuxbox/config/oscam-emu"
 msgstr ""
-"Finner ingen konfigurasjonsfiler, vennligst sett opp\n"
-"OScam i /etc/tuxbox/config først"
+"找不到配置文件,请先设置Oscam\n"
+"在 /etc/tuxbox/config中"
 
 #: ../src/SoftcamManager.py:296
 #, fuzzy
@@ -743,8 +716,8 @@ msgid ""
 "No config files found, please setup Oscam-emu first\n"
 "in /etc/tuxbox/config/oscam-emu."
 msgstr ""
-"Finner ingen konfigurasjonsfiler, vennligst sett opp\n"
-"OScam i /etc/tuxbox/config først"
+"找不到配置文件,请先设置Oscam\n"
+"在 /etc/tuxbox/config中."
 
 #: ../src/SoftcamManager.py:231
 #, fuzzy
@@ -752,8 +725,8 @@ msgid ""
 "No config files found, please setup Oscam-smod first\n"
 "in /etc/tuxbox/config/oscam-smod"
 msgstr ""
-"Finner ingen konfigurasjonsfiler, vennligst sett opp\n"
-"OScam i /etc/tuxbox/config først"
+"找不到配置文件,请先设置Oscam\n"
+"在 /etc/tuxbox/config中"
 
 #: ../src/SoftcamManager.py:300
 #, fuzzy
@@ -761,47 +734,48 @@ msgid ""
 "No config files found, please setup Oscam-smod first\n"
 "in /etc/tuxbox/config/oscam-smod."
 msgstr ""
-"Finner ingen konfigurasjonsfiler, vennligst sett opp\n"
-"OScam i /etc/tuxbox/config først"
+"找不到配置文件,请先设置Oscam\n"
+"在 /etc/tuxbox/config中."
 
 #: ../src/ClientModeBox.py:593
 msgid "No devices found"
 msgstr ""
 
 #: ../src/ImageManager.py:1372
+#, fuzzy
 msgid "No images found on the selected download server...if password check validity"
-msgstr ""
+msgstr "未找到所选下载服务器的镜像…请密检查码有效性"
 
 #: ../src/RestoreWizard.py:117 ../src/RestoreWizard.py:120
 #, fuzzy
 msgid "No, do not restore plugins"
-msgstr "NEI, ikke gjenopprett plugins"
+msgstr "否,不还原插件"
 
 #: ../src/RestoreWizard.py:110
 #, fuzzy
 msgid "No, do not restore settings"
-msgstr "NEI, ikke gjenopprett innstillinger"
+msgstr "否,不还原设置"
 
 #: ../src/MountManager.py:118 ../src/MountManager.py:120
 #: ../src/MountManager.py:131 ../src/MountManager.py:400
 msgid "None"
-msgstr "Ingen"
+msgstr "无"
 
 #: ../src/Multibootmgr.py:37
 msgid "Note: slot list does not show current image or empty slots."
-msgstr ""
+msgstr "注意:分区列表不显示当前镜像或空分区."
 
 #: ../src/BackupManager.py:683
 msgid "Now skipping restore process"
-msgstr "Hopper over gjenoppretting nå"
+msgstr "正在跳过还原过程..."
 
 #: ../src/RestoreWizard.py:124
 msgid "OK"
-msgstr "OK"
+msgstr "确定"
 
 #: ../src/RestoreWizard.py:106
 msgid "OK, to perform a restore"
-msgstr "OK, for å gjenopprette"
+msgstr "好,执行还原"
 
 #: ../src/ui.py:49 ../src/MountManager.py:218 ../src/MountManager.py:437
 #: ../src/ScriptRunner.py:51 ../src/BackupManager.py:118
@@ -831,12 +805,11 @@ msgstr ""
 
 #: ../src/BackupManager.py:886
 msgid "Please enter a folder that contains some packages."
-msgstr "Vennligst angi mappe som inneholder noen pakker"
+msgstr "请输入包含某些包的文件夹."
 
 #: ../src/SwapManager.py:319
-#, fuzzy
 msgid "Please select device to use as SWAP file location."
-msgstr "Vennligst velg enhet til bruk for swap"
+msgstr "请选择要用作交换文件位置的设备."
 
 #: ../src/ClientModeBox.py:557
 msgid ""
@@ -846,7 +819,7 @@ msgstr ""
 
 #: ../src/RestoreWizard.py:156
 msgid "Please wait while plugins restore completes..."
-msgstr "Vennligst vent til gjenoppretting av plugins er fullført..."
+msgstr "插件还原正在完成,请稍候..."
 
 #: ../src/ClientModeBox.py:569
 msgid ""
@@ -855,52 +828,49 @@ msgid ""
 msgstr ""
 
 #: ../src/MountManager.py:229
-#, fuzzy
 msgid "Please wait while scanning for devices..."
-msgstr "Søker etter enheter, vennligst vent..."
+msgstr "正在扫描设备,请稍候..."
 
 #: ../src/RestoreWizard.py:210
 msgid "Please wait while settings restore completes..."
-msgstr "Vennligst vent til gjenoppretting av innstillinger er fullført..."
+msgstr "正在完成设置还原,请稍候..."
 
 #: ../src/SoftcamManager.py:412
 msgid "Please wait while starting\n"
-msgstr "Oppstart pågår, vennligst vent\n"
+msgstr "正在启动,请稍候\n"
 
 #: ../src/SoftcamManager.py:493
 msgid "Please wait while stopping\n"
-msgstr "Stopp pågår, vennligst vent\n"
+msgstr "请稍候,正在停止\n"
 
 #: ../src/ImageManager.py:436
-#, fuzzy
 msgid "Please wait while the flash prepares."
-msgstr "Innsamling av informasjon pågår, vennligst vent..."
+msgstr "正在准备,请稍候..."
 
 #: ../src/RestoreWizard.py:144 ../src/RestoreWizard.py:149
-#, fuzzy
 msgid "Please wait while the system gathers information..."
-msgstr "Innsamling av informasjon pågår, vennligst vent..."
+msgstr "系统正在收集信息,请稍候..."
 
 #: ../src/MountManager.py:481
 msgid "Please wait."
-msgstr "Vennligst vent."
+msgstr "请稍候."
 
 #: ../src/BackupManager.py:1267
-#, fuzzy
 msgid "Plugin listing failed - e. g. wrong backup destination or no space left on backup device."
-msgstr "Opplisting av plugins mislyktes - eks. feil plassering av backup eller ingen tilgjengelig plass på enhet"
+msgstr "插件列表失败-例如备份目标错误或备份设备上没有剩余空间."
 
 #: ../src/BackupManager.py:1159 ../src/BackupManager.py:1163
 msgid "Preparing extra plugins..."
-msgstr "Forbereder ekstra plugins..."
+msgstr "正在准备额外的插件.."
 
 #: ../src/IPKInstaller.py:188
 msgid "Press OK to toggle the selection."
-msgstr ""
+msgstr "按OK键切换选择."
 
 #: ../src/H9SDmanager.py:35
+#, fuzzy
 msgid "Press appropiate Init to move Nand root to SDcard or USB."
-msgstr ""
+msgstr "按appropate Init将Nand root移动到SD卡."
 
 #: ../src/MountManager.py:337
 #, python-format
@@ -908,13 +878,12 @@ msgid "Really use and mount %s as HDD ?"
 msgstr ""
 
 #: ../src/H9SDmanager.py:36
-#, fuzzy
 msgid "Reboot"
-msgstr "Starter på nytt..."
+msgstr "Opnieuw opstarten"
 
 #: ../src/BackupManager.py:439
 msgid "Rebooting..."
-msgstr "Starter på nytt..."
+msgstr "正在重新启动..."
 
 #: ../src/ImageManager.py:379
 #, python-format
@@ -923,25 +892,27 @@ msgid ""
 "Do you still want to flash image\n"
 "%s?"
 msgstr ""
+"正在录制或几秒钟后即将录制!\n"
+"你是否刷写镜像\n"
+"%s?"
 
 #: ../src/Multibootmgr.py:80
-#, python-format
+#, fuzzy, python-format
 msgid "Removal of this slot will not show in %s GUI.  Are you sure you want to delete image slot?"
-msgstr ""
+msgstr "删除此插分区不会显示在 %s GUI用户界面中. 确实要删除镜像分区 %s ?"
 
 #: ../src/BackupManager.py:301 ../src/ImageManager.py:312
 #: ../src/Multibootmgr.py:82 ../src/Multibootmgr.py:86
-#, fuzzy
 msgid "Remove confirmation"
-msgstr "Bekreftelse på fjerning"
+msgstr "删除确认"
 
 #: ../src/ImageManager.py:793 ../src/ImageManager.py:797
 msgid "Removing temp mounts..."
-msgstr "Fjerner midlertidige tilkoblinger"
+msgstr "正在删除临时安装..."
 
 #: ../src/ClientModeBox.py:533
 msgid "Repeat how often"
-msgstr "Gjenta hvor ofte"
+msgstr "重复多久"
 
 #: ../src/ui.py:51 ../src/MountManager.py:220 ../src/MountManager.py:439
 #: ../src/ScriptRunner.py:53 ../src/BackupManager.py:120
@@ -958,26 +929,25 @@ msgstr ""
 
 #: ../src/SoftcamManager.py:152
 msgid "Restart"
-msgstr "Omstart"
+msgstr "重新启动"
 
 #: ../src/IPKInstaller.py:146
-#, fuzzy
 msgid "Restart GUI."
-msgstr "Omstart"
+msgstr "重新启动GUI."
 
 #: ../src/MountManager.py:412 ../src/MountManager.py:486
 #, fuzzy
 msgid "Restart receiver."
-msgstr "Omstart av Enigma2."
+msgstr "重新启动GUI."
 
 #: ../src/BackupManager.py:128
 msgid "Restore"
-msgstr "Gjenopprett"
+msgstr "还原"
 
 #: ../src/BackupManager.py:371
 #, fuzzy
 msgid "Restore confirmation"
-msgstr "Bekreftelse på gjenoppretting"
+msgstr "还原确认"
 
 #: ../src/BackupManager.py:351
 msgid "Restore only settings from this backup ?\n"
@@ -986,7 +956,7 @@ msgstr ""
 #: ../src/BackupManager.py:132
 #, fuzzy
 msgid "Restore settings"
-msgstr "JA, gjenopprett innstillinger"
+msgstr "是,恢复设置"
 
 #: ../src/RestoreWizard.py:145 ../src/RestoreWizard.py:150
 #: ../src/RestoreWizard.py:157 ../src/RestoreWizard.py:163
@@ -995,27 +965,26 @@ msgstr "JA, gjenopprett innstillinger"
 #: ../src/RestoreWizard.py:211 ../src/RestoreWizard.py:268
 #: ../src/RestoreWizard.py:272 ../src/RestoreWizard.py:276
 #: ../src/RestoreWizard.py:280 ../src/RestoreWizard.py:284 ../src/plugin.py:204
-#, fuzzy
 msgid "Restore wizard"
-msgstr "Gjenopprettingsveiviser"
+msgstr "还原向导"
 
 #: ../src/BackupManager.py:399 ../src/BackupManager.py:403
 #: ../src/BackupManager.py:407
 msgid "Restoring backup..."
-msgstr "Gjenoppretter backup..."
+msgstr "正在还原备份..."
 
 #: ../src/BackupManager.py:713
 #, fuzzy
 msgid "Restoring please wait..."
-msgstr "Gjenoppretter plugins..."
+msgstr "正在还原插件..."
 
 #: ../src/BackupManager.py:435
 msgid "Restoring plugins, this can take a long time..."
-msgstr "Gjenoppretter plugins, dette kan ta litt tid..."
+msgstr "正在还原插件,这可能需要很长时间..."
 
 #: ../src/BackupManager.py:427 ../src/BackupManager.py:431
 msgid "Restoring plugins..."
-msgstr "Gjenoppretter plugins..."
+msgstr "正在还原插件..."
 
 #: ../src/BackupManager.py:463
 msgid "Restoring, your receiver go to restart..."
@@ -1023,21 +992,21 @@ msgstr ""
 
 #: ../src/Multibootmgr.py:40
 msgid "Retrieving image slots - Please wait..."
-msgstr ""
+msgstr "正在检索镜像分区-请稍候..."
 
 #: ../src/ScriptRunner.py:58
 msgid "Run"
-msgstr "Kjør"
+msgstr "运行"
 
 #: ../src/ui.py:68
 msgid "Run your shell scripts."
-msgstr "Kjør skall-skript."
+msgstr "运行shell脚本."
 
 #: ../src/MountManager.py:444 ../src/BackupManager.py:736
 #: ../src/BackupManager.py:831 ../src/BackupManager.py:929
 #: ../src/SoftcamManager.py:349 ../src/ClientModeBox.py:489
 msgid "Save"
-msgstr "Lagre"
+msgstr "保存"
 
 #: ../src/ClientModeBox.py:490
 msgid "Scan"
@@ -1050,47 +1019,47 @@ msgstr ""
 #: ../src/ClientModeBox.py:530
 #, fuzzy
 msgid "Schedule sync"
-msgstr "Tidfest backup'er"
+msgstr "计划备份"
 
 #: ../src/ui.py:59 ../src/ui.py:68 ../src/ui.py:142
+#, fuzzy
 msgid "Script Runner"
-msgstr "Script Runner"
+msgstr "脚本运行程序"
 
 #: ../src/BackupManager.py:771
 msgid "Select"
-msgstr "Velg"
+msgstr "选择"
 
 #: ../src/BackupManager.py:221 ../src/BackupManager.py:225
 #: ../src/BackupManager.py:228
-#, fuzzy
 msgid "Select a backup to restore:"
-msgstr "Velg pakke som skal installeres:"
+msgstr "选择要还原的备份:"
 
 #: ../src/IPKInstaller.py:113
 msgid "Select a package to install:"
-msgstr "Velg pakke som skal installeres:"
+msgstr "选择要安装的软件包:"
 
 #: ../src/ImageManager.py:1351
 #, fuzzy
 msgid "Select an image to download:"
-msgstr "Velg image som skal lastes ned:"
+msgstr "选择要为 %s 下载的镜像:"
 
 #: ../src/BackupManager.py:822
 msgid "Select extra packages folder"
-msgstr "Velg mappe for ekstra pakker"
+msgstr "选择附加包文件夹"
 
 #: ../src/BackupManager.py:733
 msgid "Select files/folders to backup"
-msgstr "Velg filer/mapper for backup"
+msgstr "选择要备份的文件/文件夹"
 
 #: ../src/BackupManager.py:860
 msgid "Select folder that contains plugins"
-msgstr "Velg mappe som inneholder plugins"
+msgstr "选择包含插件的文件夹"
 
 #: ../src/SwapManager.py:327
 #, fuzzy
 msgid "Select the swap file size:"
-msgstr "Velg størrelse på swap fil:"
+msgstr "选择交换文件大小:"
 
 #: ../src/ImageManager.py:260
 msgid "Select what you want to do"
@@ -1098,94 +1067,86 @@ msgstr ""
 
 #: ../src/SoftcamManager.py:94
 msgid "Select:"
-msgstr "Velg:"
+msgstr "选择:"
 
 #: ../src/ImageManager.py:757
-#, fuzzy
 msgid "Setting up..."
-msgstr "Setter opp..."
+msgstr "正在设置..."
 
 #: ../src/MountManager.py:226
-#, fuzzy
 msgid "Setup mounts"
-msgstr "Setup Mounts"
+msgstr "安装极轴"
 
 #: ../src/MountManager.py:132
 msgid "Size: "
-msgstr "Størrelse: "
+msgstr "大小: "
 
 #: ../src/MountManager.py:142
 #, fuzzy, python-format
 msgid "Size: %sGB"
-msgstr "Størrelse: "
+msgstr "大小: "
 
 #: ../src/MountManager.py:140
 #, fuzzy, python-format
 msgid "Size: %sMB"
-msgstr "Størrelse: "
+msgstr "大小: "
 
 #: ../src/MountManager.py:144
 #, fuzzy, python-format
 msgid "Size: %sTB"
-msgstr "Størrelse: "
+msgstr "大小: "
 
 #: ../src/MountManager.py:138
 #, fuzzy
 msgid "Size: unavailable"
-msgstr "ikke tilgjengelig"
+msgstr "不可用"
 
 #: ../src/SoftcamManager.py:404
-#, fuzzy
 msgid "Softcam starting..."
-msgstr "Starter softcam..."
+msgstr "Softcam正在启动..."
 
 #: ../src/SoftcamManager.py:485
-#, fuzzy
 msgid "Softcam stopping..."
-msgstr "Stopper softcam..."
+msgstr "Softcam正在停止..."
 
 #: ../src/SoftcamManager.py:644
 msgid "SoftcamCheck"
-msgstr "Sjekk av softcam"
+msgstr "Softcam校验"
 
 #: ../src/IPKInstaller.py:97
-#, fuzzy
 msgid "Sorry but that location does not exist or is not setup. Please set it up in the Backup manager setup menu."
-msgstr "Beklager, mappen eksisterer ikke. Vennligst angi mappe i oppsettsmenyen til Backup Manager"
+msgstr "抱歉,该位置不存在或未设置.请在'备份管理器设置'菜单中进行设置."
 
 #: ../src/BackupManager.py:559
-#, fuzzy
 msgid "Sorry the feeds are down for maintenance. Please try again later."
-msgstr "Beklager, feeds er nede for vedlikehold. Prøv igjen senere."
+msgstr "抱歉,订阅源正在维护已关闭.请稍后再试."
 
 #: ../src/RestoreWizard.py:162
-#, fuzzy
 msgid "Sorry the feeds are down for maintenance. Please try using Backup manager to restore plugins later."
-msgstr "Beklager, feeds er nede for vedlikehold. Prøv gjenoppretting av plugins med Backup Manager senere."
+msgstr "抱歉,订阅源正在维护已关闭.请稍后尝试使用备份管理器还原插件."
 
 #: ../src/RestoreWizard.py:279
-#, fuzzy
 msgid "Sorry the feeds are down for maintenance. Please try using the Backup manager to restore plugins later."
-msgstr "Beklager, feeds er nede for vedlikehold. Prøv gjenoppretting av plugins med Backup Manager senere."
+msgstr "抱歉,订阅源正在维护已关闭.请稍后尝试使用备份管理器还原插件."
 
 #: ../src/BackupManager.py:364 ../src/BackupManager.py:366
 #: ../src/RestoreWizard.py:197 ../src/RestoreWizard.py:201
+#, fuzzy
 msgid "Sorry, but the file is not compatible with this kernel version."
-msgstr ""
+msgstr "抱歉,文件与此镜像版本不兼容."
 
 #: ../src/BackupManager.py:483
 msgid "Sorry, but the restore failed."
-msgstr "Beklager, gjenopprettingen mislyktes."
+msgstr "抱歉,还原失败."
 
 #: ../src/SwapManager.py:321
-#, fuzzy
 msgid "Sorry, no physical devices that supports SWAP attached. Can't create SWAP file on network or fat32 file-systems."
-msgstr "Beklager, men ingen fysiske enheter som støtter swap er tilkoblet. Kan ikke opprette swap fil på nettverksenhet eller FAT32 filsystem"
+msgstr "抱歉,没有支持交换连接的物理设备.无法在网络或fat32文件系统上创建交换文件."
 
 #: ../src/ImageManager.py:877
 #, fuzzy
 msgid "Sorry, not enough free RAM found, and no physical devices that supports swap attached. Can't create SWAP file on network or FAT32 file-systems, unable to make backup."
-msgstr "Beklager, men ikke nok ledig minne og ingen fysiske enheter som støtter swap er tilkoblet. Kan ikke opprette swap fil på nettverksenhet eller FAT32 filsystem. Ikke mulig å opprette backup"
+msgstr "抱歉,找不到足够的可用RAM,并且没有支持交换连接的物理设备.无法在 网络或fat32文件系统上创建交换文件,无法进行备份."
 
 #: ../src/ui.py:53 ../src/MountManager.py:222 ../src/MountManager.py:441
 #: ../src/ScriptRunner.py:55 ../src/BackupManager.py:122
@@ -1202,98 +1163,95 @@ msgstr ""
 
 #: ../src/SoftcamManager.py:146
 msgid "Start"
-msgstr "Start"
+msgstr "启动"
 
 #: ../src/BackupManager.py:1135 ../src/BackupManager.py:1139
 msgid "Starting..."
-msgstr "Starter..."
+msgstr "启动...."
 
 #: ../src/SwapManager.py:127
 msgid "Status:"
-msgstr "Status:"
+msgstr "状态:"
 
 #: ../src/SoftcamManager.py:148
 msgid "Stop"
-msgstr "Stopp"
+msgstr "停止"
 
 #: ../src/ClientModeBox.py:523
 msgid "Streaming port"
 msgstr ""
 
 #: ../src/ui.py:60 ../src/ui.py:69 ../src/ui.py:145
+#, fuzzy
 msgid "Swap Manager"
-msgstr "Swap Manager"
+msgstr "H9 SD卡管理器"
 
 #: ../src/SwapManager.py:286
 #, fuzzy
 msgid "Swap file not found. You have to create the file before you try to activate it."
-msgstr "Finner ingen swap fil. Swap fil må opprettes før aktivering."
+msgstr "找不到交换文件,您必须先创建文件,然后再尝试激活它."
 
 #: ../src/SwapManager.py:123
 #, fuzzy
 msgid "Swap place:"
-msgstr "Plassering av swap:"
+msgstr "交换地点:"
 
 #: ../src/SwapManager.py:125
 #, fuzzy
 msgid "Swap size:"
-msgstr "Størrelse på swap:"
+msgstr "交换大小:"
 
 #: ../src/IPKInstaller.py:103 ../src/IPKInstaller.py:111
-#, fuzzy
 msgid "Temp folder"
-msgstr "Midlertidig mappe"
+msgstr "临时文件夹"
 
 #: ../src/BackupManager.py:1230
-#, fuzzy
 msgid "The backup location does not have enough free space."
-msgstr "Ikke nok ledig plass på backup destinasjon."
+msgstr "备份位置没有足够的可用空间."
 
 #: ../src/ImageManager.py:839
-#, fuzzy
 msgid "The backup location does not have enough free space.\n"
-msgstr "Ikke nok ledig plass på backup destinasjon."
+msgstr "备份位置没有足够的可用空间.\n"
 
 #: ../src/MountManager.py:410 ../src/MountManager.py:484
+#, fuzzy
 msgid ""
 "The changes need a system restart to take effect.\n"
 "Restart your receiver now?"
 msgstr ""
+"这些更改需要重新启动系统才能生效.\n"
+"现在重新启动 %s %s?"
 
 #: ../src/BackupManager.py:221
 #, fuzzy
 msgid "The chosen location does not exist, using."
-msgstr "Valgt destinasjon eksisterer ikke, bruker /media/hdd"
+msgstr "所选位置不存在,使用/media/hdd."
 
 #: ../src/BackupManager.py:254 ../src/ImageManager.py:270
-#, fuzzy
 msgid "There is a problem with this device. Please reformat it and try again."
-msgstr "det var et problem med denne enheten. Formater enheten og prøv igjen."
+msgstr "这个设备有问题.请重新格式化并重试."
 
 #: ../src/BackupManager.py:303 ../src/ImageManager.py:314
-#, fuzzy
 msgid "There is no backup to delete."
-msgstr "Du har ingen backup å gjenopprette."
+msgstr "没有要删除的备份."
 
 #: ../src/BackupManager.py:343
-#, fuzzy
 msgid "There is no backup to restore."
-msgstr "Du har ingen backup å gjenopprette."
+msgstr "没有要还原的备份."
 
 #: ../src/ImageManager.py:431
-#, fuzzy
 msgid "There is no image to flash."
-msgstr "Du har ingen image å laste ned."
+msgstr "没有要刷写的镜像."
 
 #: ../src/MountManager.py:338 ../src/MountManager.py:384
 #, fuzzy
 msgid "This Device is already mounted as HDD."
-msgstr "Denne enheten er allerede tilkoblet som HDD."
+msgstr "此设备已经安装为硬盘驱动器."
 
 #: ../src/ClientModeBox.py:532
 #, fuzzy
 msgid "Time of sync to start"
-msgstr "Tidspunkt for start av backup"
+msgstr "备份开始时间"
 
 #: ../src/ClientModeBox.py:638
 msgid "To apply new settings, you need to restart GUI your STB. Do you want restart it now?"
@@ -1301,11 +1259,12 @@ msgstr ""
 
 #: ../src/MountManager.py:153
 msgid "Type: "
-msgstr "Type: "
+msgstr "类型: "
 
 #: ../src/MountManager.py:227
+#, fuzzy
 msgid "Unmount"
-msgstr ""
+msgstr "卸载"
 
 #: ../src/ImageManager.py:462
 #, python-format
@@ -1313,16 +1272,17 @@ msgid ""
 "Unzip error (also sent to any debug log):\n"
 "%s"
 msgstr ""
+"解压缩错误 (因此发送到任何调试日志):\n"
+"%s"
 
 #: ../src/MountManager.py:479
-#, fuzzy
 msgid "Updating mount locations..."
-msgstr "Oppdaterer tilkoblingspunktene."
+msgstr "正在更新安装位置..."
 
 #: ../src/BackupManager.py:204
 #, fuzzy
 msgid "Use Mount Manager Please"
-msgstr "Mount Manager"
+msgstr "安装管理器"
 
 #: ../src/ImageManager.py:241
 msgid "Use Mount Manager and press green setup mounts"
@@ -1330,12 +1290,12 @@ msgstr ""
 
 #: ../src/MountManager.py:259
 msgid "Use as HDD"
-msgstr "Bruk som HDD"
+msgstr "用作硬盘驱动器"
 
 #: ../src/ClientModeBox.py:528
 #, fuzzy
 msgid "Use remote HDD"
-msgstr "Bruk som HDD"
+msgstr "用作硬盘驱动器"
 
 #: ../src/ClientModeBox.py:529
 msgid "Use remote timers"
@@ -1343,7 +1303,7 @@ msgstr ""
 
 #: ../src/Multibootmgr.py:36
 msgid "Use the cursor keys to select an installed image and then Erase button."
-msgstr ""
+msgstr "使用光标键选择已安装的镜像,然后单击'擦除'键."
 
 #: ../src/ui.py:70
 msgid "Use this box as a client of a server."
@@ -1352,19 +1312,18 @@ msgstr ""
 #: ../src/BackupManager.py:176 ../src/BackupManager.py:326
 #: ../src/BackupManager.py:377 ../src/ImageManager.py:193
 #: ../src/ImageManager.py:348
-#, fuzzy
 msgid "View progress"
-msgstr "Vis fremgang"
+msgstr "查看进度"
 
 #: ../src/BackupManager.py:117 ../src/plugin.py:206
 #, fuzzy
 msgid "Vision Backup Manager"
-msgstr "Backup Manager"
+msgstr "ViX备份管理器"
 
 #: ../src/BackupManager.py:959
 #, fuzzy
 msgid "Vision Backup manager logs"
-msgstr "Backup Manager Logg"
+msgstr "ViX备份管理器"
 
 #: ../src/ClientModeBox.py:120 ../src/ClientModeBox.py:478
 #: ../src/ClientModeBox.py:893 ../src/plugin.py:211
@@ -1378,26 +1337,27 @@ msgstr ""
 #: ../src/RestoreWizard.py:27
 #, fuzzy
 msgid "Vision Core Restore Wizard"
-msgstr "Avslutt veiviseren for gjenoppretting"
+msgstr "退出还原向导"
 
 #: ../src/H9SDmanager.py:34
+#, fuzzy
 msgid "Vision H9 SDcard Manager"
-msgstr ""
+msgstr "H9 SD卡管理器"
 
 #: ../src/ImageManager.py:137 ../src/plugin.py:207
 #, fuzzy
 msgid "Vision Image Manager"
-msgstr "Image Manager"
+msgstr "ViX镜像管理器"
 
 #: ../src/MountManager.py:217 ../src/plugin.py:208
 #, fuzzy
 msgid "Vision Mount Manager"
-msgstr "Mount Manager"
+msgstr "ViX安装管理器"
 
 #: ../src/Multibootmgr.py:34
 #, fuzzy
 msgid "Vision MultiBoot Image Manager"
-msgstr "Image Manager"
+msgstr "多引导映像管理器"
 
 #: ../src/IPKInstaller.py:40
 msgid "Vision Opkg Install"
@@ -1406,52 +1366,52 @@ msgstr ""
 #: ../src/plugin.py:210
 #, fuzzy
 msgid "Vision SWAP Manager"
-msgstr "Mount Manager"
+msgstr "ViX交换管理器"
 
 #: ../src/ScriptRunner.py:50 ../src/plugin.py:209
 #, fuzzy
 msgid "Vision Script Runner"
-msgstr "Script Runner"
+msgstr "ViX脚本运行程序"
 
 #: ../src/plugin.py:198
 #, fuzzy
 msgid "Vision Script runner"
-msgstr "Script Runner"
+msgstr "ViX脚本运行程序"
 
 #: ../src/SoftcamManager.py:86 ../src/plugin.py:112 ../src/plugin.py:196
+#, fuzzy
 msgid "Vision Softcam"
-msgstr ""
+msgstr "Softcam"
 
 #: ../src/SoftcamManager.py:566
 msgid "Vision Softcam logs"
 msgstr ""
 
 #: ../src/SoftcamManager.py:329
-#, fuzzy
 msgid "Vision Softcam setup"
-msgstr "Softcam Oppsett"
+msgstr ""
 
 #: ../src/SwapManager.py:112
 #, fuzzy
 msgid "Vision Swap Manager"
-msgstr "Swap Manager"
+msgstr "ViX备份管理器"
 
 #: ../src/SwapManager.py:332
 #, fuzzy
 msgid "Wait please while creating swap file..."
-msgstr "Oppretter swap fil, vennligst vent..."
+msgstr "正在创建交换文件,请稍候..."
 
 #: ../src/SoftcamManager.py:178
 msgid ""
 "Wait please while scanning\n"
 "for softcam's..."
 msgstr ""
-"Søker etter softcam'er\n"
-"vennligst vent..."
+"正在扫描softcam\n"
+"请稍候..."
 
 #: ../src/SwapManager.py:157
 msgid "Wait please while scanning..."
-msgstr "Søker, vennligst vent..."
+msgstr "正在扫描,请稍候..."
 
 #: ../src/MountManager.py:336
 msgid "Warning, this device is used for more than one mount point!\n"
@@ -1460,26 +1420,26 @@ msgstr ""
 #: ../src/BackupManager.py:63 ../src/ImageManager.py:74
 #: ../src/ClientModeBox.py:52
 msgid "Weekly"
-msgstr "Ukentlig"
+msgstr "每周"
 
 #: ../src/RestoreWizard.py:116 ../src/RestoreWizard.py:119
 #, fuzzy
 msgid "Yes, to restore plugins"
-msgstr "JA, gjenopprett plugins"
+msgstr "是,恢复插件"
 
 #: ../src/RestoreWizard.py:110
 #, fuzzy
 msgid "Yes, to restore settings"
-msgstr "JA, gjenopprett innstillinger"
+msgstr "是,恢复设置"
 
 #: ../src/ImageManager.py:433
 msgid "You have decided not to flash image."
-msgstr ""
+msgstr "是否退出刷写镜像."
 
 #: ../src/SwapManager.py:352
 #, fuzzy
 msgid "You have to create a swap file before trying to activate the autostart."
-msgstr "Swap fil må opprettes før aktivering av autostart."
+msgstr "在尝试启动自动启动之前,必须创建一个交换文件."
 
 #: ../src/MountManager.py:369
 #, python-format
@@ -1491,28 +1451,35 @@ msgstr ""
 #: ../src/RestoreWizard.py:271
 #, fuzzy
 msgid "Your receiver could not connect to the plugin feeds at this time. Please try using the Backup manager to restore plugins later."
-msgstr "Beklager, feeds er nede for vedlikehold. Prøv gjenoppretting av plugins med Backup Manager senere."
+msgstr "您的 %s %s 此时无法连接到插件源.请稍后尝试使用备份管理器还原插件."
 
 #: ../src/ImageManager.py:613
+#, fuzzy
 msgid ""
 "Your receiver is about to create a full image backup, this can take about 6 minutes to complete.\n"
 "Do you want to allow this?"
 msgstr ""
+"您的 %s %s 将要创建完整映像备份,这可能需要大约6分钟 才能完成.\n"
+"现在开始吗?"
 
 #: ../src/BackupManager.py:1071
+#, fuzzy
 msgid ""
 "Your receiver is about to run a backup of your settings and to detect your plugins.\n"
 "Do you want to allow this?"
 msgstr ""
+"您的 %s %s 将运行设置备份并检测您的 插件.\n"
+"现在开始吗?"
 
 #: ../src/BackupManager.py:550
+#, fuzzy
 msgid "Your receiver is not connected to a network. Please check your network settings and try again."
-msgstr ""
+msgstr "您的 %s %s 未连接到网络.请检查网络设置 并重试."
 
 #: ../src/RestoreWizard.py:267
 #, fuzzy
 msgid "Your receiver is not connected to a network. Please try using the Backup manager to restore plugins later when a network connection is available."
-msgstr "Beklager, feeds er nede for vedlikehold. Prøv gjenoppretting av plugins med Backup Manager senere."
+msgstr "您的 %s %s 未连接到网络.请稍后在网络连接可用时尝试使用 备份管理器还原插件."
 
 #: ../src/BackupManager.py:568
 #, fuzzy
@@ -1520,17 +1487,17 @@ msgid ""
 "Your receiver is not connected to the Internet.\n"
 "If restoring doesn't fix the problem, check your network settings.\n"
 "Your network settings will be restored now from backup."
-msgstr "Beklager, feeds er nede for vedlikehold. Prøv gjenoppretting av plugins med Backup Manager senere."
+msgstr "您的  %s %s 未连接到Internet.请检查网络设置并重试."
 
 #: ../src/RestoreWizard.py:168
 #, fuzzy
 msgid "Your receiver is not connected to the Internet. Please try using Backup manager to restore plugins later."
-msgstr "Beklager, feeds er nede for vedlikehold. Prøv gjenoppretting av plugins med Backup Manager senere."
+msgstr "您的 %s %s 未连接到Internet.请稍后尝试使用备份管理器还原插件."
 
 #: ../src/RestoreWizard.py:275
 #, fuzzy
 msgid "Your receiver is not connected to the Internet. Please try using the Backup manager to restore plugins later."
-msgstr "Beklager, feeds er nede for vedlikehold. Prøv gjenoppretting av plugins med Backup Manager senere."
+msgstr "您的 %s %s 未连接到Internet.请稍后尝试使用备份管理器还原插件."
 
 #: ../src/ui.py:54 ../src/MountManager.py:223 ../src/MountManager.py:442
 #: ../src/ScriptRunner.py:56 ../src/BackupManager.py:123
@@ -1559,27 +1526,29 @@ msgid "https://openvision.tech"
 msgstr ""
 
 #: ../src/ImageManager.py:519
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "ofgwrite error (also sent to any debug log):\n"
 "%s"
 msgstr ""
+"OfWrite错误(也被发送到任何调试日志):\n"
+"%s"
 
 #: ../src/ImageManager.py:396 ../src/ImageManager.py:415
 #, python-format
 msgid "slot%s - %s"
-msgstr ""
+msgstr "分区%s - %s"
 
 #: ../src/Multibootmgr.py:72
 #, python-format
 msgid "slot%s - %s "
-msgstr ""
+msgstr "分区%s - %s "
 
 #: ../src/ImageManager.py:396 ../src/ImageManager.py:415
 #, python-format
 msgid "slot%s - %s (current image)"
-msgstr ""
+msgstr "分区%s - %s (当前镜像)"
 
 #: ../src/MountManager.py:119 ../src/MountManager.py:132
 msgid "unavailable"
-msgstr "ikke tilgjengelig"
+msgstr "不可用"
