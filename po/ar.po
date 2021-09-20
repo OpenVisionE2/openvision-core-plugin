@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vision enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-29 12:07+0430\n"
+"POT-Creation-Date: 2021-09-20 09:57+0430\n"
 "PO-Revision-Date: 2020-12-11 17:43+0300\n"
 "Last-Translator: mosad - مساعد الجعيد <abo-mishal@hotmail.com>\n"
 "Language-Team: mosad - مساعد الجعيد\n"
@@ -79,7 +79,7 @@ msgstr "تفعيل"
 msgid "Active"
 msgstr "نشط"
 
-#: ../src/SoftcamManager.py:95 ../src/SoftcamManager.py:159
+#: ../src/SoftcamManager.py:114 ../src/SoftcamManager.py:178
 #, fuzzy
 msgid "Active:"
 msgstr "نشط"
@@ -128,7 +128,7 @@ msgstr ""
 msgid "Authentication"
 msgstr "إتصال"
 
-#: ../src/SoftcamManager.py:120 ../src/SwapManager.py:133
+#: ../src/SoftcamManager.py:139 ../src/SwapManager.py:133
 msgid "Autostart"
 msgstr "تشغيل تلقائي"
 
@@ -210,7 +210,7 @@ msgstr ""
 
 #: ../src/MountManager.py:445 ../src/BackupManager.py:735
 #: ../src/BackupManager.py:830 ../src/BackupManager.py:928
-#: ../src/SoftcamManager.py:348 ../src/ClientModeBox.py:164
+#: ../src/SoftcamManager.py:370 ../src/ClientModeBox.py:164
 #: ../src/ClientModeBox.py:488 ../src/ClientModeBox.py:589
 #: ../src/Multibootmgr.py:35
 msgid "Cancel"
@@ -230,7 +230,7 @@ msgstr ""
 msgid "Change location"
 msgstr "إختيار القناة"
 
-#: ../src/SoftcamManager.py:356
+#: ../src/SoftcamManager.py:378
 msgid "Check interval on minutes"
 msgstr ""
 
@@ -239,7 +239,7 @@ msgstr ""
 msgid "Checking free ram.."
 msgstr "التحقق من نظام الملفات..."
 
-#: ../src/SoftcamManager.py:646
+#: ../src/SoftcamManager.py:668
 #, fuzzy
 msgid "Checking softcams..."
 msgstr "فحص السجلات ..."
@@ -272,7 +272,7 @@ msgid "Client Mode Box: If you want to exit Client Mode and have a backup with y
 msgstr ""
 
 #: ../src/ui.py:75 ../src/ImageManager.py:1343 ../src/ImageManager.py:1352
-#: ../src/SoftcamManager.py:117 ../src/IPKInstaller.py:61
+#: ../src/SoftcamManager.py:136 ../src/IPKInstaller.py:61
 #: ../src/IPKInstaller.py:184 ../src/SwapManager.py:130
 msgid "Close"
 msgstr "إغلاق"
@@ -367,7 +367,7 @@ msgstr "لا يوجد مؤشر حر متاح"
 msgid "Device: Un-mount"
 msgstr "مشاركة مساحة الجهاز"
 
-#: ../src/SoftcamManager.py:155
+#: ../src/SoftcamManager.py:174
 #, fuzzy
 msgid "Disable startup"
 msgstr "تمكين بدء التشغيل"
@@ -447,11 +447,11 @@ msgstr ""
 msgid "Empty slot"
 msgstr ""
 
-#: ../src/SoftcamManager.py:354
+#: ../src/SoftcamManager.py:376
 msgid "Enable frozen check"
 msgstr "تمكين الاختيار المجمد"
 
-#: ../src/SoftcamManager.py:157
+#: ../src/SoftcamManager.py:176
 msgid "Enable startup"
 msgstr "تمكين بدء التشغيل"
 
@@ -489,7 +489,7 @@ msgstr "الفلاش"
 msgid "Flash image unzip successful."
 msgstr ""
 
-#: ../src/SoftcamManager.py:245 ../src/SoftcamManager.py:302
+#: ../src/SoftcamManager.py:267 ../src/SoftcamManager.py:324
 msgid "Found non-standard softcam, trying to start, this may fail."
 msgstr ""
 
@@ -517,7 +517,7 @@ msgstr "منفذ التلنت"
 msgid "Host"
 msgstr "أسم المضيف:"
 
-#: ../src/BackupManager.py:131 ../src/SoftcamManager.py:123
+#: ../src/BackupManager.py:131 ../src/SoftcamManager.py:142
 msgid "INFO"
 msgstr ""
 
@@ -607,9 +607,9 @@ msgstr ""
 #: ../src/ScriptRunner.py:52 ../src/BackupManager.py:119
 #: ../src/BackupManager.py:824 ../src/BackupManager.py:923
 #: ../src/BackupManager.py:972 ../src/ImageManager.py:146
-#: ../src/ImageManager.py:1346 ../src/SoftcamManager.py:88
-#: ../src/SoftcamManager.py:331 ../src/SoftcamManager.py:406
-#: ../src/SoftcamManager.py:487 ../src/SoftcamManager.py:568
+#: ../src/ImageManager.py:1346 ../src/SoftcamManager.py:107
+#: ../src/SoftcamManager.py:353 ../src/SoftcamManager.py:428
+#: ../src/SoftcamManager.py:509 ../src/SoftcamManager.py:590
 #: ../src/IPKInstaller.py:42 ../src/SwapManager.py:114
 #: ../src/ClientModeBox.py:123 ../src/ClientModeBox.py:480
 #: ../src/ClientModeBox.py:887
@@ -621,7 +621,7 @@ msgid "MB"
 msgstr "ميجابايت"
 
 #: ../src/BackupManager.py:130 ../src/ImageManager.py:144
-#: ../src/SoftcamManager.py:122
+#: ../src/SoftcamManager.py:141
 msgid "MENU"
 msgstr ""
 
@@ -693,49 +693,49 @@ msgstr "نسخة احتياطية جديد"
 msgid "Next backup: "
 msgstr "النسخة الاحتياطية التالية:"
 
-#: ../src/SoftcamManager.py:241
+#: ../src/SoftcamManager.py:263
 msgid ""
 "No config files found, please setup Ncam first\n"
 "in /etc/tuxbox/config/ncam"
 msgstr ""
 
-#: ../src/SoftcamManager.py:292
+#: ../src/SoftcamManager.py:314
 msgid ""
 "No config files found, please setup Ncam first\n"
 "in /etc/tuxbox/config/ncam."
 msgstr ""
 
-#: ../src/SoftcamManager.py:226
+#: ../src/SoftcamManager.py:248
 msgid ""
 "No config files found, please setup Oscam first\n"
 "in /etc/tuxbox/config/oscam"
 msgstr ""
 
-#: ../src/SoftcamManager.py:288
+#: ../src/SoftcamManager.py:310
 msgid ""
 "No config files found, please setup Oscam first\n"
 "in /etc/tuxbox/config/oscam."
 msgstr ""
 
-#: ../src/SoftcamManager.py:236
+#: ../src/SoftcamManager.py:258
 msgid ""
 "No config files found, please setup Oscam-emu first\n"
 "in /etc/tuxbox/config/oscam-emu"
 msgstr ""
 
-#: ../src/SoftcamManager.py:296
+#: ../src/SoftcamManager.py:318
 msgid ""
 "No config files found, please setup Oscam-emu first\n"
 "in /etc/tuxbox/config/oscam-emu."
 msgstr ""
 
-#: ../src/SoftcamManager.py:231
+#: ../src/SoftcamManager.py:253
 msgid ""
 "No config files found, please setup Oscam-smod first\n"
 "in /etc/tuxbox/config/oscam-smod"
 msgstr ""
 
-#: ../src/SoftcamManager.py:300
+#: ../src/SoftcamManager.py:322
 msgid ""
 "No config files found, please setup Oscam-smod first\n"
 "in /etc/tuxbox/config/oscam-smod."
@@ -785,9 +785,9 @@ msgstr ""
 #: ../src/ScriptRunner.py:51 ../src/BackupManager.py:118
 #: ../src/BackupManager.py:823 ../src/BackupManager.py:922
 #: ../src/BackupManager.py:971 ../src/ImageManager.py:145
-#: ../src/ImageManager.py:1345 ../src/SoftcamManager.py:87
-#: ../src/SoftcamManager.py:330 ../src/SoftcamManager.py:405
-#: ../src/SoftcamManager.py:486 ../src/SoftcamManager.py:567
+#: ../src/ImageManager.py:1345 ../src/SoftcamManager.py:106
+#: ../src/SoftcamManager.py:352 ../src/SoftcamManager.py:427
+#: ../src/SoftcamManager.py:508 ../src/SoftcamManager.py:589
 #: ../src/IPKInstaller.py:41 ../src/RestoreWizard.py:31
 #: ../src/SwapManager.py:113 ../src/ClientModeBox.py:122
 #: ../src/ClientModeBox.py:479 ../src/ClientModeBox.py:886
@@ -845,11 +845,11 @@ msgstr "من فضلك أنتظر أثناء البحث عن الأجهزة ..."
 msgid "Please wait while settings restore completes..."
 msgstr "من فضلك أنتظر أثناء البحث عن الأجهزة ..."
 
-#: ../src/SoftcamManager.py:412
+#: ../src/SoftcamManager.py:434
 msgid "Please wait while starting\n"
 msgstr "الرجاء الانتظار أثناء بدء التشغيل\n"
 
-#: ../src/SoftcamManager.py:493
+#: ../src/SoftcamManager.py:515
 #, fuzzy
 msgid "Please wait while stopping\n"
 msgstr "الرجاء الانتظار أثناء بدء التشغيل\n"
@@ -931,16 +931,16 @@ msgstr "كرر عدد مرات"
 #: ../src/ScriptRunner.py:53 ../src/BackupManager.py:120
 #: ../src/BackupManager.py:825 ../src/BackupManager.py:924
 #: ../src/BackupManager.py:973 ../src/ImageManager.py:147
-#: ../src/ImageManager.py:1347 ../src/SoftcamManager.py:89
-#: ../src/SoftcamManager.py:332 ../src/SoftcamManager.py:407
-#: ../src/SoftcamManager.py:488 ../src/SoftcamManager.py:569
+#: ../src/ImageManager.py:1347 ../src/SoftcamManager.py:108
+#: ../src/SoftcamManager.py:354 ../src/SoftcamManager.py:429
+#: ../src/SoftcamManager.py:510 ../src/SoftcamManager.py:591
 #: ../src/IPKInstaller.py:43 ../src/RestoreWizard.py:33
 #: ../src/SwapManager.py:115 ../src/ClientModeBox.py:124
 #: ../src/ClientModeBox.py:481 ../src/ClientModeBox.py:888
 msgid "Report problems to:"
 msgstr ""
 
-#: ../src/SoftcamManager.py:152
+#: ../src/SoftcamManager.py:171
 msgid "Restart"
 msgstr "إعادة التشغيل"
 
@@ -1023,7 +1023,7 @@ msgstr ""
 
 #: ../src/MountManager.py:444 ../src/BackupManager.py:736
 #: ../src/BackupManager.py:831 ../src/BackupManager.py:929
-#: ../src/SoftcamManager.py:349 ../src/ClientModeBox.py:489
+#: ../src/SoftcamManager.py:371 ../src/ClientModeBox.py:489
 msgid "Save"
 msgstr "حفظ"
 
@@ -1087,7 +1087,7 @@ msgstr "حدد حجم ملف المبادلة:"
 msgid "Select what you want to do"
 msgstr "تعيين إلى ما تريد الزر للقيام به."
 
-#: ../src/SoftcamManager.py:94
+#: ../src/SoftcamManager.py:113
 #, fuzzy
 msgid "Select:"
 msgstr "تحديد"
@@ -1126,17 +1126,22 @@ msgstr "الحجم: "
 msgid "Size: unavailable"
 msgstr "غير متوفر"
 
-#: ../src/SoftcamManager.py:404
+#: ../src/SoftcamManager.py:230
+#, fuzzy, python-format
+msgid "Softcam Setup [%s]"
+msgstr "إعدادات الايموهات"
+
+#: ../src/SoftcamManager.py:426
 #, fuzzy
 msgid "Softcam starting..."
 msgstr "إعدادات الايموهات"
 
-#: ../src/SoftcamManager.py:485
+#: ../src/SoftcamManager.py:507
 #, fuzzy
 msgid "Softcam stopping..."
 msgstr "إعدادات الايموهات"
 
-#: ../src/SoftcamManager.py:644
+#: ../src/SoftcamManager.py:666
 msgid "SoftcamCheck"
 msgstr "التحقق من الايموهات"
 
@@ -1181,9 +1186,9 @@ msgstr ""
 #: ../src/ScriptRunner.py:55 ../src/BackupManager.py:122
 #: ../src/BackupManager.py:827 ../src/BackupManager.py:926
 #: ../src/BackupManager.py:975 ../src/ImageManager.py:149
-#: ../src/ImageManager.py:1349 ../src/SoftcamManager.py:91
-#: ../src/SoftcamManager.py:334 ../src/SoftcamManager.py:409
-#: ../src/SoftcamManager.py:490 ../src/SoftcamManager.py:571
+#: ../src/ImageManager.py:1349 ../src/SoftcamManager.py:110
+#: ../src/SoftcamManager.py:356 ../src/SoftcamManager.py:431
+#: ../src/SoftcamManager.py:512 ../src/SoftcamManager.py:593
 #: ../src/IPKInstaller.py:45 ../src/RestoreWizard.py:35
 #: ../src/SwapManager.py:117 ../src/ClientModeBox.py:126
 #: ../src/ClientModeBox.py:483 ../src/ClientModeBox.py:890
@@ -1191,7 +1196,7 @@ msgstr ""
 msgid "Sources are available at:"
 msgstr "بعض البلج إنز غير متوفر:\n"
 
-#: ../src/SoftcamManager.py:146
+#: ../src/SoftcamManager.py:165
 msgid "Start"
 msgstr "تشغيل"
 
@@ -1204,7 +1209,7 @@ msgstr "جار البحث..."
 msgid "Status:"
 msgstr "الحالة:"
 
-#: ../src/SoftcamManager.py:148
+#: ../src/SoftcamManager.py:167
 msgid "Stop"
 msgstr "إيقاف"
 
@@ -1412,16 +1417,16 @@ msgstr ""
 msgid "Vision Script runner"
 msgstr ""
 
-#: ../src/SoftcamManager.py:86 ../src/plugin.py:112 ../src/plugin.py:196
+#: ../src/SoftcamManager.py:105 ../src/plugin.py:112 ../src/plugin.py:196
 #, fuzzy
 msgid "Vision Softcam"
 msgstr "الايموهات"
 
-#: ../src/SoftcamManager.py:566
+#: ../src/SoftcamManager.py:588
 msgid "Vision Softcam logs"
 msgstr ""
 
-#: ../src/SoftcamManager.py:329
+#: ../src/SoftcamManager.py:351
 #, fuzzy
 msgid "Vision Softcam setup"
 msgstr "إعدادات الايموهات"
@@ -1436,7 +1441,7 @@ msgstr "مدير مشاركة الملفات"
 msgid "Wait please while creating swap file..."
 msgstr "يرجى الانتظار أثناء فحص الأجهزة الخاصة بك..."
 
-#: ../src/SoftcamManager.py:178
+#: ../src/SoftcamManager.py:197
 #, fuzzy
 msgid ""
 "Wait please while scanning\n"
@@ -1528,9 +1533,9 @@ msgstr ""
 #: ../src/ScriptRunner.py:56 ../src/BackupManager.py:123
 #: ../src/BackupManager.py:828 ../src/BackupManager.py:927
 #: ../src/BackupManager.py:976 ../src/ImageManager.py:150
-#: ../src/ImageManager.py:1350 ../src/SoftcamManager.py:92
-#: ../src/SoftcamManager.py:335 ../src/SoftcamManager.py:410
-#: ../src/SoftcamManager.py:491 ../src/SoftcamManager.py:572
+#: ../src/ImageManager.py:1350 ../src/SoftcamManager.py:111
+#: ../src/SoftcamManager.py:357 ../src/SoftcamManager.py:432
+#: ../src/SoftcamManager.py:513 ../src/SoftcamManager.py:594
 #: ../src/IPKInstaller.py:46 ../src/RestoreWizard.py:36
 #: ../src/SwapManager.py:118 ../src/ClientModeBox.py:127
 #: ../src/ClientModeBox.py:484 ../src/ClientModeBox.py:891
@@ -1541,9 +1546,9 @@ msgstr ""
 #: ../src/ScriptRunner.py:54 ../src/BackupManager.py:121
 #: ../src/BackupManager.py:826 ../src/BackupManager.py:925
 #: ../src/BackupManager.py:974 ../src/ImageManager.py:148
-#: ../src/ImageManager.py:1348 ../src/SoftcamManager.py:90
-#: ../src/SoftcamManager.py:333 ../src/SoftcamManager.py:408
-#: ../src/SoftcamManager.py:489 ../src/SoftcamManager.py:570
+#: ../src/ImageManager.py:1348 ../src/SoftcamManager.py:109
+#: ../src/SoftcamManager.py:355 ../src/SoftcamManager.py:430
+#: ../src/SoftcamManager.py:511 ../src/SoftcamManager.py:592
 #: ../src/IPKInstaller.py:44 ../src/RestoreWizard.py:34
 #: ../src/SwapManager.py:116 ../src/ClientModeBox.py:125
 #: ../src/ClientModeBox.py:482 ../src/ClientModeBox.py:889
