@@ -23,7 +23,7 @@ from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
 from Screens.Standby import QUIT_REBOOT, TryQuitMainloop
 from Tools.LoadPixmap import LoadPixmap
-from Tools.Directories import SCOPE_CURRENT_SKIN, resolveFilename, SCOPE_PLUGINS
+from Tools.Directories import SCOPE_GUISKIN, resolveFilename, SCOPE_PLUGINS
 from re import search
 
 blacklistedDisks = [
@@ -109,8 +109,8 @@ def buildPartitionInfo(partition, partitionList):
 	name = _("%s: " % pngType.upper())
 	name += description
 
-	if path.exists(resolveFilename(SCOPE_CURRENT_SKIN, "visioncore/dev_%s.png" % pngType)):
-		mypixmap = resolveFilename(SCOPE_CURRENT_SKIN, "visioncore/dev_%s.png" % pngType)
+	if path.exists(resolveFilename(SCOPE_GUISKIN, "visioncore/dev_%s.png" % pngType)):
+		mypixmap = resolveFilename(SCOPE_GUISKIN, "visioncore/dev_%s.png" % pngType)
 	else:
 		mypixmap = resolveFilename(SCOPE_PLUGINS, "SystemPlugins/Vision/images/dev_%s.png" % pngType)
 
