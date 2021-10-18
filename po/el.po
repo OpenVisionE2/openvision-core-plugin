@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2-vision-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-20 09:57+0430\n"
+"POT-Creation-Date: 2021-10-18 13:47+0330\n"
 "PO-Revision-Date: 2016-07-17 14:24+0200\n"
 "Last-Translator: MCelliot_g <mcelliot_g@hotmail.com>\n"
 "Language-Team: none\n"
@@ -19,11 +19,11 @@ msgstr ""
 "X-Generator: Poedit 1.7.7\n"
 
 #: ../src/BackupManager.py:148 ../src/BackupManager.py:291
-#: ../src/ImageManager.py:170 ../src/ImageManager.py:302
+#: ../src/ImageManager.py:174 ../src/ImageManager.py:306
 msgid "%a %e %b  %-H:%M"
 msgstr "%a %e %b  %-H:%M"
 
-#: ../src/ImageManager.py:1340
+#: ../src/ImageManager.py:1347
 #, fuzzy, python-format
 msgid "%s downloads"
 msgstr "Λήψεις"
@@ -65,7 +65,7 @@ msgstr "8 Mb"
 msgid "96 Mb"
 msgstr "96 Mb"
 
-#: ../src/BackupManager.py:511 ../src/RestoreWizard.py:283
+#: ../src/RestoreWizard.py:283 ../src/BackupManager.py:511
 msgid "A background update check is in progress, please try again."
 msgstr "Εκτελείται έλεγχος ενημέρωσης στο παρασκήνιο, παρακαλώ δοκιμάστε ξανά."
 
@@ -96,7 +96,7 @@ msgstr ""
 "Σίγουρα θέλετε να διαγραφεί αυτό το αντίγραφο ασφαλείας:\n"
 " "
 
-#: ../src/BackupManager.py:299 ../src/ImageManager.py:310
+#: ../src/BackupManager.py:299 ../src/ImageManager.py:314
 #, fuzzy
 msgid ""
 "Are you sure you want to delete this backup:\n"
@@ -105,7 +105,7 @@ msgstr ""
 "Σίγουρα θέλετε να γίνει επαναφορά αυτού του αντίγραφου ασφαλείας:\n"
 " "
 
-#: ../src/ImageManager.py:1453
+#: ../src/ImageManager.py:1460
 msgid ""
 "Are you sure you want to download this image:\n"
 " "
@@ -134,25 +134,25 @@ msgstr "Αυτόματη εκκίνηση"
 msgid "Background update check is in progress, please try again."
 msgstr "Εκτελείται έλεγχος ενημέρωσης στο παρασκήνιο, παρακαλώ δοκιμάστε ξανά."
 
-#: ../src/ImageManager.py:785
+#: ../src/ImageManager.py:792
 msgid "Backing up eMMC partitions for USB flash ..."
 msgstr ""
 
-#: ../src/ImageManager.py:789
+#: ../src/ImageManager.py:796
 msgid "Backing up eMMC partitions for USB flash..."
 msgstr ""
 
-#: ../src/BackupManager.py:1151 ../src/BackupManager.py:1155
-#: ../src/BackupManager.py:1167 ../src/BackupManager.py:1171
+#: ../src/BackupManager.py:1152 ../src/BackupManager.py:1156
+#: ../src/BackupManager.py:1168 ../src/BackupManager.py:1172
 msgid "Backing up files..."
 msgstr "Εφεδρεία αρχείων..."
 
-#: ../src/ImageManager.py:769 ../src/ImageManager.py:773
+#: ../src/ImageManager.py:776 ../src/ImageManager.py:780
 #, fuzzy
 msgid "Backing up kernel..."
 msgstr "Εφεδρεία Kernel..."
 
-#: ../src/ImageManager.py:777 ../src/ImageManager.py:781
+#: ../src/ImageManager.py:784 ../src/ImageManager.py:788
 #, fuzzy
 msgid "Backing up root file system..."
 msgstr "Εφεδρεία του συστήματος αρχείων Ρίζας..."
@@ -161,17 +161,17 @@ msgstr "Εφεδρεία του συστήματος αρχείων Ρίζας..
 msgid "Backup Manager"
 msgstr "Διαχείριση Αντιγράφων Ασφαλείας"
 
-#: ../src/ImageManager.py:817
+#: ../src/ImageManager.py:824
 #, fuzzy
 msgid "Backup complete."
 msgstr "Ολοκλήρωση Εφεδρείας..."
 
-#: ../src/BackupManager.py:1175
+#: ../src/BackupManager.py:1176
 #, fuzzy
 msgid "Backup complete..."
 msgstr "Ολοκλήρωση Εφεδρείας..."
 
-#: ../src/ImageManager.py:341
+#: ../src/ImageManager.py:345
 #, fuzzy
 msgid "Backup confirmation"
 msgstr "Επικύρωση Εφεδρείας"
@@ -181,7 +181,7 @@ msgstr "Επικύρωση Εφεδρείας"
 msgid "Backup created"
 msgstr "Το αντίγραφο ασφαλείας δημιουργήθηκε"
 
-#: ../src/BackupManager.py:1329
+#: ../src/BackupManager.py:1336
 #, fuzzy
 msgid "Backup failed - e. g. wrong backup destination or no space left on backup device."
 msgstr "Αποτυχία εφεδρείας - π.χ. λάθος διαδρομή εφεδρείας ή έλλειψη χώρου στη συσκευή"
@@ -197,8 +197,8 @@ msgstr ""
 
 #: ../src/BackupManager.py:173 ../src/BackupManager.py:314
 #: ../src/BackupManager.py:329 ../src/BackupManager.py:380
-#: ../src/BackupManager.py:397 ../src/BackupManager.py:1133
-#: ../src/ImageManager.py:361
+#: ../src/BackupManager.py:397 ../src/BackupManager.py:1134
+#: ../src/ImageManager.py:365
 #, fuzzy
 msgid "Backup manager"
 msgstr "Διαχείριση Αντιγράφων Ασφαλείας"
@@ -207,11 +207,11 @@ msgstr "Διαχείριση Αντιγράφων Ασφαλείας"
 msgid "Backup/Flash/ReBoot system image."
 msgstr ""
 
-#: ../src/MountManager.py:445 ../src/BackupManager.py:735
-#: ../src/BackupManager.py:830 ../src/BackupManager.py:928
-#: ../src/SoftcamManager.py:370 ../src/ClientModeBox.py:164
+#: ../src/Multibootmgr.py:35 ../src/ClientModeBox.py:164
 #: ../src/ClientModeBox.py:488 ../src/ClientModeBox.py:589
-#: ../src/Multibootmgr.py:35
+#: ../src/SoftcamManager.py:370 ../src/BackupManager.py:735
+#: ../src/BackupManager.py:830 ../src/BackupManager.py:928
+#: ../src/MountManager.py:445
 msgid "Cancel"
 msgstr "Ακύρωση"
 
@@ -233,7 +233,7 @@ msgstr "Αλλαγή Τοποθεσίας"
 msgid "Check interval on minutes"
 msgstr ""
 
-#: ../src/ImageManager.py:761
+#: ../src/ImageManager.py:768
 #, fuzzy
 msgid "Checking free ram.."
 msgstr "Έλεγχος Ελεύθερης RAM..."
@@ -268,9 +268,9 @@ msgstr ""
 msgid "Client Mode Box: If you want to exit Client Mode and have a backup with your original settings. You can restore from blue button on Vision Backup Manager."
 msgstr ""
 
-#: ../src/ui.py:75 ../src/ImageManager.py:1343 ../src/ImageManager.py:1352
-#: ../src/SoftcamManager.py:136 ../src/IPKInstaller.py:61
-#: ../src/IPKInstaller.py:184 ../src/SwapManager.py:130
+#: ../src/ui.py:75 ../src/IPKInstaller.py:61 ../src/IPKInstaller.py:184
+#: ../src/SoftcamManager.py:136 ../src/ImageManager.py:1350
+#: ../src/ImageManager.py:1359 ../src/SwapManager.py:130
 msgid "Close"
 msgstr "Κλείσιμο"
 
@@ -278,7 +278,7 @@ msgstr "Κλείσιμο"
 msgid "Comparing against backup..."
 msgstr "Σύγκριση με το αντίγραφο ασφαλείας..."
 
-#: ../src/ImageManager.py:1421
+#: ../src/ImageManager.py:1428
 msgid "Compress"
 msgstr ""
 
@@ -291,24 +291,24 @@ msgstr "Δημιουργία"
 msgid "Create and Manage your SWAP files."
 msgstr "Δημιουργία και Διαχείριση των αρχείων swap."
 
-#: ../src/ImageManager.py:965 ../src/ImageManager.py:968
-#: ../src/ImageManager.py:971 ../src/ImageManager.py:973
-#: ../src/ImageManager.py:975
+#: ../src/ImageManager.py:972 ../src/ImageManager.py:975
+#: ../src/ImageManager.py:978 ../src/ImageManager.py:980
+#: ../src/ImageManager.py:982
 #, fuzzy
 msgid "Create:"
 msgstr "Δημιουργία"
 
 #: ../src/BackupManager.py:411 ../src/BackupManager.py:415
-#: ../src/BackupManager.py:1143 ../src/BackupManager.py:1147
+#: ../src/BackupManager.py:1144 ../src/BackupManager.py:1148
 msgid "Creating list of installed plugins..."
 msgstr "Δημιουργία λίστας των εγκατεστημένων προσθέτων..."
 
-#: ../src/ImageManager.py:765
+#: ../src/ImageManager.py:772
 #, fuzzy
 msgid "Creating swap.."
 msgstr "Δημιουργία Swap..."
 
-#: ../src/ImageManager.py:809 ../src/ImageManager.py:813
+#: ../src/ImageManager.py:816 ../src/ImageManager.py:820
 msgid "Creating zip..."
 msgstr "Δημιουργία zip..."
 
@@ -318,8 +318,8 @@ msgstr "Δημιουργία zip..."
 msgid "Current status:"
 msgstr "Τρέχουσα Κατάσταση:"
 
-#: ../src/BackupManager.py:63 ../src/ImageManager.py:74
-#: ../src/ClientModeBox.py:52
+#: ../src/ClientModeBox.py:52 ../src/BackupManager.py:63
+#: ../src/ImageManager.py:74
 msgid "Daily"
 msgstr "Καθημερινά"
 
@@ -331,7 +331,7 @@ msgstr "Απενεργοποίηση"
 msgid "Default username (root)"
 msgstr ""
 
-#: ../src/BackupManager.py:129 ../src/ImageManager.py:140
+#: ../src/BackupManager.py:129 ../src/ImageManager.py:144
 #: ../src/SwapManager.py:206 ../src/SwapManager.py:217
 msgid "Delete"
 msgstr "Διαγραφή"
@@ -345,12 +345,12 @@ msgstr "Αποεπιλογή"
 msgid "Device %s"
 msgstr "Συσκευή: "
 
-#: ../src/MountManager.py:153 ../src/MountManager.py:300
-#: ../src/MountManager.py:318 ../src/MountManager.py:334
-#: ../src/MountManager.py:367 ../src/MountManager.py:380
 #: ../src/BackupManager.py:225 ../src/BackupManager.py:228
-#: ../src/BackupManager.py:254 ../src/ImageManager.py:260
-#: ../src/ImageManager.py:270
+#: ../src/BackupManager.py:254 ../src/ImageManager.py:264
+#: ../src/ImageManager.py:274 ../src/MountManager.py:153
+#: ../src/MountManager.py:300 ../src/MountManager.py:318
+#: ../src/MountManager.py:334 ../src/MountManager.py:367
+#: ../src/MountManager.py:380
 msgid "Device: "
 msgstr "Συσκευή: "
 
@@ -358,7 +358,7 @@ msgstr "Συσκευή: "
 msgid "Device: None available"
 msgstr "Συσκευή: Καμία διαθέσιμη"
 
-#: ../src/ImageManager.py:241
+#: ../src/ImageManager.py:245
 #, fuzzy
 msgid "Device: Un-mount"
 msgstr "Συσκευή: "
@@ -368,7 +368,7 @@ msgstr "Συσκευή: "
 msgid "Disable startup"
 msgstr "Απενεργοποίηση Εκκίνησης"
 
-#: ../src/ImageManager.py:339
+#: ../src/ImageManager.py:343
 #, fuzzy
 msgid ""
 "Do you want to create a full image backup?\n"
@@ -377,7 +377,7 @@ msgstr ""
 "Ο %s %s σας θα εκτελέσει πλήρη εφεδρεία του image σας, αυτό θα χρειαστεί περίπου 6 λεπτά για να ολοκληρωθεί,\n"
 "θέλετε να επιτραπεί αυτό;"
 
-#: ../src/ImageManager.py:381
+#: ../src/ImageManager.py:385
 #, fuzzy, python-format
 msgid ""
 "Do you want to flash image\n"
@@ -404,12 +404,12 @@ msgstr "Θέλετε να γίνει επαναφορά των ρυθμίσεω�
 msgid "Do you want to scan for a server?"
 msgstr "Να γίνει επανεκκίνηση της επιφάνειας χρήστη τώρα ;"
 
-#: ../src/ImageManager.py:1423
+#: ../src/ImageManager.py:1430
 #, fuzzy
 msgid "DownLoad"
 msgstr "Λήψη"
 
-#: ../src/ImageManager.py:1344 ../src/ImageManager.py:1353
+#: ../src/ImageManager.py:1351 ../src/ImageManager.py:1360
 msgid "Download"
 msgstr "Λήψη"
 
@@ -418,28 +418,28 @@ msgstr "Λήψη"
 msgid "Download completed"
 msgstr "Επιβεβαίωση Λήψης"
 
-#: ../src/ImageManager.py:1455
+#: ../src/ImageManager.py:1462
 #, fuzzy
 msgid "Download confirmation"
 msgstr "Επιβεβαίωση Λήψης"
 
-#: ../src/ImageManager.py:1470
+#: ../src/ImageManager.py:1477
 #, fuzzy
 msgid "Downloading"
 msgstr "Λήψη"
 
-#: ../src/ImageManager.py:142
+#: ../src/ImageManager.py:146
 msgid "Downloads"
 msgstr "Λήψεις"
 
-#: ../src/ImageManager.py:450
+#: ../src/ImageManager.py:457
 msgid ""
 "ET8500 MultiBoot: Yes to restore OS1\n"
 "No to restore OS2:\n"
 " "
 msgstr ""
 
-#: ../src/ImageManager.py:452
+#: ../src/ImageManager.py:459
 msgid "ET8500 image restore"
 msgstr ""
 
@@ -461,7 +461,7 @@ msgstr "Ενεργοποίηση Εκκίνησης"
 msgid "Enable swap at startup"
 msgstr "Ενεργοποίηση Swap στην εκκίνηση"
 
-#: ../src/BackupManager.py:1096 ../src/ImageManager.py:638
+#: ../src/BackupManager.py:1096 ../src/ImageManager.py:645
 #, fuzzy
 msgid "Enough retries, delaying till next schedule."
 msgstr "Αρκετές Επαναπροσπάθειες, καθυστέρηση μέχρι τον επόμενο προγραμματισμό."
@@ -474,7 +474,7 @@ msgstr ""
 msgid "Exit the restore wizard"
 msgstr "Έξοδος από τον οδηγό επαναφοράς"
 
-#: ../src/ImageManager.py:1421
+#: ../src/ImageManager.py:1428
 msgid "Expand"
 msgstr ""
 
@@ -482,11 +482,11 @@ msgstr ""
 msgid "Extra IPK's"
 msgstr "Επιπρόσθετα αρχεία IPK"
 
-#: ../src/ImageManager.py:143
+#: ../src/ImageManager.py:147
 msgid "Flash"
 msgstr ""
 
-#: ../src/ImageManager.py:448
+#: ../src/ImageManager.py:455
 msgid "Flash image unzip successful."
 msgstr ""
 
@@ -495,11 +495,11 @@ msgstr ""
 msgid "Found non-standard softcam, trying to start, this may fail."
 msgstr "Βρέθηκε ένα μη στάνταρ softcam, προσπάθεια εκκίνησης, πιθανότητα αποτυχίας"
 
-#: ../src/ImageManager.py:260
+#: ../src/ImageManager.py:264
 msgid "Free space:"
 msgstr "Ελεύθερος χώρος:"
 
-#: ../src/ImageManager.py:277
+#: ../src/ImageManager.py:281
 msgid "From which image library do you want to download?"
 msgstr ""
 
@@ -516,7 +516,7 @@ msgstr ""
 msgid "Host"
 msgstr ""
 
-#: ../src/BackupManager.py:131 ../src/SoftcamManager.py:142
+#: ../src/SoftcamManager.py:142 ../src/BackupManager.py:131
 msgid "INFO"
 msgstr ""
 
@@ -529,8 +529,8 @@ msgstr "Εγκατάσταση IPK"
 msgid "Image Manager"
 msgstr "Διαχείριση Image"
 
-#: ../src/ImageManager.py:190 ../src/ImageManager.py:330
-#: ../src/ImageManager.py:351 ../src/ImageManager.py:755
+#: ../src/ImageManager.py:194 ../src/ImageManager.py:334
+#: ../src/ImageManager.py:355 ../src/ImageManager.py:762
 #, fuzzy
 msgid "Image manager"
 msgstr "Διαχείριση Image"
@@ -602,25 +602,25 @@ msgstr "Φαίνεται ότι δεν έχει ρυθμιστεί επιπρό�
 msgid "Let's define enigma2 once more"
 msgstr ""
 
-#: ../src/ui.py:50 ../src/MountManager.py:219 ../src/MountManager.py:438
-#: ../src/ScriptRunner.py:52 ../src/BackupManager.py:119
-#: ../src/BackupManager.py:824 ../src/BackupManager.py:923
-#: ../src/BackupManager.py:972 ../src/ImageManager.py:146
-#: ../src/ImageManager.py:1346 ../src/SoftcamManager.py:107
+#: ../src/ScriptRunner.py:52 ../src/ClientModeBox.py:123
+#: ../src/ClientModeBox.py:480 ../src/ClientModeBox.py:887 ../src/ui.py:50
+#: ../src/IPKInstaller.py:42 ../src/SoftcamManager.py:107
 #: ../src/SoftcamManager.py:353 ../src/SoftcamManager.py:428
 #: ../src/SoftcamManager.py:509 ../src/SoftcamManager.py:590
-#: ../src/IPKInstaller.py:42 ../src/SwapManager.py:114
-#: ../src/ClientModeBox.py:123 ../src/ClientModeBox.py:480
-#: ../src/ClientModeBox.py:887
+#: ../src/BackupManager.py:119 ../src/BackupManager.py:824
+#: ../src/BackupManager.py:923 ../src/BackupManager.py:972
+#: ../src/ImageManager.py:150 ../src/ImageManager.py:1353
+#: ../src/SwapManager.py:114 ../src/MountManager.py:219
+#: ../src/MountManager.py:438
 msgid "Lets define enigma2 once more"
 msgstr ""
 
-#: ../src/ImageManager.py:260
+#: ../src/ImageManager.py:264
 msgid "MB"
 msgstr "MB"
 
-#: ../src/BackupManager.py:130 ../src/ImageManager.py:144
-#: ../src/SoftcamManager.py:141
+#: ../src/SoftcamManager.py:141 ../src/BackupManager.py:130
+#: ../src/ImageManager.py:148
 msgid "MENU"
 msgstr ""
 
@@ -633,8 +633,8 @@ msgstr "Αυτόματη εφεδρεία ρυθμίσεων"
 msgid "Manage your devices mount points."
 msgstr "Διαχείριση των σημείων προσάρτησης των συσκευών σας."
 
-#: ../src/BackupManager.py:63 ../src/ImageManager.py:74
-#: ../src/ClientModeBox.py:52
+#: ../src/ClientModeBox.py:52 ../src/BackupManager.py:63
+#: ../src/ImageManager.py:74
 msgid "Monthly"
 msgstr ""
 
@@ -661,16 +661,16 @@ msgstr "Προσάρτηση: "
 msgid "Move Nand root to SD card"
 msgstr ""
 
-#: ../src/ImageManager.py:801 ../src/ImageManager.py:805
+#: ../src/ImageManager.py:808 ../src/ImageManager.py:812
 #, fuzzy
 msgid "Moving to backup Location..."
 msgstr "Μετακίνηση στην Τοποθεσίας Εφεδρείας..."
 
-#: ../src/ImageManager.py:511
+#: ../src/ImageManager.py:518
 msgid "MultiBoot ERROR! - no STARTUP in boot partition."
 msgstr ""
 
-#: ../src/ImageManager.py:456 ../src/ImageManager.py:1242
+#: ../src/ImageManager.py:463 ../src/ImageManager.py:1249
 msgid "MultiBoot only able to restore this backup to MMC slot1"
 msgstr ""
 
@@ -679,15 +679,15 @@ msgstr ""
 msgid "New backup"
 msgstr "Νέα Εφεδρεία"
 
-#: ../src/ImageManager.py:195
+#: ../src/ImageManager.py:199
 #, fuzzy
 msgid "New backupimage"
 msgstr "Νέα Εφεδρεία"
 
 #: ../src/BackupManager.py:148 ../src/BackupManager.py:150
 #: ../src/BackupManager.py:291 ../src/BackupManager.py:293
-#: ../src/ImageManager.py:170 ../src/ImageManager.py:172
-#: ../src/ImageManager.py:302 ../src/ImageManager.py:304
+#: ../src/ImageManager.py:174 ../src/ImageManager.py:176
+#: ../src/ImageManager.py:306 ../src/ImageManager.py:308
 #, fuzzy
 msgid "Next backup: "
 msgstr "Επόμενη Εφεδρεία: "
@@ -768,7 +768,7 @@ msgstr ""
 msgid "No devices found"
 msgstr ""
 
-#: ../src/ImageManager.py:1372
+#: ../src/ImageManager.py:1379
 msgid "No images found on the selected download server...if password check validity"
 msgstr ""
 
@@ -803,16 +803,16 @@ msgstr "OK"
 msgid "OK, to perform a restore"
 msgstr "ΟΚ, να γίνει επαναφορά"
 
-#: ../src/ui.py:49 ../src/MountManager.py:218 ../src/MountManager.py:437
-#: ../src/ScriptRunner.py:51 ../src/BackupManager.py:118
-#: ../src/BackupManager.py:823 ../src/BackupManager.py:922
-#: ../src/BackupManager.py:971 ../src/ImageManager.py:145
-#: ../src/ImageManager.py:1345 ../src/SoftcamManager.py:106
-#: ../src/SoftcamManager.py:352 ../src/SoftcamManager.py:427
-#: ../src/SoftcamManager.py:508 ../src/SoftcamManager.py:589
+#: ../src/ScriptRunner.py:51 ../src/ClientModeBox.py:122
+#: ../src/ClientModeBox.py:479 ../src/ClientModeBox.py:886 ../src/ui.py:49
 #: ../src/IPKInstaller.py:41 ../src/RestoreWizard.py:31
-#: ../src/SwapManager.py:113 ../src/ClientModeBox.py:122
-#: ../src/ClientModeBox.py:479 ../src/ClientModeBox.py:886
+#: ../src/SoftcamManager.py:106 ../src/SoftcamManager.py:352
+#: ../src/SoftcamManager.py:427 ../src/SoftcamManager.py:508
+#: ../src/SoftcamManager.py:589 ../src/BackupManager.py:118
+#: ../src/BackupManager.py:823 ../src/BackupManager.py:922
+#: ../src/BackupManager.py:971 ../src/ImageManager.py:149
+#: ../src/ImageManager.py:1352 ../src/SwapManager.py:113
+#: ../src/MountManager.py:218 ../src/MountManager.py:437
 msgid "OpenVision"
 msgstr ""
 
@@ -870,7 +870,7 @@ msgstr "Παρακαλώ περιμένετε καθώς ξεκινά το\n"
 msgid "Please wait while stopping\n"
 msgstr "Παρακαλώ περιμένετε καθώς σταματά\n"
 
-#: ../src/ImageManager.py:436
+#: ../src/ImageManager.py:440
 #, fuzzy
 msgid "Please wait while the flash prepares."
 msgstr "Παρακαλώ περιμένετε καθώς ετοιμάζεται η επαναφορά"
@@ -883,12 +883,12 @@ msgstr "Παρακαλώ περιμένετε καθώς το σύστημα σ�
 msgid "Please wait."
 msgstr "Παρακαλώ περιμένετε."
 
-#: ../src/BackupManager.py:1267
+#: ../src/BackupManager.py:1272
 #, fuzzy
 msgid "Plugin listing failed - e. g. wrong backup destination or no space left on backup device."
 msgstr "Αποτυχία δημιουργίας λίστας προσθέτων - π.χ. λάθος διαδρομή εφεδρείας ή έλλειψη χώρου στη συσκευή"
 
-#: ../src/BackupManager.py:1159 ../src/BackupManager.py:1163
+#: ../src/BackupManager.py:1160 ../src/BackupManager.py:1164
 msgid "Preparing extra plugins..."
 msgstr "Προετοιμασία επιπρόσθετων προσθέτων..."
 
@@ -914,7 +914,7 @@ msgstr "Επανεκκίνηση..."
 msgid "Rebooting..."
 msgstr "Επανεκκίνηση..."
 
-#: ../src/ImageManager.py:379
+#: ../src/ImageManager.py:383
 #, python-format
 msgid ""
 "Recording(s) are in progress or coming up in few seconds!\n"
@@ -927,13 +927,13 @@ msgstr ""
 msgid "Removal of this slot will not show in %s GUI.  Are you sure you want to delete image slot?"
 msgstr ""
 
-#: ../src/BackupManager.py:301 ../src/ImageManager.py:312
 #: ../src/Multibootmgr.py:82 ../src/Multibootmgr.py:86
+#: ../src/BackupManager.py:301 ../src/ImageManager.py:316
 #, fuzzy
 msgid "Remove confirmation"
 msgstr "Αφαίρεση Επιβεβαίωσης"
 
-#: ../src/ImageManager.py:793 ../src/ImageManager.py:797
+#: ../src/ImageManager.py:800 ../src/ImageManager.py:804
 msgid "Removing temp mounts..."
 msgstr "Αφαίρεση προσωρινών προσαρτήσεων..."
 
@@ -941,16 +941,16 @@ msgstr "Αφαίρεση προσωρινών προσαρτήσεων..."
 msgid "Repeat how often"
 msgstr "Επανάληψη πόσο συχνά"
 
-#: ../src/ui.py:51 ../src/MountManager.py:220 ../src/MountManager.py:439
-#: ../src/ScriptRunner.py:53 ../src/BackupManager.py:120
-#: ../src/BackupManager.py:825 ../src/BackupManager.py:924
-#: ../src/BackupManager.py:973 ../src/ImageManager.py:147
-#: ../src/ImageManager.py:1347 ../src/SoftcamManager.py:108
-#: ../src/SoftcamManager.py:354 ../src/SoftcamManager.py:429
-#: ../src/SoftcamManager.py:510 ../src/SoftcamManager.py:591
+#: ../src/ScriptRunner.py:53 ../src/ClientModeBox.py:124
+#: ../src/ClientModeBox.py:481 ../src/ClientModeBox.py:888 ../src/ui.py:51
 #: ../src/IPKInstaller.py:43 ../src/RestoreWizard.py:33
-#: ../src/SwapManager.py:115 ../src/ClientModeBox.py:124
-#: ../src/ClientModeBox.py:481 ../src/ClientModeBox.py:888
+#: ../src/SoftcamManager.py:108 ../src/SoftcamManager.py:354
+#: ../src/SoftcamManager.py:429 ../src/SoftcamManager.py:510
+#: ../src/SoftcamManager.py:591 ../src/BackupManager.py:120
+#: ../src/BackupManager.py:825 ../src/BackupManager.py:924
+#: ../src/BackupManager.py:973 ../src/ImageManager.py:151
+#: ../src/ImageManager.py:1354 ../src/SwapManager.py:115
+#: ../src/MountManager.py:220 ../src/MountManager.py:439
 msgid "Report problems to:"
 msgstr ""
 
@@ -1031,9 +1031,9 @@ msgstr "Εκτέλεση"
 msgid "Run your shell scripts."
 msgstr "Εκτέλεση script κελύφους."
 
-#: ../src/MountManager.py:444 ../src/BackupManager.py:736
-#: ../src/BackupManager.py:831 ../src/BackupManager.py:929
-#: ../src/SoftcamManager.py:371 ../src/ClientModeBox.py:489
+#: ../src/ClientModeBox.py:489 ../src/SoftcamManager.py:371
+#: ../src/BackupManager.py:736 ../src/BackupManager.py:831
+#: ../src/BackupManager.py:929 ../src/MountManager.py:444
 msgid "Save"
 msgstr "Αποθήκευση"
 
@@ -1068,7 +1068,7 @@ msgstr "Επιλογή ενός αντιγράφου ασφαλείας προς
 msgid "Select a package to install:"
 msgstr "Επιλογή πακέτου για εγκατάσταση:"
 
-#: ../src/ImageManager.py:1351
+#: ../src/ImageManager.py:1358
 #, fuzzy
 msgid "Select an image to download:"
 msgstr "Επιλογή ενός image για Λήψη:"
@@ -1090,7 +1090,7 @@ msgstr "Επιλογή φακέλου που περιέχει πρόσθετα"
 msgid "Select the swap file size:"
 msgstr "Επιλογή Μεγέθους Αρχείου Swap: "
 
-#: ../src/ImageManager.py:260
+#: ../src/ImageManager.py:264
 msgid "Select what you want to do"
 msgstr ""
 
@@ -1098,7 +1098,7 @@ msgstr ""
 msgid "Select:"
 msgstr "Επιλογή:"
 
-#: ../src/ImageManager.py:757
+#: ../src/ImageManager.py:764
 #, fuzzy
 msgid "Setting up..."
 msgstr "Ρύθμιση..."
@@ -1131,11 +1131,6 @@ msgstr "Μέγεθος: "
 #, fuzzy
 msgid "Size: unavailable"
 msgstr "μη διαθέσιμο"
-
-#: ../src/SoftcamManager.py:230
-#, python-format
-msgid "Softcam Setup [%s]"
-msgstr ""
 
 #: ../src/SoftcamManager.py:426
 #, fuzzy
@@ -1171,8 +1166,8 @@ msgstr "Λυπούμαστε, οι πηγές δεν είναι διαθέσιμ
 msgid "Sorry the feeds are down for maintenance. Please try using the Backup manager to restore plugins later."
 msgstr "Λυπούμαστε, οι πηγές δεν είναι διαθέσιμες λόγω συντήρησης, δοκιμάστε να χρησιμοποιήσετε τη Διαχείριση Εφεδρείας για την επαναφορά των προσθέτων αργότερα."
 
-#: ../src/BackupManager.py:364 ../src/BackupManager.py:366
 #: ../src/RestoreWizard.py:197 ../src/RestoreWizard.py:201
+#: ../src/BackupManager.py:364 ../src/BackupManager.py:366
 #, fuzzy
 msgid "Sorry, but the file is not compatible with this kernel version."
 msgstr "Λυπούμαστε, αλλά αυτό το αρχείο δεν είναι συμβατό με αυτή την έκδοση του image."
@@ -1186,21 +1181,21 @@ msgstr "Λυπούμαστε, αλλά η επαναφορά απέτυχε."
 msgid "Sorry, no physical devices that supports SWAP attached. Can't create SWAP file on network or fat32 file-systems."
 msgstr "Λυπούμαστε, δεν έχουν συνδεθεί συσκευές που υποστηρίζουν το SWAP. Αδυναμία δημιουργίας αρχείου Swap στο δίκτυο ή σε συστήματα αρχείων fat32"
 
-#: ../src/ImageManager.py:877
+#: ../src/ImageManager.py:884
 #, fuzzy
 msgid "Sorry, not enough free RAM found, and no physical devices that supports swap attached. Can't create SWAP file on network or FAT32 file-systems, unable to make backup."
 msgstr "Λυπούμαστε, μη επαρκής μνήμη ram, και δεν έχουν συνδεθεί συσκευές που υποστηρίζουν το SWAP. Αδυναμία δημιουργίας αρχείου swap στο δίκτυο ή σε συστήματα αρχείων fat32, αδυναμία εφεδρείας"
 
-#: ../src/ui.py:53 ../src/MountManager.py:222 ../src/MountManager.py:441
-#: ../src/ScriptRunner.py:55 ../src/BackupManager.py:122
-#: ../src/BackupManager.py:827 ../src/BackupManager.py:926
-#: ../src/BackupManager.py:975 ../src/ImageManager.py:149
-#: ../src/ImageManager.py:1349 ../src/SoftcamManager.py:110
-#: ../src/SoftcamManager.py:356 ../src/SoftcamManager.py:431
-#: ../src/SoftcamManager.py:512 ../src/SoftcamManager.py:593
+#: ../src/ScriptRunner.py:55 ../src/ClientModeBox.py:126
+#: ../src/ClientModeBox.py:483 ../src/ClientModeBox.py:890 ../src/ui.py:53
 #: ../src/IPKInstaller.py:45 ../src/RestoreWizard.py:35
-#: ../src/SwapManager.py:117 ../src/ClientModeBox.py:126
-#: ../src/ClientModeBox.py:483 ../src/ClientModeBox.py:890
+#: ../src/SoftcamManager.py:110 ../src/SoftcamManager.py:356
+#: ../src/SoftcamManager.py:431 ../src/SoftcamManager.py:512
+#: ../src/SoftcamManager.py:593 ../src/BackupManager.py:122
+#: ../src/BackupManager.py:827 ../src/BackupManager.py:926
+#: ../src/BackupManager.py:975 ../src/ImageManager.py:153
+#: ../src/ImageManager.py:1356 ../src/SwapManager.py:117
+#: ../src/MountManager.py:222 ../src/MountManager.py:441
 msgid "Sources are available at:"
 msgstr ""
 
@@ -1208,7 +1203,7 @@ msgstr ""
 msgid "Start"
 msgstr "Εκκίνηση"
 
-#: ../src/BackupManager.py:1135 ../src/BackupManager.py:1139
+#: ../src/BackupManager.py:1136 ../src/BackupManager.py:1140
 msgid "Starting..."
 msgstr "Εκκίνηση..."
 
@@ -1248,11 +1243,11 @@ msgstr "Μέγεθος Swap:"
 msgid "Temp folder"
 msgstr "Προσωρινός Φάκελος"
 
-#: ../src/BackupManager.py:1230
+#: ../src/BackupManager.py:1235
 msgid "The backup location does not have enough free space."
 msgstr "Η τοποθεσία της εφεδρείας δεν διαθέτει αρκετό ελεύθερο χώρο."
 
-#: ../src/ImageManager.py:839
+#: ../src/ImageManager.py:846
 msgid "The backup location does not have enough free space.\n"
 msgstr "Η τοποθεσία της εφεδρείας δεν διαθέτει αρκετό ελεύθερο χώρο.\n"
 
@@ -1270,12 +1265,12 @@ msgstr ""
 msgid "The chosen location does not exist, using."
 msgstr "Η επιλεγμένη τοποθεσία δεν υπάρχει, χρήση του /media/hdd"
 
-#: ../src/BackupManager.py:254 ../src/ImageManager.py:270
+#: ../src/BackupManager.py:254 ../src/ImageManager.py:274
 #, fuzzy
 msgid "There is a problem with this device. Please reformat it and try again."
 msgstr "υπάρχει πρόβλημα με αυτή τη συσκευή, παρακαλώ επαναμορφοποιήστε την και ξαναπροσπαθήστε."
 
-#: ../src/BackupManager.py:303 ../src/ImageManager.py:314
+#: ../src/BackupManager.py:303 ../src/ImageManager.py:318
 #, fuzzy
 msgid "There is no backup to delete."
 msgstr "Δεν υπάρχουν αντίγραφα ασφαλείας για επαναφορά."
@@ -1285,7 +1280,7 @@ msgstr "Δεν υπάρχουν αντίγραφα ασφαλείας για ε�
 msgid "There is no backup to restore."
 msgstr "Δεν υπάρχουν αντίγραφα ασφαλείας για επαναφορά."
 
-#: ../src/ImageManager.py:431
+#: ../src/ImageManager.py:435
 #, fuzzy
 msgid "There is no image to flash."
 msgstr "Δεν υπάρχει image για λήψη."
@@ -1312,7 +1307,7 @@ msgstr "Τύπος: "
 msgid "Unmount"
 msgstr "Αποπροσάρτηση"
 
-#: ../src/ImageManager.py:462
+#: ../src/ImageManager.py:469
 #, python-format
 msgid ""
 "Unzip error (also sent to any debug log):\n"
@@ -1329,7 +1324,7 @@ msgstr "Ενημέρωση τοποθεσιών προσάρτησης."
 msgid "Use Mount Manager Please"
 msgstr "Διαχείριση Προσαρτήσεων"
 
-#: ../src/ImageManager.py:241
+#: ../src/ImageManager.py:245
 msgid "Use Mount Manager and press green setup mounts"
 msgstr ""
 
@@ -1355,8 +1350,8 @@ msgid "Use this box as a client of a server."
 msgstr ""
 
 #: ../src/BackupManager.py:176 ../src/BackupManager.py:326
-#: ../src/BackupManager.py:377 ../src/ImageManager.py:193
-#: ../src/ImageManager.py:348
+#: ../src/BackupManager.py:377 ../src/ImageManager.py:197
+#: ../src/ImageManager.py:352
 #, fuzzy
 msgid "View progress"
 msgstr "Επισκόπηση Προόδου"
@@ -1390,12 +1385,12 @@ msgstr "Έξοδος από τον οδηγό επαναφοράς"
 msgid "Vision H9 SDcard Manager"
 msgstr "Vision Διαχείριση Swap"
 
-#: ../src/ImageManager.py:137 ../src/plugin.py:207
+#: ../src/ImageManager.py:141 ../src/plugin.py:207
 #, fuzzy
 msgid "Vision Image Manager"
 msgstr "Vision Διαχείριση Image"
 
-#: ../src/MountManager.py:217 ../src/plugin.py:208
+#: ../src/plugin.py:208 ../src/MountManager.py:217
 #, fuzzy
 msgid "Vision Mount Manager"
 msgstr "Vision Διαχείριση Προσαρτήσεων"
@@ -1462,8 +1457,8 @@ msgstr "Παρακαλώ περιμένετε καθώς γίνεται ανίχ
 msgid "Warning, this device is used for more than one mount point!\n"
 msgstr ""
 
-#: ../src/BackupManager.py:63 ../src/ImageManager.py:74
-#: ../src/ClientModeBox.py:52
+#: ../src/ClientModeBox.py:52 ../src/BackupManager.py:63
+#: ../src/ImageManager.py:74
 msgid "Weekly"
 msgstr "Εβδομαδιαία"
 
@@ -1477,7 +1472,7 @@ msgstr "ΝΑΙ, για επαναφορά προσθέτων"
 msgid "Yes, to restore settings"
 msgstr "ΝΑΙ, για επαναφορά ρυθμίσεων"
 
-#: ../src/ImageManager.py:433
+#: ../src/ImageManager.py:437
 msgid "You have decided not to flash image."
 msgstr ""
 
@@ -1498,7 +1493,7 @@ msgstr ""
 msgid "Your receiver could not connect to the plugin feeds at this time. Please try using the Backup manager to restore plugins later."
 msgstr "Ο %s %s σας δεν είναι συνδεδεμένος στο διαδίκτυο, παρακαλώ χρησιμοποιήστε τη Διαχείριση Εφεδρείας για επαναφορά των προσθέτων αργότερα."
 
-#: ../src/ImageManager.py:613
+#: ../src/ImageManager.py:620
 #, fuzzy
 msgid ""
 "Your receiver is about to create a full image backup, this can take about 6 minutes to complete.\n"
@@ -1544,40 +1539,40 @@ msgstr "Ο %s %s σας δεν είναι συνδεδεμένος στο δια
 msgid "Your receiver is not connected to the Internet. Please try using the Backup manager to restore plugins later."
 msgstr "Ο %s %s σας δεν είναι συνδεδεμένος στο διαδίκτυο, παρακαλώ χρησιμοποιήστε τη Διαχείριση Εφεδρείας για επαναφορά των προσθέτων αργότερα."
 
-#: ../src/ui.py:54 ../src/MountManager.py:223 ../src/MountManager.py:442
-#: ../src/ScriptRunner.py:56 ../src/BackupManager.py:123
-#: ../src/BackupManager.py:828 ../src/BackupManager.py:927
-#: ../src/BackupManager.py:976 ../src/ImageManager.py:150
-#: ../src/ImageManager.py:1350 ../src/SoftcamManager.py:111
-#: ../src/SoftcamManager.py:357 ../src/SoftcamManager.py:432
-#: ../src/SoftcamManager.py:513 ../src/SoftcamManager.py:594
+#: ../src/ScriptRunner.py:56 ../src/ClientModeBox.py:127
+#: ../src/ClientModeBox.py:484 ../src/ClientModeBox.py:891 ../src/ui.py:54
 #: ../src/IPKInstaller.py:46 ../src/RestoreWizard.py:36
-#: ../src/SwapManager.py:118 ../src/ClientModeBox.py:127
-#: ../src/ClientModeBox.py:484 ../src/ClientModeBox.py:891
+#: ../src/SoftcamManager.py:111 ../src/SoftcamManager.py:357
+#: ../src/SoftcamManager.py:432 ../src/SoftcamManager.py:513
+#: ../src/SoftcamManager.py:594 ../src/BackupManager.py:123
+#: ../src/BackupManager.py:828 ../src/BackupManager.py:927
+#: ../src/BackupManager.py:976 ../src/ImageManager.py:154
+#: ../src/ImageManager.py:1357 ../src/SwapManager.py:118
+#: ../src/MountManager.py:223 ../src/MountManager.py:442
 msgid "https://github.com/OpenVisionE2"
 msgstr ""
 
-#: ../src/ui.py:52 ../src/MountManager.py:221 ../src/MountManager.py:440
-#: ../src/ScriptRunner.py:54 ../src/BackupManager.py:121
-#: ../src/BackupManager.py:826 ../src/BackupManager.py:925
-#: ../src/BackupManager.py:974 ../src/ImageManager.py:148
-#: ../src/ImageManager.py:1348 ../src/SoftcamManager.py:109
-#: ../src/SoftcamManager.py:355 ../src/SoftcamManager.py:430
-#: ../src/SoftcamManager.py:511 ../src/SoftcamManager.py:592
+#: ../src/ScriptRunner.py:54 ../src/ClientModeBox.py:125
+#: ../src/ClientModeBox.py:482 ../src/ClientModeBox.py:889 ../src/ui.py:52
 #: ../src/IPKInstaller.py:44 ../src/RestoreWizard.py:34
-#: ../src/SwapManager.py:116 ../src/ClientModeBox.py:125
-#: ../src/ClientModeBox.py:482 ../src/ClientModeBox.py:889
+#: ../src/SoftcamManager.py:109 ../src/SoftcamManager.py:355
+#: ../src/SoftcamManager.py:430 ../src/SoftcamManager.py:511
+#: ../src/SoftcamManager.py:592 ../src/BackupManager.py:121
+#: ../src/BackupManager.py:826 ../src/BackupManager.py:925
+#: ../src/BackupManager.py:974 ../src/ImageManager.py:152
+#: ../src/ImageManager.py:1355 ../src/SwapManager.py:116
+#: ../src/MountManager.py:221 ../src/MountManager.py:440
 msgid "https://openvision.tech"
 msgstr ""
 
-#: ../src/ImageManager.py:519
+#: ../src/ImageManager.py:526
 #, python-format
 msgid ""
 "ofgwrite error (also sent to any debug log):\n"
 "%s"
 msgstr ""
 
-#: ../src/ImageManager.py:396 ../src/ImageManager.py:415
+#: ../src/ImageManager.py:400 ../src/ImageManager.py:419
 #, python-format
 msgid "slot%s - %s"
 msgstr ""
@@ -1587,7 +1582,7 @@ msgstr ""
 msgid "slot%s - %s "
 msgstr ""
 
-#: ../src/ImageManager.py:396 ../src/ImageManager.py:415
+#: ../src/ImageManager.py:400 ../src/ImageManager.py:419
 #, python-format
 msgid "slot%s - %s (current image)"
 msgstr ""

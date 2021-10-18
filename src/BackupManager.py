@@ -1098,7 +1098,7 @@ class AutoBackupManagerTimer:
 				self.backupupdate(atLeast)
 		else:
 			print("[BackupManager] Running backup", strftime("%c", localtime(now)))
-			self.BackupFiles = BackupFiles(self.session)
+			self.BackupFiles = BackupFiles(self.session, schedulebackup=True)
 			Components.Task.job_manager.AddJob(self.BackupFiles.createBackupJob())
 # Note that fact that the job has been *scheduled*.
 # We do *not* only note a successful completion, as that would result
@@ -1114,11 +1114,12 @@ class AutoBackupManagerTimer:
 
 
 class BackupFiles(Screen):
-	def __init__(self, session, updatebackup=False, imagebackup=False):
+	def __init__(self, session, updatebackup=False, imagebackup=False, schedulebackup=False):
 		Screen.__init__(self, session)
 		self.Console = Console()
 		self.updatebackup = updatebackup
 		self.imagebackup = imagebackup
+		self.schedulebackup = schedulebackup
 		self.BackupDevice = config.backupmanager.backuplocation.value
 		print("[BackupManager] Device: " + self.BackupDevice)
 		self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
@@ -1192,8 +1193,12 @@ class BackupFiles(Screen):
 			self.selectedFiles.append('/usr/crossepg/providers')
 		if path.exists('/usr/lib/sabnzbd') and '/usr/lib/sabnzbd' not in self.selectedFiles:
 			self.selectedFiles.append('/usr/lib/sabnzbd')
-		if path.exists('/etc/samba') and '/etc/samba' not in self.selectedFiles:
-			self.selectedFiles.append('/etc/samba')
+#		if path.exists("/etc/samba") and "/etc/samba" not in self.selectedFiles:
+#			self.selectedFiles.append("/etc/samba")
+		if path.exists("/etc/samba/smb-user.conf") and "/etc/samba/smb-user.conf" not in self.selectedFiles:
+			self.selectedFiles.append("/etc/samba/smb-user.conf")
+		if path.exists("/etc/samba/private") and "/etc/samba/private" not in self.selectedFiles:
+			self.selectedFiles.append("/etc/samba/private")
 		if path.exists('/usr/keys') and '/etc/CCcam.cfg' not in self.selectedFiles:
 			self.selectedFiles.append('/usr/keys')
 		if path.exists('/opt') and '/opt' not in self.selectedFiles:
@@ -1310,6 +1315,8 @@ class BackupFiles(Screen):
 			backupType = "-SU-"
 		elif self.imagebackup:
 			backupType = "-IM-"
+		elif self.schedulebackup:
+			backupType = "-Sch-"
 		self.Backupfile = self.BackupDirectory + config.backupmanager.folderprefix.value + '-' + str(distro) + backupType + str(visionversion) + '-' + str(visionrevision) + '-' + str(model) + '-' + backupdate.strftime("%Y%m%d-%H%M") + '.tar.gz'
 # Need to create a list of what to backup, so that spaces and special
 # characters don't get lost on, or mangle, the command line
