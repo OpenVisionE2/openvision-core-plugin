@@ -225,11 +225,11 @@ class VISIONSoftcamManager(Screen):
 				file.close()
 				SoftcamsScriptsRunning = SoftcamsScriptsRunning.replace("\n", ", ")
 				self.currentactivecam += SoftcamsScriptsRunning
-			self["activecam"].setText(self.currentactivecam)
-			if six.PY3:
-				print("[SoftcamManager] Active:%s ScriptCam=%s" % (self.currentactivecam, config.misc.softcams.value))
-				if config.misc.softcams.value != "None":
-					self["activecam"].setText("SoftcamScript running")
+			print("[SoftcamManager] Active:%s SoftcamSetup:%s" % (self.currentactivecam, config.misc.softcams.value))
+			if config.misc.softcams.value != "None":
+				self["activecam"].setText(_("Softcam Setup [%s]") % config.misc.softcams.value)
+			else:
+				self["activecam"].setText(self.currentactivecam)
 			self["activecam"].show()
 		else:
 			print("[SoftcamManager] Result failed: " + str(result))
