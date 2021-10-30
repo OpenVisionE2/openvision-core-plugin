@@ -95,7 +95,7 @@ class VISIONMenu(Screen, ProtectedScreen):
 		self["menu"].onSelectionChanged.append(self.selectionChanged)
 
 	def isProtected(self):
-		return config.ParentalControl.setuppinactive.value and config.ParentalControl.config_sections.visionmenu.value
+		return config.ParentalControl.setuppinactive.value and config.ParentalControl.config_sections.visioncore_menu.value
 
 	def createSummary(self):
 		from Screens.PluginBrowser import PluginBrowserSummary
