@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+import six
 # for localized messages
 from os import path, stat, mkdir, listdir, remove, statvfs, chmod
 from time import localtime, time, strftime, mktime
@@ -72,6 +73,7 @@ config.backupmanager.query = ConfigYesNo(default=True)
 config.backupmanager.lastbackup = ConfigNumber(default=0)
 # Max no. of backups to keep.  0 == keep them all
 #
+config.backupmanager.types_to_prune = ConfigSelection(default="none", choices=[("all", _("All")), ("none", _("None")), ("sch", _("Only scheduled")), ("auto", _("Automatically created"))])
 config.backupmanager.number_to_keep = ConfigNumber(default=0)
 
 
@@ -697,7 +699,7 @@ class VISIONBackupManager(Screen):
 
 	def Stage5Complete(self, result, retval, extra_args):
 		if result:
-			print("[BackupManager] opkg install result:\n", result)
+			print("[BackupManager] opkg install result:\n", six.ensure_str(result))
 			self.didPluginsRestore = True
 			self.Stage5Completed = True
 			print('[BackupManager] Restoring stage 5: Completed')
@@ -1218,6 +1220,13 @@ class BackupFiles(Screen):
 			for custommix in glob.glob('/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom/*CustomMix.xml'):
 				if custommix not in self.selectedFiles:
 					self.selectedFiles.append(custommix)
+		if path.exists("/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom/favourites.xml") and "/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom/favourites.xml" not in self.selectedFiles:
+			self.selectedFiles.append("/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom/favourites.xml")
+
+
+		# temp measure: clear "/etc/samba" from settings as this is a system config location, not user files
+		if "/etc/samba" in self.selectedFiles:
+			self.selectedFiles.remove("/etc/samba")
 
 		config.backupmanager.backupdirs.setValue(self.selectedFiles)
 		config.backupmanager.backupdirs.save()
@@ -1354,14 +1363,20 @@ class BackupFiles(Screen):
 # Trim the number of backups to the configured setting...
 #
 		try:
-			if config.backupmanager.number_to_keep.value > 0 \
+			if config.backupmanager.types_to_prune.value != "none" \
+			 and config.backupmanager.number_to_keep.value > 0 \
 			 and path.exists(self.BackupDirectory): # !?!
 				images = listdir(self.BackupDirectory)
 # Only try to delete backups with the current user prefix
 				emlist = []
 				for fil in images:
 					if (fil.startswith(config.backupmanager.folderprefix.value) and fil.endswith(".tar.gz")):
-						emlist.append(fil)
+						if config.backupmanager.types_to_prune.value == "all":
+							emlist.append(fil)
+						elif config.backupmanager.types_to_prune.value == "sch" and "-Sch-" in fil:
+							emlist.append(fil)
+						elif config.backupmanager.types_to_prune.value == "auto" and ("-Sch-" in fil or "-IM-" in fil or "-SU-" in fil):
+							emlist.append(fil)
 # sort by oldest first...
 				emlist.sort(key=lambda fil: path.getmtime(self.BackupDirectory + fil))
 # ...then, if we have too many, remove the <n> newest from the end
