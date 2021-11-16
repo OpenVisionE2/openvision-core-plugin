@@ -25,6 +25,7 @@ import Components.Task
 from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
 from Screens.Setup import Setup
+from Tools.Directories import fileExists
 from Tools.Notifications import AddPopupWithCallback
 
 currentkernelversion = BoxInfo.getItem("kernel")
@@ -460,7 +461,7 @@ class VISIONBackupManager(Screen):
 	def Stage1(self, answer=None):
 		print('[BackupManager] Restoring Stage 1:')
 		if answer is True:
-			self.Console.ePopen("tar -xzvf " + self.BackupDirectory + self.sel + " -C /", self.Stage1SettingsComplete)
+			self.Console.ePopen("sleep 1", self.Stage1SettingsComplete)
 		else:
 			self.Console.ePopen("tar -xzvf " + self.BackupDirectory + self.sel + " -C / tmp/ExtraInstalledPlugins tmp/backupkernelversion tmp/backupimageversion  tmp/3rdPartyPlugins", self.Stage1PluginsComplete)
 
@@ -716,8 +717,8 @@ class VISIONBackupManager(Screen):
 		self.Stage3Completed = True
 		self.Stage4Completed = True
 		self.Stage5Completed = True
-		KillE2ReBoot = "/sbin/init 4 && sleep 10 && /sbin/init 6"
-		if self.didPluginsRestore or self.didSettingsRestore:
+		KillE2ReBoot = "rm -f /tmp/backupkernelversion && /sbin/init 4 && sleep 10 && tar -xzvf " + self.BackupDirectory + self.sel + " -C / && /sbin/init 6"
+		if self.didPluginsRestore and fileExists("/tmp/backupkernelversion") or self.didSettingsRestore and fileExists("/tmp/backupkernelversion"):
 			print('[BackupManager] Restoring backup')
 			self.Console.ePopen("%s" % KillE2ReBoot, self.Stage1SettingsComplete, self.session.open(MessageBox, _("Finishing restore, your receiver go to restart"), MessageBox.TYPE_INFO))
 		else:
