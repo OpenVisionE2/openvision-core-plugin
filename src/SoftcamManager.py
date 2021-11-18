@@ -134,9 +134,9 @@ class VISIONSoftcamManager(Screen):
 									  }, -1)
 
 		self["key_red"] = Button(_("Close"))
-		self["key_green"] = Button("")
-		self["key_yellow"] = Button("")
-		self["key_blue"] = Button(_("Autostart"))
+		self["key_green"] = StaticText("")
+		self["key_yellow"] = StaticText("")
+		self["key_blue"] = StaticText("")
 
 		self["key_menu"] = StaticText(_("MENU"))
 		self["key_info"] = StaticText(_("INFO"))
@@ -163,11 +163,9 @@ class VISIONSoftcamManager(Screen):
 			print('[SoftcamManager] Selected cam: ' + str(selcam))
 			if self.currentactivecam.find(selcam) < 0:
 				self["key_green"].setText(_("Start"))
+				self["key_yellow"].setText("")
 			else:
 				self["key_green"].setText(_("Stop"))
-			if self.currentactivecam.find(selcam) < 0:
-				self["key_yellow"].setText(" ")
-			else:
 				self["key_yellow"].setText(_("Restart"))
 
 			if current[2] is True:
