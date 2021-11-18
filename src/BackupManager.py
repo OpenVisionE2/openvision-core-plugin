@@ -206,7 +206,7 @@ class VISIONBackupManager(Screen):
 			}, -1)
 			self["lab7"].setText(_("Device: None available") + "\n" + _("Use Mount Manager Please"))
 		else:
-			self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', 'DirectionActions', "MenuActions", "TimerEditActions"],
+			self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', "MenuActions", "TimerEditActions"],
 										  {
 										  'cancel': self.close,
 										  'ok': self.keyResstore,
@@ -720,7 +720,7 @@ class VISIONBackupManager(Screen):
 		KillE2ReBoot = "rm -f /tmp/backupkernelversion && /sbin/init 4 && sleep 10 && tar -xzvf " + self.BackupDirectory + self.sel + " -C / && /sbin/init 6"
 		if self.didPluginsRestore and fileExists("/tmp/backupkernelversion") or self.didSettingsRestore and fileExists("/tmp/backupkernelversion"):
 			print('[BackupManager] Restoring backup')
-			self.Console.ePopen("%s" % KillE2ReBoot, self.Stage1SettingsComplete, self.session.open(MessageBox, _("Finishing restore, your receiver go to restart"), MessageBox.TYPE_INFO))
+			self.Console.ePopen("%s" % KillE2ReBoot, self.Stage1SettingsComplete, self.session.open(MessageBox, _("Finishing restore, your receiver go to restart."), MessageBox.TYPE_INFO))
 		else:
 			return self.close()
 
