@@ -927,19 +927,16 @@ class VISIONBackupManagerMenu(Setup):
 	</screen>"""
 
 	def __init__(self, session, setup, plugin=None, PluginLanguageDomain=None):
-		Setup.__init__(self, session, setup, plugin, PluginLanguageDomain)
-		self.skinName = ["VISIONBackupManagerMenu"]
+		Setup.__init__(self, session, setup="visionbackupmanager", plugin="SystemPlugins/Vision", PluginLanguageDomain=PluginLanguageDomain)
 		self["lab1"] = StaticText(_("OpenVision"))
 		self["lab2"] = StaticText(_("Lets define enigma2 once more"))
 		self["lab3"] = StaticText(_("Report problems to:"))
 		self["lab4"] = StaticText(_("https://openvision.tech"))
 		self["lab5"] = StaticText(_("Sources are available at:"))
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
-		self["key_red"] = Button(_("Cancel"))
-		self["key_green"] = Button(_("Save"))
 		self["key_yellow"] = Button(_("Choose files"))
 		self["key_blue"] = Button(_("Choose IPK folder"))
-		self["actions2"] = ActionMap(["SetupActions", "ColorActions", "VirtualKeyboardActions", "MenuActions"], {
+		self["actions2"] = ActionMap(["ColorActions", "VirtualKeyboardActions", "MenuActions"], {
 		"yellow": self.chooseFiles,
 		"blue": self.chooseXtraPluginDir,
 		}, -2)
