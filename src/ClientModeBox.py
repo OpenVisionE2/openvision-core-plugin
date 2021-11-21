@@ -128,13 +128,13 @@ class ClientModeBoxWizard(WizardLanguage):
 		self['myactions'] = ActionMap(["MenuActions"],
 									  {
 									  'menu': self.Menu,
-									  'exit': self.exit,
+									  'cancel': self.KeyCancel,
 									  }, -1)
 
 	def Menu(self, session=None, **kwargs):
 		self.session.open(ClientModeBoxMenu, PluginLanguageDomain)
 
-	def exit(self):
+	def KeyCancel(self):
 		self.close(True)
 
 	def getTranslation(self, text):
