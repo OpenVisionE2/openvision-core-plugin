@@ -15,7 +15,7 @@ from Components.SystemInfo import BoxInfo
 class VISIONMenu(Screen, ProtectedScreen):
 	skin = """
 		<screen name="VISIONMenu" position="center,center" size="610,410">
-			<ePixmap pixmap="buttons/red.png" position="0,0" size="140,40" alphatest="on"/>
+			<ePixmap pixmap="buttons/red.png" position="0,0" size="140,40" alphatest="blend"/>
 			<widget source="key_red" render="Label" position="0,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1"/>
 			<widget source="menu" render="Listbox" position="15,60" size="330,290" scrollbarMode="showOnDemand">
 				<convert type="TemplatedMultiContent">

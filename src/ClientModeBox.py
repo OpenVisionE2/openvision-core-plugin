@@ -441,7 +441,7 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 					 size="140,40"
 					 zPosition="4"
 					 transparent="1"
-					 alphatest="on" />
+					 alphatest="blend" />
 
 			<ePixmap name="green"
 					 pixmap="buttons/green.png"
@@ -449,7 +449,7 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 					 size="140,40"
 					 zPosition="4"
 					 transparent="1"
-					 alphatest="on" />
+					 alphatest="blend" />
 
 			<ePixmap name="yellow"
 					 pixmap="buttons/yellow.png"
@@ -457,7 +457,7 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 					 size="140,40"
 					 zPosition="4"
 					 transparent="1"
-					 alphatest="on" />
+					 alphatest="blend" />
 
 			<ePixmap name="blue"
 					 pixmap="buttons/blue.png"
@@ -465,7 +465,7 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 					 size="140,40"
 					 zPosition="4"
 					 transparent="1"
-					 alphatest="on" />
+					 alphatest="blend" />
 		</screen>"""
 
 	def __init__(self, session, timerinstance):

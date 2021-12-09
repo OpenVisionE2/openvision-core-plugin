@@ -421,8 +421,8 @@ class VISIONDevicesPanel(Screen):
 class DeviceMountSetup(Screen, ConfigListScreen):
 	skin = """
 	<screen position="center,center" size="640,460">
-		<ePixmap pixmap="buttons/red.png" position="25,0" size="140,40" alphatest="on"/>
-		<ePixmap pixmap="buttons/green.png" position="175,0" size="140,40" alphatest="on"/>
+		<ePixmap pixmap="buttons/red.png" position="25,0" size="140,40" alphatest="blend"/>
+		<ePixmap pixmap="buttons/green.png" position="175,0" size="140,40" alphatest="blend"/>
 		<widget name="key_red" position="25,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1"/>
 		<widget name="key_green" position="175,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1"/>
 		<widget name="config" position="30,60" size="580,275" scrollbarMode="showOnDemand"/>

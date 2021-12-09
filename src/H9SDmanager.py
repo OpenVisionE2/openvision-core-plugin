@@ -23,9 +23,9 @@ class H9SDmanager(Screen):
 		<widget source="key_red" render="Label" position="30,200" size="150,30" noWrap="1" zPosition="1" valign="center" font="Regular; 20" halign="left" backgroundColor="#00000000" foregroundColor="#00ffffff" />
 		<widget source="key_green" render="Label" position="200,200" size="150,30" noWrap="1" zPosition="1" valign="center" font="Regular; 20" halign="left" backgroundColor="#00000000" foregroundColor="#00ffffff" />
 		<widget source="key_yellow" render="Label" position="370,200" size="150,30" noWrap="1" zPosition="1" valign="center" font="Regular; 20" halign="left" backgroundColor="#00000000" foregroundColor="#00ffffff" />
-		<ePixmap pixmap="buttons/red.png" position="30,200" size="40,40" alphatest="on" />
-		<ePixmap pixmap="buttons/green.png" position="200,200" size="40,40" alphatest="on" />
-		<ePixmap pixmap="buttons/yellow.png" position="370,200" size="40,40" alphatest="on" />
+		<ePixmap pixmap="buttons/red.png" position="30,200" size="40,40" alphatest="blend" />
+		<ePixmap pixmap="buttons/green.png" position="200,200" size="40,40" alphatest="blend" />
+		<ePixmap pixmap="buttons/yellow.png" position="370,200" size="40,40" alphatest="blend" />
 	</screen>
 	"""
 
