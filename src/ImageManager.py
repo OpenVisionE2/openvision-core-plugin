@@ -82,6 +82,7 @@ config.imagemanager.imagefeed_ATV = ConfigText(default="http://images.mynonpubli
 config.imagemanager.imagefeed_PLi = ConfigText(default="http://downloads.openpli.org/json", fixed_size=False)
 config.imagemanager.imagefeed_OBH = ConfigText(default="https://images.openbh.net/json", fixed_size=False)
 config.imagemanager.imagefeed_OBH.value = config.imagemanager.imagefeed_OBH.default # this is no longer a user setup option
+config.imagemanager.imagefeed_OV = ConfigText(default="https://images.openvision.openenigma.org/json", fixed_size=False)
 
 autoImageManagerTimer = None
 
@@ -279,7 +280,7 @@ class VISIONImageManager(Screen):
 		self.session.openWithCallback(self.setupDone, ImageManagerSetup)
 
 	def doDownload(self):
-		choices = [("OpenViX", config.imagemanager.imagefeed_ViX), ("OpenATV", config.imagemanager.imagefeed_ATV), ("OpenPLi", config.imagemanager.imagefeed_PLi), ("OpenBh", config.imagemanager.imagefeed_OBH)]
+		choices = [("OpenViX", config.imagemanager.imagefeed_ViX), ("OpenATV", config.imagemanager.imagefeed_ATV), ("OpenPLi", config.imagemanager.imagefeed_PLi), ("OpenBh", config.imagemanager.imagefeed_OBH), ("Open Vision", config.imagemanager.imagefeed_OV)]
 		message = _("From which image library do you want to download?")
 		self.session.openWithCallback(self.doDownloadCallback, MessageBox, message, list=choices, default=1, simple=True)
 
@@ -1346,7 +1347,7 @@ class ImageManagerDownload(Screen):
 
 	def __init__(self, session, BackupDirectory, ConfigObj):
 		Screen.__init__(self, session)
-		self.setTitle(_("%s downloads") % {config.imagemanager.imagefeed_ATV: "OpenATV", config.imagemanager.imagefeed_PLi: "OpenPLi", config.imagemanager.imagefeed_ViX: "OpenViX", config.imagemanager.imagefeed_OBH: "OpenBh"}.get(ConfigObj, ''))
+		self.setTitle(_("%s downloads") % {config.imagemanager.imagefeed_ATV: "OpenATV", config.imagemanager.imagefeed_PLi: "OpenPLi", config.imagemanager.imagefeed_ViX: "OpenViX", config.imagemanager.imagefeed_OBH: "OpenBh", config.imagemanager.imagefeed_OV: "Open Vision"}.get(ConfigObj, ''))
 		self.ConfigObj = ConfigObj
 		self.BackupDirectory = BackupDirectory
 		self["key_red"] = Button(_("Close"))
@@ -1514,7 +1515,7 @@ class ImageManagerSetup(Setup):
 	def keySave(self):
 		if config.imagemanager.folderprefix.value == "":
 			config.imagemanager.folderprefix.value = defaultprefix
-		for configElement in (config.imagemanager.imagefeed_ViX, config.imagemanager.imagefeed_ATV, config.imagemanager.imagefeed_PLi, config.imagemanager.imagefeed_OBH):
+		for configElement in (config.imagemanager.imagefeed_ViX, config.imagemanager.imagefeed_ATV, config.imagemanager.imagefeed_PLi, config.imagemanager.imagefeed_OBH, config.imagemanager.imagefeed_OV):
 			self.check_URL_format(configElement)
 		for x in self["config"].list:
 			x[1].save()
