@@ -285,8 +285,9 @@ class VISIONImageManager(Screen):
 
 	def doDownload(self):
 		choices = [("Open Vision", config.imagemanager.imagefeed_OV), ("OpenATV", config.imagemanager.imagefeed_ATV), ("OpenPLi", config.imagemanager.imagefeed_PLi), ("OpenViX", config.imagemanager.imagefeed_ViX), ("OpenBh", config.imagemanager.imagefeed_OBH)]
+		defchoice = [choice[0] for choice in choices].index(imagedistro) if imagedistro in [choice[0] for choice in choices] else 0
 		message = _("From which image library do you want to download?")
-		self.session.openWithCallback(self.doDownloadCallback, MessageBox, message, list=choices, default=1, simple=True)
+		self.session.openWithCallback(self.doDownloadCallback, MessageBox, message, list=choices, default=defchoice, simple=True)
 
 	def doDownloadCallback(self, retval): # retval will be the config element (or False, in the case of aborting the MessageBox).
 		if retval:
