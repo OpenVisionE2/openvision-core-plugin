@@ -125,6 +125,14 @@ def buildPartitionInfo(partition, partitionList):
 				parts = line.strip().split()
 				mediamount = parts[1]		# media mount e.g. /media/xxxxx
 				_format = parts[2]		# _format e.g. ext4
+# Also, map any fuseblk fstype to the real file-system behind it...
+# Use blkid to get the info we need....
+#
+				if _format == 'fuseblk':
+					import subprocess
+					res = subprocess.run(['blkid', '-sTYPE', '-ovalue', parts[0]], capture_output=True)
+					if res.returncode == 0:
+						_format = six.ensure_str(res.stdout).strip()
 				rw = parts[3]			# read/write
 				break
 
@@ -490,24 +498,28 @@ class DeviceMountSetup(Screen, ConfigListScreen):
 		if result:
 			self.device = extra_args[0]
 			self.mountp = extra_args[1]
-			self.device_uuid = "UUID=" + six.ensure_str(result).split("UUID=")[1].split(" ")[0].replace('"', '')
-			self.device_type = six.ensure_str(result).split("TYPE=")[1].split(" ")[0].replace('"', '')
-			# print("[MountManager][addFstab2] device_uuid:%s device_type:%s" % (self.device_uuid, self.device_type))
-			if self.device_type.startswith("ext"):
-				self.device_type = "auto"
-			elif self.device_type.startswith("ntfs") and result.find("ntfs-3g") != -1:
-				self.device_type = "ntfs-3g"
-			elif self.device_type.startswith("ntfs") and result.find("ntfs-3g") == -1:
-				self.device_type = "ntfs"
-			if not path.exists(self.mountp):
-				mkdir(self.mountp, 0o755)
-			open("/etc/fstab.tmp", "w").writelines([l for l in open("/etc/fstab").readlines() if self.device not in l])
-			rename("/etc/fstab.tmp", "/etc/fstab")
-			open("/etc/fstab.tmp", "w").writelines([l for l in open("/etc/fstab").readlines() if self.device_uuid not in l])
-			rename("/etc/fstab.tmp", "/etc/fstab")
-			with open("/etc/fstab", "a") as fd:
-				line = self.device_uuid + "\t" + self.mountp + "\tauto" + "\tdefaults\t0 0\n"
-				fd.write(line)
+			result = six.ensure_str(result)
+			uuid = re.search('UUID=\"([^\"]+)\"', result)
+			type = re.search('TYPE=\"([^\"]+)\"', result)
+			if uuid and type:
+				self.device_uuid = "UUID=" + uuid.group(1)
+				self.device_type = type.group(1)
+				# print("[MountManager][addFstab2] device_uuid:%s device_type:%s" % (self.device_uuid, self.device_type))
+				if self.device_type.startswith("ext"):
+					self.device_type = "auto"
+				elif self.device_type.startswith("ntfs") and result.find("ntfs-3g") != -1:
+					self.device_type = "ntfs-3g"
+				elif self.device_type.startswith("ntfs") and result.find("ntfs-3g") == -1:
+					self.device_type = "ntfs"
+				if not path.exists(self.mountp):
+					mkdir(self.mountp, 0o755)
+				open("/etc/fstab.tmp", "w").writelines([l for l in open("/etc/fstab").readlines() if self.device not in l])
+				rename("/etc/fstab.tmp", "/etc/fstab")
+				open("/etc/fstab.tmp", "w").writelines([l for l in open("/etc/fstab").readlines() if self.device_uuid not in l])
+				rename("/etc/fstab.tmp", "/etc/fstab")
+				with open("/etc/fstab", "a") as fd:
+					line = self.device_uuid + "\t" + self.mountp + "\t" + self.device_type + "\tdefaults\t0 0\n"
+					fd.write(line)
 
 	def restartBox(self, answer):
 		if answer is True:

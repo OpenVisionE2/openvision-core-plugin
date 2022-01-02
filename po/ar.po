@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Vision enigma2\n"
+"Project-Id-Version: ViX enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-09 12:08+0330\n"
+"POT-Creation-Date: 2022-01-02 22:48+0330\n"
 "PO-Revision-Date: 2020-12-11 17:43+0300\n"
 "Last-Translator: mosad - مساعد الجعيد <abo-mishal@hotmail.com>\n"
 "Language-Team: mosad - مساعد الجعيد\n"
@@ -16,11 +16,11 @@ msgstr ""
 "X-Poedit-SearchPath-0: D:/Decoder/VU+/OBH 4.2/it/LC_MESSAGES/enigma2/OBH/OBH LOCALE\n"
 
 #: ../src/BackupManager.py:151 ../src/BackupManager.py:294
-#: ../src/ImageManager.py:176 ../src/ImageManager.py:308
+#: ../src/ImageManager.py:181 ../src/ImageManager.py:313
 msgid "%a %e %b  %-H:%M"
 msgstr "%a %e %b  %-H:%M"
 
-#: ../src/ImageManager.py:1349
+#: ../src/ImageManager.py:1354
 #, fuzzy, python-format
 msgid "%s downloads"
 msgstr "التحميلات"
@@ -30,7 +30,7 @@ msgstr "التحميلات"
 msgid "%s: "
 msgstr "%s/%s: %s"
 
-#: ../src/MountManager.py:399
+#: ../src/MountManager.py:407
 msgid "/media/hdd"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr "هناك تحديث تحديث الخلفية قيد التشغيل,ير
 
 #: ../src/ClientModeBox.py:491
 msgid "About"
-msgstr "حول"
+msgstr ""
 
 #: ../src/SwapManager.py:131 ../src/SwapManager.py:267
 msgid "Activate"
@@ -100,7 +100,7 @@ msgstr ""
 "هل أنت متأكد أنك تريد حذف هذا:\n"
 " "
 
-#: ../src/BackupManager.py:302 ../src/ImageManager.py:316
+#: ../src/BackupManager.py:302 ../src/ImageManager.py:321
 #, fuzzy
 msgid ""
 "Are you sure you want to delete this backup:\n"
@@ -109,7 +109,7 @@ msgstr ""
 "هل أنت متأكد أنك تريد حذف هذا:\n"
 " "
 
-#: ../src/ImageManager.py:1462
+#: ../src/ImageManager.py:1467
 #, fuzzy
 msgid ""
 "Are you sure you want to download this image:\n"
@@ -128,9 +128,8 @@ msgstr ""
 " "
 
 #: ../src/ClientModeBox.py:524
-#, fuzzy
 msgid "Authentication"
-msgstr "إتصال"
+msgstr ""
 
 #: ../src/BackupManager.py:77
 msgid "Automatically created"
@@ -145,11 +144,11 @@ msgstr "تشغيل تلقائي"
 msgid "Background update check is in progress, please try again."
 msgstr "هناك تحديث تحديث الخلفية قيد التشغيل,يرجى الانتظار بضع دقائق وحاول مرة أخرى."
 
-#: ../src/ImageManager.py:794
+#: ../src/ImageManager.py:799
 msgid "Backing up eMMC partitions for USB flash ..."
 msgstr ""
 
-#: ../src/ImageManager.py:798
+#: ../src/ImageManager.py:803
 msgid "Backing up eMMC partitions for USB flash..."
 msgstr ""
 
@@ -159,12 +158,12 @@ msgstr ""
 msgid "Backing up files..."
 msgstr "فشل عمل نسخة إحتياطية."
 
-#: ../src/ImageManager.py:778 ../src/ImageManager.py:782
+#: ../src/ImageManager.py:783 ../src/ImageManager.py:787
 #, fuzzy
 msgid "Backing up kernel..."
 msgstr "جاري عمل نسخة إحتياطية ..."
 
-#: ../src/ImageManager.py:786 ../src/ImageManager.py:790
+#: ../src/ImageManager.py:791 ../src/ImageManager.py:795
 #, fuzzy
 msgid "Backing up root file system..."
 msgstr "التحقق من نظام الملفات..."
@@ -174,7 +173,7 @@ msgstr "التحقق من نظام الملفات..."
 msgid "Backup Manager"
 msgstr "إدارة النسخة الاحتياطية"
 
-#: ../src/ImageManager.py:826
+#: ../src/ImageManager.py:831
 #, fuzzy
 msgid "Backup complete."
 msgstr "اكتمل النسخ الاحتياطي."
@@ -184,7 +183,7 @@ msgstr "اكتمل النسخ الاحتياطي."
 msgid "Backup complete..."
 msgstr "اكتمل النسخ الاحتياطي."
 
-#: ../src/ImageManager.py:347
+#: ../src/ImageManager.py:352
 #, fuzzy
 msgid "Backup confirmation"
 msgstr "موقع النسخة الاحتياطية"
@@ -208,7 +207,7 @@ msgstr "يجري الآن تحديث في الخلفية قيد التشغيل،
 #: ../src/BackupManager.py:176 ../src/BackupManager.py:317
 #: ../src/BackupManager.py:332 ../src/BackupManager.py:383
 #: ../src/BackupManager.py:401 ../src/BackupManager.py:1141
-#: ../src/ImageManager.py:367
+#: ../src/ImageManager.py:372
 msgid "Backup manager"
 msgstr "إدارة النسخة الاحتياطية"
 
@@ -216,7 +215,7 @@ msgstr "إدارة النسخة الاحتياطية"
 msgid "Backup/Flash/ReBoot system image."
 msgstr ""
 
-#: ../src/MountManager.py:445 ../src/BackupManager.py:744
+#: ../src/MountManager.py:453 ../src/BackupManager.py:744
 #: ../src/BackupManager.py:840 ../src/SoftcamManager.py:368
 #: ../src/ClientModeBox.py:164 ../src/ClientModeBox.py:488
 #: ../src/ClientModeBox.py:589 ../src/Multibootmgr.py:35
@@ -227,7 +226,7 @@ msgstr "إلغاء"
 msgid "Cannot download data. Please check your configuration"
 msgstr ""
 
-#: ../src/MountManager.py:307
+#: ../src/MountManager.py:315
 #, python-format
 msgid "Cannot unmount partition '%s'.  Make sure this partition is not in use.  (SWAP, record/timeshift, etc.)"
 msgstr ""
@@ -241,7 +240,7 @@ msgstr "إختيار القناة"
 msgid "Check interval on minutes"
 msgstr ""
 
-#: ../src/ImageManager.py:770
+#: ../src/ImageManager.py:775
 #, fuzzy
 msgid "Checking free ram.."
 msgstr "التحقق من نظام الملفات..."
@@ -252,16 +251,15 @@ msgid "Checking softcams..."
 msgstr "فحص السجلات ..."
 
 #: ../src/BackupManager.py:938
-#, fuzzy
 msgid "Choose IPK folder"
-msgstr "خيار نظام الملفات."
+msgstr ""
 
 #: ../src/BackupManager.py:937
 #, fuzzy
 msgid "Choose files"
 msgstr "خيار نظام الملفات."
 
-#: ../src/MountManager.py:436
+#: ../src/MountManager.py:444
 msgid "Choose where to mount your devices to:"
 msgstr ""
 
@@ -270,15 +268,14 @@ msgid "Choose your main device"
 msgstr ""
 
 #: ../src/ui.py:61 ../src/ui.py:70 ../src/ui.py:148
-#, fuzzy
 msgid "Client Mode Box"
-msgstr "وضع العميل"
+msgstr ""
 
 #: ../src/ClientModeBox.py:895
 msgid "Client Mode Box: If you want to exit Client Mode and have a backup with your original settings. You can restore from blue button on Vision Backup Manager."
 msgstr ""
 
-#: ../src/ui.py:75 ../src/ImageManager.py:1352 ../src/ImageManager.py:1361
+#: ../src/ui.py:75 ../src/ImageManager.py:1357 ../src/ImageManager.py:1366
 #: ../src/SoftcamManager.py:136 ../src/IPKInstaller.py:61
 #: ../src/IPKInstaller.py:184 ../src/SwapManager.py:130
 msgid "Close"
@@ -288,7 +285,7 @@ msgstr "إغلاق"
 msgid "Comparing against backup..."
 msgstr ""
 
-#: ../src/ImageManager.py:1430
+#: ../src/ImageManager.py:1435
 #, fuzzy
 msgid "Compress"
 msgstr "مكتمل"
@@ -301,9 +298,9 @@ msgstr "إنشاء"
 msgid "Create and Manage your SWAP files."
 msgstr ""
 
-#: ../src/ImageManager.py:974 ../src/ImageManager.py:977
-#: ../src/ImageManager.py:980 ../src/ImageManager.py:982
-#: ../src/ImageManager.py:984
+#: ../src/ImageManager.py:979 ../src/ImageManager.py:982
+#: ../src/ImageManager.py:985 ../src/ImageManager.py:987
+#: ../src/ImageManager.py:989
 #, fuzzy
 msgid "Create:"
 msgstr "إنشاء"
@@ -313,12 +310,12 @@ msgstr "إنشاء"
 msgid "Creating list of installed plugins..."
 msgstr ""
 
-#: ../src/ImageManager.py:774
+#: ../src/ImageManager.py:779
 #, fuzzy
 msgid "Creating swap.."
-msgstr "إنشاء التقسيم"
+msgstr "تمت التهيئة..."
 
-#: ../src/ImageManager.py:818 ../src/ImageManager.py:822
+#: ../src/ImageManager.py:823 ../src/ImageManager.py:827
 #, fuzzy
 msgid "Creating zip..."
 msgstr "تمت التهيئة..."
@@ -341,7 +338,7 @@ msgstr "تعطيل"
 msgid "Default username (root)"
 msgstr ""
 
-#: ../src/BackupManager.py:132 ../src/ImageManager.py:146
+#: ../src/BackupManager.py:132 ../src/ImageManager.py:151
 #: ../src/SwapManager.py:206 ../src/SwapManager.py:217
 msgid "Delete"
 msgstr "حذف"
@@ -355,12 +352,12 @@ msgstr "إلغاء الاختيار"
 msgid "Device %s"
 msgstr "الأجهزة"
 
-#: ../src/MountManager.py:153 ../src/MountManager.py:300
-#: ../src/MountManager.py:318 ../src/MountManager.py:334
-#: ../src/MountManager.py:367 ../src/MountManager.py:380
+#: ../src/MountManager.py:161 ../src/MountManager.py:308
+#: ../src/MountManager.py:326 ../src/MountManager.py:342
+#: ../src/MountManager.py:375 ../src/MountManager.py:388
 #: ../src/BackupManager.py:228 ../src/BackupManager.py:231
-#: ../src/BackupManager.py:257 ../src/ImageManager.py:266
-#: ../src/ImageManager.py:276
+#: ../src/BackupManager.py:257 ../src/ImageManager.py:271
+#: ../src/ImageManager.py:281
 msgid "Device: "
 msgstr "الجهاز: "
 
@@ -369,23 +366,23 @@ msgstr "الجهاز: "
 msgid "Device: None available"
 msgstr "لا يوجد مؤشر حر متاح"
 
-#: ../src/ImageManager.py:247
+#: ../src/ImageManager.py:252
 #, fuzzy
 msgid "Device: Un-mount"
-msgstr "مشاركة مساحة الجهاز"
+msgstr "الجهاز: "
 
 #: ../src/SoftcamManager.py:172
 #, fuzzy
 msgid "Disable startup"
 msgstr "تمكين بدء التشغيل"
 
-#: ../src/ImageManager.py:345
+#: ../src/ImageManager.py:350
 msgid ""
 "Do you want to create a full image backup?\n"
 "This can take about 6 minutes to complete."
 msgstr ""
 
-#: ../src/ImageManager.py:387
+#: ../src/ImageManager.py:392
 #, fuzzy, python-format
 msgid ""
 "Do you want to flash image\n"
@@ -410,43 +407,43 @@ msgstr "هل تريد إستعادة الاعدادات ؟"
 #: ../src/ClientModeBox.py:513
 #, fuzzy
 msgid "Do you want to scan for a server?"
-msgstr "هل تريد عمل بحث؟"
+msgstr "هل تريد إستعادة الاعدادات ؟"
 
-#: ../src/ImageManager.py:1432
+#: ../src/ImageManager.py:1437
 #, fuzzy
 msgid "DownLoad"
 msgstr "تحميل"
 
-#: ../src/ImageManager.py:1353 ../src/ImageManager.py:1362
+#: ../src/ImageManager.py:1358 ../src/ImageManager.py:1367
 msgid "Download"
 msgstr "تحميل"
 
 #: ../src/ClientModeBox.py:640
 #, fuzzy
 msgid "Download completed"
-msgstr "إكتمال التنزيل"
+msgstr "تأكيد الحذف"
 
-#: ../src/ImageManager.py:1464
+#: ../src/ImageManager.py:1469
 #, fuzzy
 msgid "Download confirmation"
 msgstr "تأكيد الحذف"
 
-#: ../src/ImageManager.py:1479
+#: ../src/ImageManager.py:1484
 msgid "Downloading"
 msgstr "جاري التحميل"
 
-#: ../src/ImageManager.py:148
+#: ../src/ImageManager.py:153
 msgid "Downloads"
 msgstr "التحميلات"
 
-#: ../src/ImageManager.py:459
+#: ../src/ImageManager.py:464
 msgid ""
 "ET8500 MultiBoot: Yes to restore OS1\n"
 "No to restore OS2:\n"
 " "
 msgstr ""
 
-#: ../src/ImageManager.py:461
+#: ../src/ImageManager.py:466
 msgid "ET8500 image restore"
 msgstr ""
 
@@ -456,7 +453,7 @@ msgstr ""
 
 #: ../src/SoftcamManager.py:374
 msgid "Enable frozen check"
-msgstr "تمكين الاختيار المجمد"
+msgstr ""
 
 #: ../src/SoftcamManager.py:174
 msgid "Enable startup"
@@ -467,7 +464,7 @@ msgstr "تمكين بدء التشغيل"
 msgid "Enable swap at startup"
 msgstr "تمكين بدء التشغيل"
 
-#: ../src/BackupManager.py:1103 ../src/ImageManager.py:647
+#: ../src/BackupManager.py:1103 ../src/ImageManager.py:652
 msgid "Enough retries, delaying till next schedule."
 msgstr ""
 
@@ -480,7 +477,7 @@ msgstr ""
 msgid "Exit the restore wizard"
 msgstr "خروج من نافذة الاعدادات"
 
-#: ../src/ImageManager.py:1430
+#: ../src/ImageManager.py:1435
 msgid "Expand"
 msgstr ""
 
@@ -492,11 +489,11 @@ msgstr ""
 msgid "Finishing restore, your receiver go to restart."
 msgstr ""
 
-#: ../src/ImageManager.py:149
+#: ../src/ImageManager.py:154
 msgid "Flash"
 msgstr "الفلاش"
 
-#: ../src/ImageManager.py:457
+#: ../src/ImageManager.py:462
 msgid "Flash image unzip successful."
 msgstr ""
 
@@ -504,12 +501,12 @@ msgstr ""
 msgid "Found non-standard softcam, trying to start, this may fail."
 msgstr ""
 
-#: ../src/ImageManager.py:266
+#: ../src/ImageManager.py:271
 #, fuzzy
 msgid "Free space:"
 msgstr "تبادل المساحة مجاني:"
 
-#: ../src/ImageManager.py:283
+#: ../src/ImageManager.py:288
 msgid "From which image library do you want to download?"
 msgstr ""
 
@@ -519,14 +516,12 @@ msgid "H9 SDcard Manager"
 msgstr "مدير تنزيل الإضافات"
 
 #: ../src/ClientModeBox.py:522
-#, fuzzy
 msgid "HTTP port"
-msgstr "منفذ التلنت"
+msgstr ""
 
 #: ../src/ClientModeBox.py:521
-#, fuzzy
 msgid "Host"
-msgstr "أسم المضيف:"
+msgstr ""
 
 #: ../src/BackupManager.py:134 ../src/SoftcamManager.py:142
 msgid "INFO"
@@ -542,8 +537,8 @@ msgstr "تثبيت"
 msgid "Image Manager"
 msgstr "مدير الصور"
 
-#: ../src/ImageManager.py:196 ../src/ImageManager.py:336
-#: ../src/ImageManager.py:357 ../src/ImageManager.py:764
+#: ../src/ImageManager.py:201 ../src/ImageManager.py:341
+#: ../src/ImageManager.py:362 ../src/ImageManager.py:769
 msgid "Image manager"
 msgstr "مدير الصور"
 
@@ -586,7 +581,7 @@ msgstr ""
 #: ../src/ui.py:57 ../src/ui.py:66 ../src/ui.py:136
 #, fuzzy
 msgid "Install Local Extension"
-msgstr "تثبيت الملحقات."
+msgstr "تثبيت إضافات محليه"
 
 #: ../src/IPKInstaller.py:133
 #, fuzzy
@@ -614,11 +609,11 @@ msgstr ""
 msgid "Let's define enigma2 once more"
 msgstr ""
 
-#: ../src/ui.py:50 ../src/MountManager.py:219 ../src/MountManager.py:438
+#: ../src/ui.py:50 ../src/MountManager.py:227 ../src/MountManager.py:446
 #: ../src/ScriptRunner.py:52 ../src/BackupManager.py:122
 #: ../src/BackupManager.py:834 ../src/BackupManager.py:932
-#: ../src/BackupManager.py:979 ../src/ImageManager.py:152
-#: ../src/ImageManager.py:1355 ../src/SoftcamManager.py:107
+#: ../src/BackupManager.py:979 ../src/ImageManager.py:157
+#: ../src/ImageManager.py:1360 ../src/SoftcamManager.py:107
 #: ../src/SoftcamManager.py:351 ../src/SoftcamManager.py:426
 #: ../src/SoftcamManager.py:507 ../src/SoftcamManager.py:588
 #: ../src/IPKInstaller.py:42 ../src/SwapManager.py:114
@@ -627,11 +622,11 @@ msgstr ""
 msgid "Lets define enigma2 once more"
 msgstr ""
 
-#: ../src/ImageManager.py:266
+#: ../src/ImageManager.py:271
 msgid "MB"
 msgstr "ميجابايت"
 
-#: ../src/BackupManager.py:133 ../src/ImageManager.py:150
+#: ../src/BackupManager.py:133 ../src/ImageManager.py:155
 #: ../src/SoftcamManager.py:141
 msgid "MENU"
 msgstr ""
@@ -648,24 +643,25 @@ msgstr ""
 #: ../src/BackupManager.py:65 ../src/ImageManager.py:74
 #: ../src/ClientModeBox.py:52
 msgid "Monthly"
-msgstr "شهرى"
+msgstr ""
 
-#: ../src/MountManager.py:228
+#: ../src/MountManager.py:236
 msgid "Mount"
 msgstr "إرتباط"
 
 #: ../src/ui.py:58 ../src/ui.py:67 ../src/ui.py:139
+#, fuzzy
 msgid "Mount Manager"
 msgstr "مدير الإرتباط"
 
-#: ../src/MountManager.py:322
+#: ../src/MountManager.py:330
 #, python-format
 msgid "Mount failed for '%s', error code = '%s'."
 msgstr ""
 
-#: ../src/MountManager.py:153 ../src/MountManager.py:257
-#: ../src/MountManager.py:299 ../src/MountManager.py:317
-#: ../src/MountManager.py:379
+#: ../src/MountManager.py:161 ../src/MountManager.py:265
+#: ../src/MountManager.py:307 ../src/MountManager.py:325
+#: ../src/MountManager.py:387
 #, fuzzy
 msgid "Mount: "
 msgstr "إرتباط"
@@ -674,16 +670,16 @@ msgstr "إرتباط"
 msgid "Move Nand root to SD card"
 msgstr ""
 
-#: ../src/ImageManager.py:810 ../src/ImageManager.py:814
+#: ../src/ImageManager.py:815 ../src/ImageManager.py:819
 #, fuzzy
 msgid "Moving to backup Location..."
 msgstr "الانتقال إلى الموقع"
 
-#: ../src/ImageManager.py:520
+#: ../src/ImageManager.py:525
 msgid "MultiBoot ERROR! - no STARTUP in boot partition."
 msgstr ""
 
-#: ../src/ImageManager.py:465 ../src/ImageManager.py:1251
+#: ../src/ImageManager.py:470 ../src/ImageManager.py:1256
 msgid "MultiBoot only able to restore this backup to MMC slot1"
 msgstr ""
 
@@ -691,15 +687,15 @@ msgstr ""
 msgid "New backup"
 msgstr "نسخة احتياطية جديد"
 
-#: ../src/ImageManager.py:201
+#: ../src/ImageManager.py:206
 #, fuzzy
 msgid "New backupimage"
 msgstr "نسخة احتياطية جديد"
 
 #: ../src/BackupManager.py:151 ../src/BackupManager.py:153
 #: ../src/BackupManager.py:294 ../src/BackupManager.py:296
-#: ../src/ImageManager.py:176 ../src/ImageManager.py:178
-#: ../src/ImageManager.py:308 ../src/ImageManager.py:310
+#: ../src/ImageManager.py:181 ../src/ImageManager.py:183
+#: ../src/ImageManager.py:313 ../src/ImageManager.py:315
 #, fuzzy
 msgid "Next backup: "
 msgstr "النسخة الاحتياطية التالية:"
@@ -753,11 +749,10 @@ msgid ""
 msgstr ""
 
 #: ../src/ClientModeBox.py:593
-#, fuzzy
 msgid "No devices found"
-msgstr "لم يتم العثور علي أجهزه تخزين"
+msgstr ""
 
-#: ../src/ImageManager.py:1381
+#: ../src/ImageManager.py:1386
 msgid "No images found on the selected download server...if password check validity"
 msgstr ""
 
@@ -772,7 +767,7 @@ msgid "No, do not restore settings"
 msgstr "هل تريد إستعادة الاعدادات ؟"
 
 #: ../src/MountManager.py:118 ../src/MountManager.py:120
-#: ../src/MountManager.py:131 ../src/MountManager.py:400
+#: ../src/MountManager.py:139 ../src/MountManager.py:408
 #: ../src/BackupManager.py:77
 msgid "None"
 msgstr "لاشيئ"
@@ -797,32 +792,31 @@ msgstr ""
 msgid "Only scheduled"
 msgstr ""
 
-#: ../src/ui.py:49 ../src/MountManager.py:218 ../src/MountManager.py:437
+#: ../src/ui.py:49 ../src/MountManager.py:226 ../src/MountManager.py:445
 #: ../src/ScriptRunner.py:51 ../src/BackupManager.py:121
 #: ../src/BackupManager.py:833 ../src/BackupManager.py:931
-#: ../src/BackupManager.py:978 ../src/ImageManager.py:151
-#: ../src/ImageManager.py:1354 ../src/SoftcamManager.py:106
+#: ../src/BackupManager.py:978 ../src/ImageManager.py:156
+#: ../src/ImageManager.py:1359 ../src/SoftcamManager.py:106
 #: ../src/SoftcamManager.py:350 ../src/SoftcamManager.py:425
 #: ../src/SoftcamManager.py:506 ../src/SoftcamManager.py:587
 #: ../src/IPKInstaller.py:41 ../src/RestoreWizard.py:32
 #: ../src/SwapManager.py:113 ../src/ClientModeBox.py:122
 #: ../src/ClientModeBox.py:479 ../src/ClientModeBox.py:886
-#, fuzzy
 msgid "OpenVision"
-msgstr "فتح الشبكة الإفتراضية الخاصة"
+msgstr ""
 
 #: ../src/plugin.py:205
 msgid "Opkg"
 msgstr ""
 
-#: ../src/MountManager.py:304
+#: ../src/MountManager.py:312
 #, python-format
 msgid "Partition: %s  Mount: %s unmounted successfully; if all partitions now unmounted you can remove device."
 msgstr ""
 
 #: ../src/ClientModeBox.py:527
 msgid "Password"
-msgstr "كلمة المرور"
+msgstr ""
 
 #: ../src/BackupManager.py:896
 #, fuzzy
@@ -846,13 +840,12 @@ msgid "Please wait while plugins restore completes..."
 msgstr "من فضلك أنتظر أثناء البحث عن الأجهزة ..."
 
 #: ../src/ClientModeBox.py:569
-#, fuzzy
 msgid ""
 "Please wait while scan is in progress.\n"
 "This operation may take a while"
-msgstr "من فضلك أنتظر حيث جارى البحث..."
+msgstr ""
 
-#: ../src/MountManager.py:229
+#: ../src/MountManager.py:237
 msgid "Please wait while scanning for devices..."
 msgstr "من فضلك أنتظر أثناء البحث عن الأجهزة ..."
 
@@ -870,7 +863,7 @@ msgstr "الرجاء الانتظار أثناء بدء التشغيل\n"
 msgid "Please wait while stopping\n"
 msgstr "الرجاء الانتظار أثناء بدء التشغيل\n"
 
-#: ../src/ImageManager.py:442
+#: ../src/ImageManager.py:447
 #, fuzzy
 msgid "Please wait while the flash prepares."
 msgstr "من فضلك أنتظر حيث جارى البحث..."
@@ -880,7 +873,7 @@ msgstr "من فضلك أنتظر حيث جارى البحث..."
 msgid "Please wait while the system gathers information..."
 msgstr "من فضلك أنتظر بينما يجمع بيانات دليل البرامج الإلكترونية..."
 
-#: ../src/MountManager.py:481
+#: ../src/MountManager.py:489
 #, fuzzy
 msgid "Please wait."
 msgstr "يرجى الانتظار"
@@ -901,7 +894,7 @@ msgstr "أضغط موافق لتغيير الأختيار."
 msgid "Press appropiate Init to move Nand root to SDcard or USB."
 msgstr ""
 
-#: ../src/MountManager.py:337
+#: ../src/MountManager.py:345
 #, python-format
 msgid "Really use and mount %s as HDD ?"
 msgstr ""
@@ -915,7 +908,7 @@ msgstr "إعادة التشغيل"
 msgid "Rebooting..."
 msgstr "جاري الاستعادة..."
 
-#: ../src/ImageManager.py:385
+#: ../src/ImageManager.py:390
 #, fuzzy, python-format
 msgid ""
 "Recording(s) are in progress or coming up in few seconds!\n"
@@ -924,30 +917,32 @@ msgid ""
 msgstr "التسجيل (التسجيلات) قيد التنفيذ أو سيبدأ فى ثوان قليله!"
 
 #: ../src/Multibootmgr.py:80
-#, python-format
+#, fuzzy, python-format
 msgid "Removal of this slot will not show in %s GUI.  Are you sure you want to delete image slot?"
 msgstr ""
+"هل أنت متأكد أنك تريد حذف هذا:\n"
+" "
 
-#: ../src/BackupManager.py:304 ../src/ImageManager.py:318
+#: ../src/BackupManager.py:304 ../src/ImageManager.py:323
 #: ../src/Multibootmgr.py:82 ../src/Multibootmgr.py:86
 #, fuzzy
 msgid "Remove confirmation"
 msgstr "تأكيد الحذف"
 
-#: ../src/ImageManager.py:802 ../src/ImageManager.py:806
+#: ../src/ImageManager.py:807 ../src/ImageManager.py:811
 #, fuzzy
 msgid "Removing temp mounts..."
 msgstr "مشاركة مساحة الجهاز"
 
 #: ../src/ClientModeBox.py:533
 msgid "Repeat how often"
-msgstr "كرر عدد مرات"
+msgstr ""
 
-#: ../src/ui.py:51 ../src/MountManager.py:220 ../src/MountManager.py:439
+#: ../src/ui.py:51 ../src/MountManager.py:228 ../src/MountManager.py:447
 #: ../src/ScriptRunner.py:53 ../src/BackupManager.py:123
 #: ../src/BackupManager.py:835 ../src/BackupManager.py:933
-#: ../src/BackupManager.py:980 ../src/ImageManager.py:153
-#: ../src/ImageManager.py:1356 ../src/SoftcamManager.py:108
+#: ../src/BackupManager.py:980 ../src/ImageManager.py:158
+#: ../src/ImageManager.py:1361 ../src/SoftcamManager.py:108
 #: ../src/SoftcamManager.py:352 ../src/SoftcamManager.py:427
 #: ../src/SoftcamManager.py:508 ../src/SoftcamManager.py:589
 #: ../src/IPKInstaller.py:43 ../src/RestoreWizard.py:34
@@ -965,10 +960,10 @@ msgstr "إعادة التشغيل"
 msgid "Restart GUI."
 msgstr "إعادة تشغيل الاينجما"
 
-#: ../src/MountManager.py:412 ../src/MountManager.py:486
+#: ../src/MountManager.py:420 ../src/MountManager.py:494
 #, fuzzy
 msgid "Restart receiver."
-msgstr "إعادة تشغيل واجهة المستخدم"
+msgstr "إعادة تشغيل الاينجما"
 
 #: ../src/BackupManager.py:131
 msgid "Restore"
@@ -986,7 +981,7 @@ msgstr ""
 #: ../src/BackupManager.py:135
 #, fuzzy
 msgid "Restore settings"
-msgstr "إعدادات التسجيل"
+msgstr "نعم، أستعد الاعدادات الأن"
 
 #: ../src/RestoreWizard.py:146 ../src/RestoreWizard.py:151
 #: ../src/RestoreWizard.py:158 ../src/RestoreWizard.py:164
@@ -1032,7 +1027,7 @@ msgstr "الاحد"
 msgid "Run your shell scripts."
 msgstr ""
 
-#: ../src/MountManager.py:444 ../src/BackupManager.py:745
+#: ../src/MountManager.py:452 ../src/BackupManager.py:745
 #: ../src/BackupManager.py:841 ../src/SoftcamManager.py:369
 #: ../src/ClientModeBox.py:489
 msgid "Save"
@@ -1040,16 +1035,15 @@ msgstr "حفظ"
 
 #: ../src/ClientModeBox.py:490
 msgid "Scan"
-msgstr "بحث"
+msgstr ""
 
-#: ../src/MountManager.py:458
+#: ../src/MountManager.py:466
 msgid "Scanned devices"
 msgstr ""
 
 #: ../src/ClientModeBox.py:530
-#, fuzzy
 msgid "Schedule sync"
-msgstr "جدولة النسخ الاحتياطية"
+msgstr ""
 
 #: ../src/ui.py:59 ../src/ui.py:68 ../src/ui.py:142
 #, fuzzy
@@ -1070,10 +1064,10 @@ msgstr "تحديد ملفات النسخ الاحتياطي"
 msgid "Select a package to install:"
 msgstr ""
 
-#: ../src/ImageManager.py:1360
+#: ../src/ImageManager.py:1365
 #, fuzzy
 msgid "Select an image to download:"
-msgstr "أختار المجلد المراد"
+msgstr "حدد الإجراء الخاص بالمؤقِّت %s:"
 
 #: ../src/BackupManager.py:832
 #, fuzzy
@@ -1093,54 +1087,53 @@ msgstr ""
 msgid "Select the swap file size:"
 msgstr "حدد حجم ملف المبادلة:"
 
-#: ../src/ImageManager.py:266
-#, fuzzy
+#: ../src/ImageManager.py:271
 msgid "Select what you want to do"
-msgstr "تعيين إلى ما تريد الزر للقيام به."
+msgstr ""
 
 #: ../src/SoftcamManager.py:113
 #, fuzzy
 msgid "Select:"
 msgstr "تحديد"
 
-#: ../src/ImageManager.py:766
+#: ../src/ImageManager.py:771
 #, fuzzy
 msgid "Setting up..."
 msgstr "إعدادات النسخ الاحتياطي"
 
-#: ../src/MountManager.py:226
+#: ../src/MountManager.py:234
 #, fuzzy
 msgid "Setup mounts"
 msgstr "نظام الضبط"
 
-#: ../src/MountManager.py:132
+#: ../src/MountManager.py:140
 msgid "Size: "
 msgstr "الحجم: "
 
-#: ../src/MountManager.py:142
+#: ../src/MountManager.py:150
 #, fuzzy, python-format
 msgid "Size: %sGB"
 msgstr "الحجم: "
 
-#: ../src/MountManager.py:140
+#: ../src/MountManager.py:148
 #, fuzzy, python-format
 msgid "Size: %sMB"
 msgstr "الحجم: "
 
-#: ../src/MountManager.py:144
+#: ../src/MountManager.py:152
 #, fuzzy, python-format
 msgid "Size: %sTB"
 msgstr "الحجم: "
 
-#: ../src/MountManager.py:138
+#: ../src/MountManager.py:146
 #, fuzzy
 msgid "Size: unavailable"
 msgstr "غير متوفر"
 
 #: ../src/SoftcamManager.py:228
-#, fuzzy, python-format
+#, python-format
 msgid "Softcam Setup [%s]"
-msgstr "إعدادات الايموهات"
+msgstr ""
 
 #: ../src/SoftcamManager.py:424
 #, fuzzy
@@ -1189,23 +1182,22 @@ msgstr "عذراً، فشل الاتصال."
 msgid "Sorry, no physical devices that supports SWAP attached. Can't create SWAP file on network or fat32 file-systems."
 msgstr ""
 
-#: ../src/ImageManager.py:886
+#: ../src/ImageManager.py:891
 msgid "Sorry, not enough free RAM found, and no physical devices that supports swap attached. Can't create SWAP file on network or FAT32 file-systems, unable to make backup."
 msgstr ""
 
-#: ../src/ui.py:53 ../src/MountManager.py:222 ../src/MountManager.py:441
+#: ../src/ui.py:53 ../src/MountManager.py:230 ../src/MountManager.py:449
 #: ../src/ScriptRunner.py:55 ../src/BackupManager.py:125
 #: ../src/BackupManager.py:837 ../src/BackupManager.py:935
-#: ../src/BackupManager.py:982 ../src/ImageManager.py:155
-#: ../src/ImageManager.py:1358 ../src/SoftcamManager.py:110
+#: ../src/BackupManager.py:982 ../src/ImageManager.py:160
+#: ../src/ImageManager.py:1363 ../src/SoftcamManager.py:110
 #: ../src/SoftcamManager.py:354 ../src/SoftcamManager.py:429
 #: ../src/SoftcamManager.py:510 ../src/SoftcamManager.py:591
 #: ../src/IPKInstaller.py:45 ../src/RestoreWizard.py:36
 #: ../src/SwapManager.py:117 ../src/ClientModeBox.py:126
 #: ../src/ClientModeBox.py:483 ../src/ClientModeBox.py:890
-#, fuzzy
 msgid "Sources are available at:"
-msgstr "بعض البلج إنز غير متوفر:\n"
+msgstr ""
 
 #: ../src/SoftcamManager.py:165
 msgid "Start"
@@ -1225,14 +1217,13 @@ msgid "Stop"
 msgstr "إيقاف"
 
 #: ../src/ClientModeBox.py:523
-#, fuzzy
 msgid "Streaming port"
-msgstr "تدفق"
+msgstr ""
 
 #: ../src/ui.py:60 ../src/ui.py:69 ../src/ui.py:145
 #, fuzzy
 msgid "Swap Manager"
-msgstr "مدير مشاركة الملفات"
+msgstr "مدير تنزيل الإضافات"
 
 #: ../src/SwapManager.py:286
 #, fuzzy
@@ -1240,14 +1231,13 @@ msgid "Swap file not found. You have to create the file before you try to activa
 msgstr "عليك إعداد الملحق السريع قبل إستخدام هذا الاختصار."
 
 #: ../src/SwapManager.py:123
-#, fuzzy
 msgid "Swap place:"
-msgstr "مشاركة المساحة المتوفرة:"
+msgstr ""
 
 #: ../src/SwapManager.py:125
 #, fuzzy
 msgid "Swap size:"
-msgstr "مشاركة المساحة المتوفرة:"
+msgstr "الحجم: "
 
 #: ../src/IPKInstaller.py:103 ../src/IPKInstaller.py:111
 #, fuzzy
@@ -1258,11 +1248,11 @@ msgstr "تحديد الملفات"
 msgid "The backup location does not have enough free space."
 msgstr ""
 
-#: ../src/ImageManager.py:848
+#: ../src/ImageManager.py:853
 msgid "The backup location does not have enough free space.\n"
 msgstr ""
 
-#: ../src/MountManager.py:410 ../src/MountManager.py:484
+#: ../src/MountManager.py:418 ../src/MountManager.py:492
 #, fuzzy
 msgid ""
 "The changes need a system restart to take effect.\n"
@@ -1275,11 +1265,11 @@ msgstr ""
 msgid "The chosen location does not exist, using."
 msgstr ""
 
-#: ../src/BackupManager.py:257 ../src/ImageManager.py:276
+#: ../src/BackupManager.py:257 ../src/ImageManager.py:281
 msgid "There is a problem with this device. Please reformat it and try again."
 msgstr ""
 
-#: ../src/BackupManager.py:306 ../src/ImageManager.py:320
+#: ../src/BackupManager.py:306 ../src/ImageManager.py:325
 #, fuzzy
 msgid "There is no backup to delete."
 msgstr "مؤالف غير معتمد"
@@ -1289,40 +1279,40 @@ msgstr "مؤالف غير معتمد"
 msgid "There is no backup to restore."
 msgstr "مؤالف غير معتمد"
 
-#: ../src/ImageManager.py:437
+#: ../src/ImageManager.py:442
 #, fuzzy
 msgid "There is no image to flash."
 msgstr "لا توجد اشاره للقفل !"
 
-#: ../src/MountManager.py:338 ../src/MountManager.py:384
+#: ../src/MountManager.py:346 ../src/MountManager.py:392
 msgid "This Device is already mounted as HDD."
 msgstr ""
 
 #: ../src/ClientModeBox.py:532
-#, fuzzy
 msgid "Time of sync to start"
-msgstr "يجب ان يبدا استيراد الوقت"
+msgstr ""
 
 #: ../src/ClientModeBox.py:638
 msgid "To apply new settings, you need to restart GUI your STB. Do you want restart it now?"
 msgstr ""
 
-#: ../src/MountManager.py:153
+#: ../src/MountManager.py:161
 msgid "Type: "
 msgstr "النوع: "
 
-#: ../src/MountManager.py:227
+#: ../src/MountManager.py:235
+#, fuzzy
 msgid "Unmount"
 msgstr "الغاء الارتباط"
 
-#: ../src/ImageManager.py:471
+#: ../src/ImageManager.py:476
 #, python-format
 msgid ""
 "Unzip error (also sent to any debug log):\n"
 "%s"
 msgstr ""
 
-#: ../src/MountManager.py:479
+#: ../src/MountManager.py:487
 #, fuzzy
 msgid "Updating mount locations..."
 msgstr "جاري تحديث فهرس البرنامج التشغيلي"
@@ -1332,23 +1322,21 @@ msgstr "جاري تحديث فهرس البرنامج التشغيلي"
 msgid "Use Mount Manager Please"
 msgstr "مدير الإرتباط"
 
-#: ../src/ImageManager.py:247
+#: ../src/ImageManager.py:252
 msgid "Use Mount Manager and press green setup mounts"
 msgstr ""
 
-#: ../src/MountManager.py:259
+#: ../src/MountManager.py:267
 msgid "Use as HDD"
 msgstr ""
 
 #: ../src/ClientModeBox.py:528
-#, fuzzy
 msgid "Use remote HDD"
-msgstr "إستخدم وحدة التحكم عن بعد للتلفزيون"
+msgstr ""
 
 #: ../src/ClientModeBox.py:529
-#, fuzzy
 msgid "Use remote timers"
-msgstr "حذف المؤقت"
+msgstr ""
 
 #: ../src/Multibootmgr.py:36
 msgid "Use the cursor keys to select an installed image and then Erase button."
@@ -1359,8 +1347,8 @@ msgid "Use this box as a client of a server."
 msgstr ""
 
 #: ../src/BackupManager.py:179 ../src/BackupManager.py:329
-#: ../src/BackupManager.py:380 ../src/ImageManager.py:199
-#: ../src/ImageManager.py:354
+#: ../src/BackupManager.py:380 ../src/ImageManager.py:204
+#: ../src/ImageManager.py:359
 #, fuzzy
 msgid "View progress"
 msgstr "جاري المعالجة"
@@ -1377,14 +1365,12 @@ msgstr "إدارة النسخة الاحتياطية"
 
 #: ../src/ClientModeBox.py:120 ../src/ClientModeBox.py:478
 #: ../src/ClientModeBox.py:893 ../src/plugin.py:211
-#, fuzzy
 msgid "Vision Client Mode Box"
-msgstr "وضع العميل"
+msgstr ""
 
 #: ../src/ui.py:46 ../src/plugin.py:93 ../src/plugin.py:193
-#, fuzzy
 msgid "Vision Core"
-msgstr "الإصدار: "
+msgstr ""
 
 #: ../src/RestoreWizard.py:28
 #, fuzzy
@@ -1396,12 +1382,12 @@ msgstr "خروج من نافذة الاعدادات"
 msgid "Vision H9 SDcard Manager"
 msgstr "مدير تنزيل الإضافات"
 
-#: ../src/ImageManager.py:143 ../src/plugin.py:207
+#: ../src/ImageManager.py:148 ../src/plugin.py:207
 #, fuzzy
 msgid "Vision Image Manager"
 msgstr "مدير الصور"
 
-#: ../src/MountManager.py:217 ../src/plugin.py:208
+#: ../src/MountManager.py:225 ../src/plugin.py:208
 #, fuzzy
 msgid "Vision Mount Manager"
 msgstr "مدير الإرتباط"
@@ -1418,34 +1404,34 @@ msgstr ""
 #: ../src/plugin.py:210
 #, fuzzy
 msgid "Vision SWAP Manager"
-msgstr "مدير جدولة الاوامر"
+msgstr "المتحكم فى الحزم"
 
 #: ../src/ScriptRunner.py:50 ../src/plugin.py:209
+#, fuzzy
 msgid "Vision Script Runner"
-msgstr ""
+msgstr "سكربتات"
 
 #: ../src/plugin.py:198
+#, fuzzy
 msgid "Vision Script runner"
-msgstr ""
+msgstr "سكربتات"
 
 #: ../src/SoftcamManager.py:105 ../src/plugin.py:112 ../src/plugin.py:196
-#, fuzzy
 msgid "Vision Softcam"
-msgstr "الايموهات"
+msgstr ""
 
 #: ../src/SoftcamManager.py:586
 msgid "Vision Softcam logs"
 msgstr ""
 
 #: ../src/SoftcamManager.py:349
-#, fuzzy
 msgid "Vision Softcam setup"
-msgstr "إعدادات الايموهات"
+msgstr ""
 
 #: ../src/SwapManager.py:112
 #, fuzzy
 msgid "Vision Swap Manager"
-msgstr "مدير مشاركة الملفات"
+msgstr "إدارة النسخة الاحتياطية"
 
 #: ../src/SwapManager.py:332
 #, fuzzy
@@ -1464,7 +1450,7 @@ msgstr "يرجى الانتظار أثناء فحص الأجهزة الخاصة 
 msgid "Wait please while scanning..."
 msgstr "يرجى الانتظار أثناء فحص الأجهزة الخاصة بك..."
 
-#: ../src/MountManager.py:336
+#: ../src/MountManager.py:344
 msgid "Warning, this device is used for more than one mount point!\n"
 msgstr ""
 
@@ -1476,23 +1462,23 @@ msgstr "أسبوعي"
 #: ../src/RestoreWizard.py:117 ../src/RestoreWizard.py:120
 #, fuzzy
 msgid "Yes, to restore plugins"
-msgstr "نعم، أستعد الاعدادات الأن"
+msgstr "عرض معلومات الحدث البلج إنز"
 
 #: ../src/RestoreWizard.py:111
 #, fuzzy
 msgid "Yes, to restore settings"
 msgstr "نعم، أستعد الاعدادات الأن"
 
-#: ../src/ImageManager.py:439
+#: ../src/ImageManager.py:444
 msgid "You have decided not to flash image."
 msgstr ""
 
 #: ../src/SwapManager.py:352
 #, fuzzy
 msgid "You have to create a swap file before trying to activate the autostart."
-msgstr "عليك تفعيل خادم السيرفر الخاص قبل البدء"
+msgstr "عليك إعداد الملحق السريع قبل إستخدام هذا الاختصار."
 
-#: ../src/MountManager.py:369
+#: ../src/MountManager.py:377
 #, python-format
 msgid ""
 "You may have to press red button again.\n"
@@ -1500,29 +1486,39 @@ msgid ""
 msgstr ""
 
 #: ../src/RestoreWizard.py:272
+#, fuzzy
 msgid "Your receiver could not connect to the plugin feeds at this time. Please try using the Backup manager to restore plugins later."
-msgstr ""
+msgstr "عفوًا عن عمليات الصيانة ، يرجى إعادة المحاولة لاحقًا. إذا استمرت هذه المشكلة ، يُرجى زيارة www.vuplus-community.net"
 
-#: ../src/ImageManager.py:622
+#: ../src/ImageManager.py:627
+#, fuzzy
 msgid ""
 "Your receiver is about to create a full image backup, this can take about 6 minutes to complete.\n"
 "Do you want to allow this?"
 msgstr ""
+"سيتم %s %s إعادة تشغيل جهازك بعد تثبيت القناة.\n"
+"\n"
+"هل تريد التثبيت الأن ؟"
 
 #: ../src/BackupManager.py:1078
+#, fuzzy
 msgid ""
 "Your receiver is about to run a backup of your settings and to detect your plugins.\n"
 "Do you want to allow this?"
 msgstr ""
+"سيتم %s %s إعادة تشغيل جهازك بعد تثبيت القناة.\n"
+"\n"
+"هل تريد التثبيت الأن ؟"
 
 #: ../src/BackupManager.py:559
 #, fuzzy
 msgid "Your receiver is not connected to a network. Please check your network settings and try again."
-msgstr "جهاز الاستقبال الخاص بك غير متصل بالإنترنت"
+msgstr "ليس لدى %s %s إمكانية الدخول إلى الشبكة، يرجى التحقق من إعدادات الشبكة والتأكد من اتصال كابل الشبكة وإعادة المحاولة مرة أخرى."
 
 #: ../src/RestoreWizard.py:268
+#, fuzzy
 msgid "Your receiver is not connected to a network. Please try using the Backup manager to restore plugins later when a network connection is available."
-msgstr ""
+msgstr "عفوًا عن عمليات الصيانة ، يرجى إعادة المحاولة لاحقًا. إذا استمرت هذه المشكلة ، يُرجى زيارة www.vuplus-community.net"
 
 #: ../src/BackupManager.py:577
 #, fuzzy
@@ -1530,21 +1526,23 @@ msgid ""
 "Your receiver is not connected to the Internet.\n"
 "If restoring doesn't fix the problem, check your network settings.\n"
 "Your network settings will be restored now from backup."
-msgstr "جهاز الاستقبال الخاص بك غير متصل بالإنترنت"
+msgstr "لا يمتلك %s %s الوصول إلى الإنترنت ، يرجى التحقق من إعدادات الشبكة والتأكد من توصيل كيبل الشبكة وإعادة المحاولة."
 
 #: ../src/RestoreWizard.py:169
+#, fuzzy
 msgid "Your receiver is not connected to the Internet. Please try using Backup manager to restore plugins later."
-msgstr ""
+msgstr "عفوًا عن عمليات الصيانة ، يرجى إعادة المحاولة لاحقًا. إذا استمرت هذه المشكلة ، يُرجى زيارة www.vuplus-community.net"
 
 #: ../src/RestoreWizard.py:276
+#, fuzzy
 msgid "Your receiver is not connected to the Internet. Please try using the Backup manager to restore plugins later."
-msgstr ""
+msgstr "عفوًا عن عمليات الصيانة ، يرجى إعادة المحاولة لاحقًا. إذا استمرت هذه المشكلة ، يُرجى زيارة www.vuplus-community.net"
 
-#: ../src/ui.py:54 ../src/MountManager.py:223 ../src/MountManager.py:442
+#: ../src/ui.py:54 ../src/MountManager.py:231 ../src/MountManager.py:450
 #: ../src/ScriptRunner.py:56 ../src/BackupManager.py:126
 #: ../src/BackupManager.py:838 ../src/BackupManager.py:936
-#: ../src/BackupManager.py:983 ../src/ImageManager.py:156
-#: ../src/ImageManager.py:1359 ../src/SoftcamManager.py:111
+#: ../src/BackupManager.py:983 ../src/ImageManager.py:161
+#: ../src/ImageManager.py:1364 ../src/SoftcamManager.py:111
 #: ../src/SoftcamManager.py:355 ../src/SoftcamManager.py:430
 #: ../src/SoftcamManager.py:511 ../src/SoftcamManager.py:592
 #: ../src/IPKInstaller.py:46 ../src/RestoreWizard.py:37
@@ -1553,11 +1551,11 @@ msgstr ""
 msgid "https://github.com/OpenVisionE2"
 msgstr ""
 
-#: ../src/ui.py:52 ../src/MountManager.py:221 ../src/MountManager.py:440
+#: ../src/ui.py:52 ../src/MountManager.py:229 ../src/MountManager.py:448
 #: ../src/ScriptRunner.py:54 ../src/BackupManager.py:124
 #: ../src/BackupManager.py:836 ../src/BackupManager.py:934
-#: ../src/BackupManager.py:981 ../src/ImageManager.py:154
-#: ../src/ImageManager.py:1357 ../src/SoftcamManager.py:109
+#: ../src/BackupManager.py:981 ../src/ImageManager.py:159
+#: ../src/ImageManager.py:1362 ../src/SoftcamManager.py:109
 #: ../src/SoftcamManager.py:353 ../src/SoftcamManager.py:428
 #: ../src/SoftcamManager.py:509 ../src/SoftcamManager.py:590
 #: ../src/IPKInstaller.py:44 ../src/RestoreWizard.py:35
@@ -1566,14 +1564,14 @@ msgstr ""
 msgid "https://openvision.tech"
 msgstr ""
 
-#: ../src/ImageManager.py:528
+#: ../src/ImageManager.py:533
 #, python-format
 msgid ""
 "ofgwrite error (also sent to any debug log):\n"
 "%s"
 msgstr ""
 
-#: ../src/ImageManager.py:402 ../src/ImageManager.py:421
+#: ../src/ImageManager.py:407 ../src/ImageManager.py:426
 #, python-format
 msgid "slot%s - %s"
 msgstr ""
@@ -1583,11 +1581,11 @@ msgstr ""
 msgid "slot%s - %s "
 msgstr "%s من %s جيجابايت"
 
-#: ../src/ImageManager.py:402 ../src/ImageManager.py:421
+#: ../src/ImageManager.py:407 ../src/ImageManager.py:426
 #, python-format
 msgid "slot%s - %s (current image)"
 msgstr ""
 
-#: ../src/MountManager.py:119 ../src/MountManager.py:132
+#: ../src/MountManager.py:119 ../src/MountManager.py:140
 msgid "unavailable"
 msgstr "غير متوفر"

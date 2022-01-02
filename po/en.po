@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: enigma2-vision-core\n"
+"Project-Id-Version: enigma2-vix-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-09 12:08+0330\n"
+"POT-Creation-Date: 2022-01-02 22:48+0330\n"
 "PO-Revision-Date: 2013-10-20 17:19+0100\n"
 "Last-Translator: Andy Blackburn <andyblac@o2.co.uk>\n"
 "Language-Team: none\n"
@@ -20,11 +20,11 @@ msgstr ""
 "X-Poedit-Country: UNITED STATES\n"
 
 #: ../src/BackupManager.py:151 ../src/BackupManager.py:294
-#: ../src/ImageManager.py:176 ../src/ImageManager.py:308
+#: ../src/ImageManager.py:181 ../src/ImageManager.py:313
 msgid "%a %e %b  %-H:%M"
 msgstr "%a %e %b  %-H:%M"
 
-#: ../src/ImageManager.py:1349
+#: ../src/ImageManager.py:1354
 #, fuzzy, python-format
 msgid "%s downloads"
 msgstr "Downloads"
@@ -34,7 +34,7 @@ msgstr "Downloads"
 msgid "%s: "
 msgstr ""
 
-#: ../src/MountManager.py:399
+#: ../src/MountManager.py:407
 msgid "/media/hdd"
 msgstr ""
 
@@ -102,7 +102,7 @@ msgstr ""
 "Are you sure you want to delete this backup:\n"
 " "
 
-#: ../src/BackupManager.py:302 ../src/ImageManager.py:316
+#: ../src/BackupManager.py:302 ../src/ImageManager.py:321
 #, fuzzy
 msgid ""
 "Are you sure you want to delete this backup:\n"
@@ -111,7 +111,7 @@ msgstr ""
 "Are you sure you want to restore this backup:\n"
 " "
 
-#: ../src/ImageManager.py:1462
+#: ../src/ImageManager.py:1467
 msgid ""
 "Are you sure you want to download this image:\n"
 " "
@@ -144,11 +144,11 @@ msgstr "Autostart"
 msgid "Background update check is in progress, please try again."
 msgstr "A background update check is is progress, please wait for retry."
 
-#: ../src/ImageManager.py:794
+#: ../src/ImageManager.py:799
 msgid "Backing up eMMC partitions for USB flash ..."
 msgstr ""
 
-#: ../src/ImageManager.py:798
+#: ../src/ImageManager.py:803
 msgid "Backing up eMMC partitions for USB flash..."
 msgstr ""
 
@@ -157,21 +157,22 @@ msgstr ""
 msgid "Backing up files..."
 msgstr "Backing up files..."
 
-#: ../src/ImageManager.py:778 ../src/ImageManager.py:782
+#: ../src/ImageManager.py:783 ../src/ImageManager.py:787
 #, fuzzy
 msgid "Backing up kernel..."
 msgstr "Backing up files..."
 
-#: ../src/ImageManager.py:786 ../src/ImageManager.py:790
+#: ../src/ImageManager.py:791 ../src/ImageManager.py:795
 #, fuzzy
 msgid "Backing up root file system..."
 msgstr "Backing up files..."
 
 #: ../src/ui.py:55 ../src/ui.py:64 ../src/ui.py:130
+#, fuzzy
 msgid "Backup Manager"
 msgstr "Backup Manager"
 
-#: ../src/ImageManager.py:826
+#: ../src/ImageManager.py:831
 #, fuzzy
 msgid "Backup complete."
 msgstr "Backup Complete..."
@@ -181,7 +182,7 @@ msgstr "Backup Complete..."
 msgid "Backup complete..."
 msgstr "Backup Complete..."
 
-#: ../src/ImageManager.py:347
+#: ../src/ImageManager.py:352
 #, fuzzy
 msgid "Backup confirmation"
 msgstr "Backup Confirmation"
@@ -208,7 +209,7 @@ msgstr ""
 #: ../src/BackupManager.py:176 ../src/BackupManager.py:317
 #: ../src/BackupManager.py:332 ../src/BackupManager.py:383
 #: ../src/BackupManager.py:401 ../src/BackupManager.py:1141
-#: ../src/ImageManager.py:367
+#: ../src/ImageManager.py:372
 #, fuzzy
 msgid "Backup manager"
 msgstr "Backup Manager"
@@ -217,7 +218,7 @@ msgstr "Backup Manager"
 msgid "Backup/Flash/ReBoot system image."
 msgstr ""
 
-#: ../src/MountManager.py:445 ../src/BackupManager.py:744
+#: ../src/MountManager.py:453 ../src/BackupManager.py:744
 #: ../src/BackupManager.py:840 ../src/SoftcamManager.py:368
 #: ../src/ClientModeBox.py:164 ../src/ClientModeBox.py:488
 #: ../src/ClientModeBox.py:589 ../src/Multibootmgr.py:35
@@ -228,7 +229,7 @@ msgstr "Cancel"
 msgid "Cannot download data. Please check your configuration"
 msgstr ""
 
-#: ../src/MountManager.py:307
+#: ../src/MountManager.py:315
 #, fuzzy, python-format
 msgid "Cannot unmount partition '%s'.  Make sure this partition is not in use.  (SWAP, record/timeshift, etc.)"
 msgstr "Can't unmount partition, make sure it is not being used for swap or record/timeshift paths"
@@ -242,7 +243,7 @@ msgstr "Change Location"
 msgid "Check interval on minutes"
 msgstr ""
 
-#: ../src/ImageManager.py:770
+#: ../src/ImageManager.py:775
 #, fuzzy
 msgid "Checking free ram.."
 msgstr "Checking Free RAM.."
@@ -261,7 +262,7 @@ msgstr "Choose local ipk's folder"
 msgid "Choose files"
 msgstr "Choose Files"
 
-#: ../src/MountManager.py:436
+#: ../src/MountManager.py:444
 msgid "Choose where to mount your devices to:"
 msgstr "Choose where to mount your devices to:"
 
@@ -277,7 +278,7 @@ msgstr ""
 msgid "Client Mode Box: If you want to exit Client Mode and have a backup with your original settings. You can restore from blue button on Vision Backup Manager."
 msgstr ""
 
-#: ../src/ui.py:75 ../src/ImageManager.py:1352 ../src/ImageManager.py:1361
+#: ../src/ui.py:75 ../src/ImageManager.py:1357 ../src/ImageManager.py:1366
 #: ../src/SoftcamManager.py:136 ../src/IPKInstaller.py:61
 #: ../src/IPKInstaller.py:184 ../src/SwapManager.py:130
 msgid "Close"
@@ -287,7 +288,7 @@ msgstr "Close"
 msgid "Comparing against backup..."
 msgstr "Comparing against backup..."
 
-#: ../src/ImageManager.py:1430
+#: ../src/ImageManager.py:1435
 msgid "Compress"
 msgstr ""
 
@@ -300,9 +301,9 @@ msgstr "Create"
 msgid "Create and Manage your SWAP files."
 msgstr "Create and Manage your swapfiles."
 
-#: ../src/ImageManager.py:974 ../src/ImageManager.py:977
-#: ../src/ImageManager.py:980 ../src/ImageManager.py:982
-#: ../src/ImageManager.py:984
+#: ../src/ImageManager.py:979 ../src/ImageManager.py:982
+#: ../src/ImageManager.py:985 ../src/ImageManager.py:987
+#: ../src/ImageManager.py:989
 #, fuzzy
 msgid "Create:"
 msgstr "Create"
@@ -312,12 +313,12 @@ msgstr "Create"
 msgid "Creating list of installed plugins..."
 msgstr "Creating list of installed plugins..."
 
-#: ../src/ImageManager.py:774
+#: ../src/ImageManager.py:779
 #, fuzzy
 msgid "Creating swap.."
-msgstr "Creating Swap.."
+msgstr "Creating zip..."
 
-#: ../src/ImageManager.py:818 ../src/ImageManager.py:822
+#: ../src/ImageManager.py:823 ../src/ImageManager.py:827
 msgid "Creating zip..."
 msgstr "Creating zip..."
 
@@ -340,7 +341,7 @@ msgstr "Deactivate"
 msgid "Default username (root)"
 msgstr ""
 
-#: ../src/BackupManager.py:132 ../src/ImageManager.py:146
+#: ../src/BackupManager.py:132 ../src/ImageManager.py:151
 #: ../src/SwapManager.py:206 ../src/SwapManager.py:217
 msgid "Delete"
 msgstr "Delete"
@@ -354,12 +355,12 @@ msgstr "Deselect"
 msgid "Device %s"
 msgstr "Device: "
 
-#: ../src/MountManager.py:153 ../src/MountManager.py:300
-#: ../src/MountManager.py:318 ../src/MountManager.py:334
-#: ../src/MountManager.py:367 ../src/MountManager.py:380
+#: ../src/MountManager.py:161 ../src/MountManager.py:308
+#: ../src/MountManager.py:326 ../src/MountManager.py:342
+#: ../src/MountManager.py:375 ../src/MountManager.py:388
 #: ../src/BackupManager.py:228 ../src/BackupManager.py:231
-#: ../src/BackupManager.py:257 ../src/ImageManager.py:266
-#: ../src/ImageManager.py:276
+#: ../src/BackupManager.py:257 ../src/ImageManager.py:271
+#: ../src/ImageManager.py:281
 msgid "Device: "
 msgstr "Device: "
 
@@ -367,7 +368,7 @@ msgstr "Device: "
 msgid "Device: None available"
 msgstr "Device: None available"
 
-#: ../src/ImageManager.py:247
+#: ../src/ImageManager.py:252
 #, fuzzy
 msgid "Device: Un-mount"
 msgstr "Device: "
@@ -377,7 +378,7 @@ msgstr "Device: "
 msgid "Disable startup"
 msgstr "Disable Startup"
 
-#: ../src/ImageManager.py:345
+#: ../src/ImageManager.py:350
 #, fuzzy
 msgid ""
 "Do you want to create a full image backup?\n"
@@ -386,7 +387,7 @@ msgstr ""
 "Your %s %s is about to run a full image backup, this can take about 6 minutes to complete,\n"
 "do you want to allow this?"
 
-#: ../src/ImageManager.py:387
+#: ../src/ImageManager.py:392
 #, fuzzy, python-format
 msgid ""
 "Do you want to flash image\n"
@@ -412,14 +413,14 @@ msgstr "Do you want to restore your Enigma2 settings ?"
 #: ../src/ClientModeBox.py:513
 #, fuzzy
 msgid "Do you want to scan for a server?"
-msgstr "Do you want to restore your Enigma2 settings ?"
+msgstr "Do you want to restore your Enigma2 plugins ?"
 
-#: ../src/ImageManager.py:1432
+#: ../src/ImageManager.py:1437
 #, fuzzy
 msgid "DownLoad"
 msgstr "Download"
 
-#: ../src/ImageManager.py:1353 ../src/ImageManager.py:1362
+#: ../src/ImageManager.py:1358 ../src/ImageManager.py:1367
 msgid "Download"
 msgstr "Download"
 
@@ -428,28 +429,28 @@ msgstr "Download"
 msgid "Download completed"
 msgstr "Download Confirmation"
 
-#: ../src/ImageManager.py:1464
+#: ../src/ImageManager.py:1469
 #, fuzzy
 msgid "Download confirmation"
 msgstr "Download Confirmation"
 
-#: ../src/ImageManager.py:1479
+#: ../src/ImageManager.py:1484
 #, fuzzy
 msgid "Downloading"
 msgstr "Download"
 
-#: ../src/ImageManager.py:148
+#: ../src/ImageManager.py:153
 msgid "Downloads"
 msgstr "Downloads"
 
-#: ../src/ImageManager.py:459
+#: ../src/ImageManager.py:464
 msgid ""
 "ET8500 MultiBoot: Yes to restore OS1\n"
 "No to restore OS2:\n"
 " "
 msgstr ""
 
-#: ../src/ImageManager.py:461
+#: ../src/ImageManager.py:466
 msgid "ET8500 image restore"
 msgstr ""
 
@@ -459,7 +460,7 @@ msgstr ""
 
 #: ../src/SoftcamManager.py:374
 msgid "Enable frozen check"
-msgstr "Enable frozen check"
+msgstr ""
 
 #: ../src/SoftcamManager.py:174
 #, fuzzy
@@ -471,7 +472,7 @@ msgstr "Enable Startup"
 msgid "Enable swap at startup"
 msgstr "Enable Swap at startup"
 
-#: ../src/BackupManager.py:1103 ../src/ImageManager.py:647
+#: ../src/BackupManager.py:1103 ../src/ImageManager.py:652
 #, fuzzy
 msgid "Enough retries, delaying till next schedule."
 msgstr "Enough Retries, delaying till next schedule."
@@ -484,7 +485,7 @@ msgstr ""
 msgid "Exit the restore wizard"
 msgstr "Exit the restore wizard"
 
-#: ../src/ImageManager.py:1430
+#: ../src/ImageManager.py:1435
 msgid "Expand"
 msgstr ""
 
@@ -496,11 +497,11 @@ msgstr "Extra IPK's"
 msgid "Finishing restore, your receiver go to restart."
 msgstr ""
 
-#: ../src/ImageManager.py:149
+#: ../src/ImageManager.py:154
 msgid "Flash"
 msgstr ""
 
-#: ../src/ImageManager.py:457
+#: ../src/ImageManager.py:462
 msgid "Flash image unzip successful."
 msgstr ""
 
@@ -509,11 +510,11 @@ msgstr ""
 msgid "Found non-standard softcam, trying to start, this may fail."
 msgstr "Found none standard softcam, trying to start, this may fail"
 
-#: ../src/ImageManager.py:266
+#: ../src/ImageManager.py:271
 msgid "Free space:"
 msgstr "Free space:"
 
-#: ../src/ImageManager.py:283
+#: ../src/ImageManager.py:288
 msgid "From which image library do you want to download?"
 msgstr ""
 
@@ -540,11 +541,12 @@ msgid "IPK installer"
 msgstr "IPK Installer"
 
 #: ../src/ui.py:56 ../src/ui.py:65 ../src/ui.py:133
+#, fuzzy
 msgid "Image Manager"
 msgstr "Image Manager"
 
-#: ../src/ImageManager.py:196 ../src/ImageManager.py:336
-#: ../src/ImageManager.py:357 ../src/ImageManager.py:764
+#: ../src/ImageManager.py:201 ../src/ImageManager.py:341
+#: ../src/ImageManager.py:362 ../src/ImageManager.py:769
 #, fuzzy
 msgid "Image manager"
 msgstr "Image Manager"
@@ -588,7 +590,7 @@ msgstr "Install IPK's from your tmp folder."
 #: ../src/ui.py:57 ../src/ui.py:66 ../src/ui.py:136
 #, fuzzy
 msgid "Install Local Extension"
-msgstr "Install extensions."
+msgstr "Install local extension"
 
 #: ../src/IPKInstaller.py:133
 #, fuzzy
@@ -616,11 +618,11 @@ msgstr "It seems you have not setup a extra location, please setup in Backup Man
 msgid "Let's define enigma2 once more"
 msgstr ""
 
-#: ../src/ui.py:50 ../src/MountManager.py:219 ../src/MountManager.py:438
+#: ../src/ui.py:50 ../src/MountManager.py:227 ../src/MountManager.py:446
 #: ../src/ScriptRunner.py:52 ../src/BackupManager.py:122
 #: ../src/BackupManager.py:834 ../src/BackupManager.py:932
-#: ../src/BackupManager.py:979 ../src/ImageManager.py:152
-#: ../src/ImageManager.py:1355 ../src/SoftcamManager.py:107
+#: ../src/BackupManager.py:979 ../src/ImageManager.py:157
+#: ../src/ImageManager.py:1360 ../src/SoftcamManager.py:107
 #: ../src/SoftcamManager.py:351 ../src/SoftcamManager.py:426
 #: ../src/SoftcamManager.py:507 ../src/SoftcamManager.py:588
 #: ../src/IPKInstaller.py:42 ../src/SwapManager.py:114
@@ -629,11 +631,11 @@ msgstr ""
 msgid "Lets define enigma2 once more"
 msgstr ""
 
-#: ../src/ImageManager.py:266
+#: ../src/ImageManager.py:271
 msgid "MB"
 msgstr "MB"
 
-#: ../src/BackupManager.py:133 ../src/ImageManager.py:150
+#: ../src/BackupManager.py:133 ../src/ImageManager.py:155
 #: ../src/SoftcamManager.py:141
 msgid "MENU"
 msgstr ""
@@ -653,22 +655,23 @@ msgstr "Manage you devices mountpoints."
 msgid "Monthly"
 msgstr ""
 
-#: ../src/MountManager.py:228
+#: ../src/MountManager.py:236
 msgid "Mount"
 msgstr "Mount"
 
 #: ../src/ui.py:58 ../src/ui.py:67 ../src/ui.py:139
+#, fuzzy
 msgid "Mount Manager"
 msgstr "Mount Manager"
 
-#: ../src/MountManager.py:322
+#: ../src/MountManager.py:330
 #, python-format
 msgid "Mount failed for '%s', error code = '%s'."
 msgstr ""
 
-#: ../src/MountManager.py:153 ../src/MountManager.py:257
-#: ../src/MountManager.py:299 ../src/MountManager.py:317
-#: ../src/MountManager.py:379
+#: ../src/MountManager.py:161 ../src/MountManager.py:265
+#: ../src/MountManager.py:307 ../src/MountManager.py:325
+#: ../src/MountManager.py:387
 msgid "Mount: "
 msgstr "Mount: "
 
@@ -676,16 +679,16 @@ msgstr "Mount: "
 msgid "Move Nand root to SD card"
 msgstr ""
 
-#: ../src/ImageManager.py:810 ../src/ImageManager.py:814
+#: ../src/ImageManager.py:815 ../src/ImageManager.py:819
 #, fuzzy
 msgid "Moving to backup Location..."
 msgstr "Moving to Backup Location..."
 
-#: ../src/ImageManager.py:520
+#: ../src/ImageManager.py:525
 msgid "MultiBoot ERROR! - no STARTUP in boot partition."
 msgstr ""
 
-#: ../src/ImageManager.py:465 ../src/ImageManager.py:1251
+#: ../src/ImageManager.py:470 ../src/ImageManager.py:1256
 msgid "MultiBoot only able to restore this backup to MMC slot1"
 msgstr ""
 
@@ -694,15 +697,15 @@ msgstr ""
 msgid "New backup"
 msgstr "New Backup"
 
-#: ../src/ImageManager.py:201
+#: ../src/ImageManager.py:206
 #, fuzzy
 msgid "New backupimage"
 msgstr "New Backup"
 
 #: ../src/BackupManager.py:151 ../src/BackupManager.py:153
 #: ../src/BackupManager.py:294 ../src/BackupManager.py:296
-#: ../src/ImageManager.py:176 ../src/ImageManager.py:178
-#: ../src/ImageManager.py:308 ../src/ImageManager.py:310
+#: ../src/ImageManager.py:181 ../src/ImageManager.py:183
+#: ../src/ImageManager.py:313 ../src/ImageManager.py:315
 #, fuzzy
 msgid "Next backup: "
 msgstr "Next Backup: "
@@ -783,7 +786,7 @@ msgstr ""
 msgid "No devices found"
 msgstr ""
 
-#: ../src/ImageManager.py:1381
+#: ../src/ImageManager.py:1386
 msgid "No images found on the selected download server...if password check validity"
 msgstr ""
 
@@ -798,7 +801,7 @@ msgid "No, do not restore settings"
 msgstr "NO, do not restore settings"
 
 #: ../src/MountManager.py:118 ../src/MountManager.py:120
-#: ../src/MountManager.py:131 ../src/MountManager.py:400
+#: ../src/MountManager.py:139 ../src/MountManager.py:408
 #: ../src/BackupManager.py:77
 msgid "None"
 msgstr "None"
@@ -823,11 +826,11 @@ msgstr "OK, to perform a restore"
 msgid "Only scheduled"
 msgstr ""
 
-#: ../src/ui.py:49 ../src/MountManager.py:218 ../src/MountManager.py:437
+#: ../src/ui.py:49 ../src/MountManager.py:226 ../src/MountManager.py:445
 #: ../src/ScriptRunner.py:51 ../src/BackupManager.py:121
 #: ../src/BackupManager.py:833 ../src/BackupManager.py:931
-#: ../src/BackupManager.py:978 ../src/ImageManager.py:151
-#: ../src/ImageManager.py:1354 ../src/SoftcamManager.py:106
+#: ../src/BackupManager.py:978 ../src/ImageManager.py:156
+#: ../src/ImageManager.py:1359 ../src/SoftcamManager.py:106
 #: ../src/SoftcamManager.py:350 ../src/SoftcamManager.py:425
 #: ../src/SoftcamManager.py:506 ../src/SoftcamManager.py:587
 #: ../src/IPKInstaller.py:41 ../src/RestoreWizard.py:32
@@ -840,7 +843,7 @@ msgstr ""
 msgid "Opkg"
 msgstr ""
 
-#: ../src/MountManager.py:304
+#: ../src/MountManager.py:312
 #, python-format
 msgid "Partition: %s  Mount: %s unmounted successfully; if all partitions now unmounted you can remove device."
 msgstr ""
@@ -874,7 +877,7 @@ msgid ""
 "This operation may take a while"
 msgstr ""
 
-#: ../src/MountManager.py:229
+#: ../src/MountManager.py:237
 #, fuzzy
 msgid "Please wait while scanning for devices..."
 msgstr "Wait please while scanning for devices..."
@@ -891,7 +894,7 @@ msgstr "Please wait while starting\n"
 msgid "Please wait while stopping\n"
 msgstr "Please wait while stopping\n"
 
-#: ../src/ImageManager.py:442
+#: ../src/ImageManager.py:447
 #, fuzzy
 msgid "Please wait while the flash prepares."
 msgstr "Please wait while restore prepares"
@@ -901,7 +904,7 @@ msgstr "Please wait while restore prepares"
 msgid "Please wait while the system gathers information..."
 msgstr "Please wait while gathers information..."
 
-#: ../src/MountManager.py:481
+#: ../src/MountManager.py:489
 msgid "Please wait."
 msgstr "Please wait."
 
@@ -922,7 +925,7 @@ msgstr "Press OK to toggle the selection."
 msgid "Press appropiate Init to move Nand root to SDcard or USB."
 msgstr ""
 
-#: ../src/MountManager.py:337
+#: ../src/MountManager.py:345
 #, python-format
 msgid "Really use and mount %s as HDD ?"
 msgstr ""
@@ -936,7 +939,7 @@ msgstr "Rebooting..."
 msgid "Rebooting..."
 msgstr "Rebooting..."
 
-#: ../src/ImageManager.py:385
+#: ../src/ImageManager.py:390
 #, python-format
 msgid ""
 "Recording(s) are in progress or coming up in few seconds!\n"
@@ -945,29 +948,31 @@ msgid ""
 msgstr ""
 
 #: ../src/Multibootmgr.py:80
-#, python-format
+#, fuzzy, python-format
 msgid "Removal of this slot will not show in %s GUI.  Are you sure you want to delete image slot?"
 msgstr ""
+"Are you sure you want to delete this backup:\n"
+" "
 
-#: ../src/BackupManager.py:304 ../src/ImageManager.py:318
+#: ../src/BackupManager.py:304 ../src/ImageManager.py:323
 #: ../src/Multibootmgr.py:82 ../src/Multibootmgr.py:86
 #, fuzzy
 msgid "Remove confirmation"
 msgstr "Remove Confirmation"
 
-#: ../src/ImageManager.py:802 ../src/ImageManager.py:806
+#: ../src/ImageManager.py:807 ../src/ImageManager.py:811
 msgid "Removing temp mounts..."
 msgstr "Removing temp mounts..."
 
 #: ../src/ClientModeBox.py:533
 msgid "Repeat how often"
-msgstr "Repeat how often"
+msgstr ""
 
-#: ../src/ui.py:51 ../src/MountManager.py:220 ../src/MountManager.py:439
+#: ../src/ui.py:51 ../src/MountManager.py:228 ../src/MountManager.py:447
 #: ../src/ScriptRunner.py:53 ../src/BackupManager.py:123
 #: ../src/BackupManager.py:835 ../src/BackupManager.py:933
-#: ../src/BackupManager.py:980 ../src/ImageManager.py:153
-#: ../src/ImageManager.py:1356 ../src/SoftcamManager.py:108
+#: ../src/BackupManager.py:980 ../src/ImageManager.py:158
+#: ../src/ImageManager.py:1361 ../src/SoftcamManager.py:108
 #: ../src/SoftcamManager.py:352 ../src/SoftcamManager.py:427
 #: ../src/SoftcamManager.py:508 ../src/SoftcamManager.py:589
 #: ../src/IPKInstaller.py:43 ../src/RestoreWizard.py:34
@@ -985,10 +990,10 @@ msgstr "Restart"
 msgid "Restart GUI."
 msgstr "Restart"
 
-#: ../src/MountManager.py:412 ../src/MountManager.py:486
+#: ../src/MountManager.py:420 ../src/MountManager.py:494
 #, fuzzy
 msgid "Restart receiver."
-msgstr "Restart Enigma2."
+msgstr "Restart"
 
 #: ../src/BackupManager.py:131
 msgid "Restore"
@@ -1048,7 +1053,7 @@ msgstr "Run"
 msgid "Run your shell scripts."
 msgstr "Run your shell scripts."
 
-#: ../src/MountManager.py:444 ../src/BackupManager.py:745
+#: ../src/MountManager.py:452 ../src/BackupManager.py:745
 #: ../src/BackupManager.py:841 ../src/SoftcamManager.py:369
 #: ../src/ClientModeBox.py:489
 msgid "Save"
@@ -1058,16 +1063,16 @@ msgstr "Save"
 msgid "Scan"
 msgstr ""
 
-#: ../src/MountManager.py:458
+#: ../src/MountManager.py:466
 msgid "Scanned devices"
 msgstr ""
 
 #: ../src/ClientModeBox.py:530
-#, fuzzy
 msgid "Schedule sync"
-msgstr "Schedule Backups"
+msgstr ""
 
 #: ../src/ui.py:59 ../src/ui.py:68 ../src/ui.py:142
+#, fuzzy
 msgid "Script Runner"
 msgstr "Script Runner"
 
@@ -1085,7 +1090,7 @@ msgstr "Select a backup to Restore:"
 msgid "Select a package to install:"
 msgstr "Select a package to install:"
 
-#: ../src/ImageManager.py:1360
+#: ../src/ImageManager.py:1365
 #, fuzzy
 msgid "Select an image to download:"
 msgstr "Select an image to Download:"
@@ -1107,7 +1112,7 @@ msgstr "Select folder that contains plugins"
 msgid "Select the swap file size:"
 msgstr "Select the Swap File Size:"
 
-#: ../src/ImageManager.py:266
+#: ../src/ImageManager.py:271
 msgid "Select what you want to do"
 msgstr ""
 
@@ -1115,44 +1120,44 @@ msgstr ""
 msgid "Select:"
 msgstr "Select:"
 
-#: ../src/ImageManager.py:766
+#: ../src/ImageManager.py:771
 #, fuzzy
 msgid "Setting up..."
 msgstr "Setting Up..."
 
-#: ../src/MountManager.py:226
+#: ../src/MountManager.py:234
 #, fuzzy
 msgid "Setup mounts"
 msgstr "Setup Mounts"
 
-#: ../src/MountManager.py:132
+#: ../src/MountManager.py:140
 msgid "Size: "
 msgstr "Size: "
 
-#: ../src/MountManager.py:142
+#: ../src/MountManager.py:150
 #, fuzzy, python-format
 msgid "Size: %sGB"
 msgstr "Size: "
 
-#: ../src/MountManager.py:140
+#: ../src/MountManager.py:148
 #, fuzzy, python-format
 msgid "Size: %sMB"
 msgstr "Size: "
 
-#: ../src/MountManager.py:144
+#: ../src/MountManager.py:152
 #, fuzzy, python-format
 msgid "Size: %sTB"
 msgstr "Size: "
 
-#: ../src/MountManager.py:138
+#: ../src/MountManager.py:146
 #, fuzzy
 msgid "Size: unavailable"
 msgstr "unavailable"
 
 #: ../src/SoftcamManager.py:228
-#, fuzzy, python-format
+#, python-format
 msgid "Softcam Setup [%s]"
-msgstr "Softcam Setup"
+msgstr ""
 
 #: ../src/SoftcamManager.py:424
 #, fuzzy
@@ -1202,16 +1207,16 @@ msgstr "Sorry, but the restore failed."
 msgid "Sorry, no physical devices that supports SWAP attached. Can't create SWAP file on network or fat32 file-systems."
 msgstr "Sorry, no physical devices that supports SWAP attached. Can't create Swapfile on network or fat32 filesystems"
 
-#: ../src/ImageManager.py:886
+#: ../src/ImageManager.py:891
 #, fuzzy
 msgid "Sorry, not enough free RAM found, and no physical devices that supports swap attached. Can't create SWAP file on network or FAT32 file-systems, unable to make backup."
 msgstr "Sorry, not enough free ram found, and no physical devices that supports SWAP attached. Can't create Swapfile on network or fat32 filesystems, unable to make backup"
 
-#: ../src/ui.py:53 ../src/MountManager.py:222 ../src/MountManager.py:441
+#: ../src/ui.py:53 ../src/MountManager.py:230 ../src/MountManager.py:449
 #: ../src/ScriptRunner.py:55 ../src/BackupManager.py:125
 #: ../src/BackupManager.py:837 ../src/BackupManager.py:935
-#: ../src/BackupManager.py:982 ../src/ImageManager.py:155
-#: ../src/ImageManager.py:1358 ../src/SoftcamManager.py:110
+#: ../src/BackupManager.py:982 ../src/ImageManager.py:160
+#: ../src/ImageManager.py:1363 ../src/SoftcamManager.py:110
 #: ../src/SoftcamManager.py:354 ../src/SoftcamManager.py:429
 #: ../src/SoftcamManager.py:510 ../src/SoftcamManager.py:591
 #: ../src/IPKInstaller.py:45 ../src/RestoreWizard.py:36
@@ -1241,6 +1246,7 @@ msgid "Streaming port"
 msgstr ""
 
 #: ../src/ui.py:60 ../src/ui.py:69 ../src/ui.py:145
+#, fuzzy
 msgid "Swap Manager"
 msgstr "Swap Manager"
 
@@ -1257,7 +1263,7 @@ msgstr "Swap Place:"
 #: ../src/SwapManager.py:125
 #, fuzzy
 msgid "Swap size:"
-msgstr "Swap Size:"
+msgstr "Size: "
 
 #: ../src/IPKInstaller.py:103 ../src/IPKInstaller.py:111
 #, fuzzy
@@ -1269,12 +1275,12 @@ msgstr "Temp Folder"
 msgid "The backup location does not have enough free space."
 msgstr "The backup location does not have enough freespace."
 
-#: ../src/ImageManager.py:848
+#: ../src/ImageManager.py:853
 #, fuzzy
 msgid "The backup location does not have enough free space.\n"
 msgstr "The backup location does not have enough freespace."
 
-#: ../src/MountManager.py:410 ../src/MountManager.py:484
+#: ../src/MountManager.py:418 ../src/MountManager.py:492
 #, fuzzy
 msgid ""
 "The changes need a system restart to take effect.\n"
@@ -1288,12 +1294,12 @@ msgstr ""
 msgid "The chosen location does not exist, using."
 msgstr "The chosen location does not exist, using /media/hdd"
 
-#: ../src/BackupManager.py:257 ../src/ImageManager.py:276
+#: ../src/BackupManager.py:257 ../src/ImageManager.py:281
 #, fuzzy
 msgid "There is a problem with this device. Please reformat it and try again."
 msgstr "there was a problem with this device, please reformat and try again."
 
-#: ../src/BackupManager.py:306 ../src/ImageManager.py:320
+#: ../src/BackupManager.py:306 ../src/ImageManager.py:325
 #, fuzzy
 msgid "There is no backup to delete."
 msgstr "You have no backups to restore."
@@ -1303,41 +1309,41 @@ msgstr "You have no backups to restore."
 msgid "There is no backup to restore."
 msgstr "You have no backups to restore."
 
-#: ../src/ImageManager.py:437
+#: ../src/ImageManager.py:442
 #, fuzzy
 msgid "There is no image to flash."
 msgstr "You have no image to download."
 
-#: ../src/MountManager.py:338 ../src/MountManager.py:384
+#: ../src/MountManager.py:346 ../src/MountManager.py:392
 #, fuzzy
 msgid "This Device is already mounted as HDD."
 msgstr "This Device is already mounted as HDD."
 
 #: ../src/ClientModeBox.py:532
-#, fuzzy
 msgid "Time of sync to start"
-msgstr "Time of Backup to start"
+msgstr ""
 
 #: ../src/ClientModeBox.py:638
 msgid "To apply new settings, you need to restart GUI your STB. Do you want restart it now?"
 msgstr ""
 
-#: ../src/MountManager.py:153
+#: ../src/MountManager.py:161
 msgid "Type: "
 msgstr "Type: "
 
-#: ../src/MountManager.py:227
+#: ../src/MountManager.py:235
+#, fuzzy
 msgid "Unmount"
 msgstr "Unmount"
 
-#: ../src/ImageManager.py:471
+#: ../src/ImageManager.py:476
 #, python-format
 msgid ""
 "Unzip error (also sent to any debug log):\n"
 "%s"
 msgstr ""
 
-#: ../src/MountManager.py:479
+#: ../src/MountManager.py:487
 #, fuzzy
 msgid "Updating mount locations..."
 msgstr "Updating mount locations."
@@ -1347,11 +1353,11 @@ msgstr "Updating mount locations."
 msgid "Use Mount Manager Please"
 msgstr "Mount Manager"
 
-#: ../src/ImageManager.py:247
+#: ../src/ImageManager.py:252
 msgid "Use Mount Manager and press green setup mounts"
 msgstr ""
 
-#: ../src/MountManager.py:259
+#: ../src/MountManager.py:267
 msgid "Use as HDD"
 msgstr "Use as HDD"
 
@@ -1373,8 +1379,8 @@ msgid "Use this box as a client of a server."
 msgstr ""
 
 #: ../src/BackupManager.py:179 ../src/BackupManager.py:329
-#: ../src/BackupManager.py:380 ../src/ImageManager.py:199
-#: ../src/ImageManager.py:354
+#: ../src/BackupManager.py:380 ../src/ImageManager.py:204
+#: ../src/ImageManager.py:359
 #, fuzzy
 msgid "View progress"
 msgstr "View Progress"
@@ -1382,12 +1388,12 @@ msgstr "View Progress"
 #: ../src/BackupManager.py:120 ../src/plugin.py:206
 #, fuzzy
 msgid "Vision Backup Manager"
-msgstr "Vision Backup Manager"
+msgstr "ViX Backup Manager"
 
 #: ../src/BackupManager.py:966
 #, fuzzy
 msgid "Vision Backup manager logs"
-msgstr "Backup Manager Log"
+msgstr "ViX Backup Manager"
 
 #: ../src/ClientModeBox.py:120 ../src/ClientModeBox.py:478
 #: ../src/ClientModeBox.py:893 ../src/plugin.py:211
@@ -1406,22 +1412,22 @@ msgstr "Exit the restore wizard"
 #: ../src/H9SDmanager.py:34
 #, fuzzy
 msgid "Vision H9 SDcard Manager"
-msgstr "Vision Swap Manager"
+msgstr "Swap Manager"
 
-#: ../src/ImageManager.py:143 ../src/plugin.py:207
+#: ../src/ImageManager.py:148 ../src/plugin.py:207
 #, fuzzy
 msgid "Vision Image Manager"
-msgstr "Vision Image Manager"
+msgstr "ViX Image Manager"
 
-#: ../src/MountManager.py:217 ../src/plugin.py:208
+#: ../src/MountManager.py:225 ../src/plugin.py:208
 #, fuzzy
 msgid "Vision Mount Manager"
-msgstr "Vision Mount Manager"
+msgstr "ViX Mount Manager"
 
 #: ../src/Multibootmgr.py:34
 #, fuzzy
 msgid "Vision MultiBoot Image Manager"
-msgstr "Vision Image Manager"
+msgstr "ViX Image Manager"
 
 #: ../src/IPKInstaller.py:40
 msgid "Vision Opkg Install"
@@ -1430,17 +1436,17 @@ msgstr ""
 #: ../src/plugin.py:210
 #, fuzzy
 msgid "Vision SWAP Manager"
-msgstr "Vision Swap Manager"
+msgstr "ViX Swap Manager"
 
 #: ../src/ScriptRunner.py:50 ../src/plugin.py:209
 #, fuzzy
 msgid "Vision Script Runner"
-msgstr "Vision Script Runner"
+msgstr "ViX Script Runner"
 
 #: ../src/plugin.py:198
 #, fuzzy
 msgid "Vision Script runner"
-msgstr "Vision Script Runner"
+msgstr "ViX Script Runner"
 
 #: ../src/SoftcamManager.py:105 ../src/plugin.py:112 ../src/plugin.py:196
 msgid "Vision Softcam"
@@ -1451,14 +1457,13 @@ msgid "Vision Softcam logs"
 msgstr ""
 
 #: ../src/SoftcamManager.py:349
-#, fuzzy
 msgid "Vision Softcam setup"
-msgstr "Softcam Setup"
+msgstr ""
 
 #: ../src/SwapManager.py:112
 #, fuzzy
 msgid "Vision Swap Manager"
-msgstr "Vision Swap Manager"
+msgstr "ViX Backup Manager"
 
 #: ../src/SwapManager.py:332
 #, fuzzy
@@ -1477,7 +1482,7 @@ msgstr ""
 msgid "Wait please while scanning..."
 msgstr "Wait please while scanning..."
 
-#: ../src/MountManager.py:336
+#: ../src/MountManager.py:344
 msgid "Warning, this device is used for more than one mount point!\n"
 msgstr ""
 
@@ -1496,7 +1501,7 @@ msgstr "YES, to restore plugins"
 msgid "Yes, to restore settings"
 msgstr "YES, to restore settings"
 
-#: ../src/ImageManager.py:439
+#: ../src/ImageManager.py:444
 msgid "You have decided not to flash image."
 msgstr ""
 
@@ -1505,7 +1510,7 @@ msgstr ""
 msgid "You have to create a swap file before trying to activate the autostart."
 msgstr "You have to create a Swap File before to activate the autostart."
 
-#: ../src/MountManager.py:369
+#: ../src/MountManager.py:377
 #, python-format
 msgid ""
 "You may have to press red button again.\n"
@@ -1517,7 +1522,7 @@ msgstr ""
 msgid "Your receiver could not connect to the plugin feeds at this time. Please try using the Backup manager to restore plugins later."
 msgstr "Your %s %s is not connected to the internet, Please try using Backup Manager to restore plugins later."
 
-#: ../src/ImageManager.py:622
+#: ../src/ImageManager.py:627
 #, fuzzy
 msgid ""
 "Your receiver is about to create a full image backup, this can take about 6 minutes to complete.\n"
@@ -1563,11 +1568,11 @@ msgstr "Your %s %s is not connected to the internet, Please try using Backup Man
 msgid "Your receiver is not connected to the Internet. Please try using the Backup manager to restore plugins later."
 msgstr "Your %s %s is not connected to the internet, Please try using Backup Manager to restore plugins later."
 
-#: ../src/ui.py:54 ../src/MountManager.py:223 ../src/MountManager.py:442
+#: ../src/ui.py:54 ../src/MountManager.py:231 ../src/MountManager.py:450
 #: ../src/ScriptRunner.py:56 ../src/BackupManager.py:126
 #: ../src/BackupManager.py:838 ../src/BackupManager.py:936
-#: ../src/BackupManager.py:983 ../src/ImageManager.py:156
-#: ../src/ImageManager.py:1359 ../src/SoftcamManager.py:111
+#: ../src/BackupManager.py:983 ../src/ImageManager.py:161
+#: ../src/ImageManager.py:1364 ../src/SoftcamManager.py:111
 #: ../src/SoftcamManager.py:355 ../src/SoftcamManager.py:430
 #: ../src/SoftcamManager.py:511 ../src/SoftcamManager.py:592
 #: ../src/IPKInstaller.py:46 ../src/RestoreWizard.py:37
@@ -1576,11 +1581,11 @@ msgstr "Your %s %s is not connected to the internet, Please try using Backup Man
 msgid "https://github.com/OpenVisionE2"
 msgstr ""
 
-#: ../src/ui.py:52 ../src/MountManager.py:221 ../src/MountManager.py:440
+#: ../src/ui.py:52 ../src/MountManager.py:229 ../src/MountManager.py:448
 #: ../src/ScriptRunner.py:54 ../src/BackupManager.py:124
 #: ../src/BackupManager.py:836 ../src/BackupManager.py:934
-#: ../src/BackupManager.py:981 ../src/ImageManager.py:154
-#: ../src/ImageManager.py:1357 ../src/SoftcamManager.py:109
+#: ../src/BackupManager.py:981 ../src/ImageManager.py:159
+#: ../src/ImageManager.py:1362 ../src/SoftcamManager.py:109
 #: ../src/SoftcamManager.py:353 ../src/SoftcamManager.py:428
 #: ../src/SoftcamManager.py:509 ../src/SoftcamManager.py:590
 #: ../src/IPKInstaller.py:44 ../src/RestoreWizard.py:35
@@ -1589,14 +1594,14 @@ msgstr ""
 msgid "https://openvision.tech"
 msgstr ""
 
-#: ../src/ImageManager.py:528
+#: ../src/ImageManager.py:533
 #, python-format
 msgid ""
 "ofgwrite error (also sent to any debug log):\n"
 "%s"
 msgstr ""
 
-#: ../src/ImageManager.py:402 ../src/ImageManager.py:421
+#: ../src/ImageManager.py:407 ../src/ImageManager.py:426
 #, python-format
 msgid "slot%s - %s"
 msgstr ""
@@ -1606,11 +1611,11 @@ msgstr ""
 msgid "slot%s - %s "
 msgstr ""
 
-#: ../src/ImageManager.py:402 ../src/ImageManager.py:421
+#: ../src/ImageManager.py:407 ../src/ImageManager.py:426
 #, python-format
 msgid "slot%s - %s (current image)"
 msgstr ""
 
-#: ../src/MountManager.py:119 ../src/MountManager.py:132
+#: ../src/MountManager.py:119 ../src/MountManager.py:140
 msgid "unavailable"
 msgstr "unavailable"
