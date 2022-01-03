@@ -368,14 +368,21 @@ class VISIONDevicesPanel(Screen):
 		if len(self["list"].list) < 1:
 			return
 		sel = self["list"].getCurrent()
-		if sel:
-			des = sel[1]
-			des = des.replace('\n', '\t')
-			parts = des.strip().split('\t')
-			device = parts[2].replace(_("Device: "), '')
-			moremount = sel[1]
-			message = _("You may have to press red button again.\nUse %s as HDD ?") % device
-			self.session.openWithCallback(self.saveMypointAnswer, MessageBox, message, MessageBox.TYPE_YESNO)
+		seldev = sel
+		for line in sel:
+			try:
+				line = line.strip()
+				if _("Mount: ") in line:
+					if line.find("/media/hdd") < 0:
+						des = sel[1]
+						des = des.replace('\n', '\t')
+						parts = des.strip().split('\t')
+						device = parts[2].replace(_("Device: "), '')
+						moremount = sel[1]
+						message = _("You may have to press red button again.\nUse %s as HDD ?") % device
+						self.session.openWithCallback(self.saveMypointAnswer, MessageBox, message, MessageBox.TYPE_YESNO)
+			except Exception:
+				pass
 
 	def saveMypointAnswer(self, answer):
 		if answer:
