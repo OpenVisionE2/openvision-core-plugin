@@ -936,7 +936,7 @@ class VISIONBackupManagerMenu(Setup):
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
 		self["key_yellow"] = Button(_("Choose files"))
 		self["key_blue"] = Button(_("Choose IPK folder"))
-		self["actions2"] = ActionMap(["ColorActions", "VirtualKeyboardActions", "MenuActions"], {
+		self["actions2"] = ActionMap(["ColorActions", "VirtualKeyboardActions"], {
 		"yellow": self.chooseFiles,
 		"blue": self.chooseXtraPluginDir,
 		}, -2)
