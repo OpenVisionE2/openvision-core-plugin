@@ -230,7 +230,7 @@ class VISIONDevicesPanel(Screen):
 		self["lab5"] = StaticText(_("Sources are available at:"))
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
 
-		self["key_red"] = Label(" ")
+		self["key_red"] = StaticText("")
 		self["key_green"] = Label(_("Setup mounts"))
 		self["key_yellow"] = Label(_("Unmount"))
 		self["key_blue"] = Label(_("Mount"))
@@ -266,7 +266,7 @@ class VISIONDevicesPanel(Screen):
 					if line.find("/media/hdd") < 0:
 					    self["key_red"].setText(_("Use as HDD"))
 				else:
-					self["key_red"].setText(" ")
+					self["key_red"].setText("")
 			except Exception:
 				pass
 		if sel:
