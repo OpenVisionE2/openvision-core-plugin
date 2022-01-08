@@ -216,22 +216,25 @@ class VISIONImageManager(Screen):
 	def refreshList(self):
 		if self.BackupDirectory == " ":
 			return
-		images = listdir(self.BackupDirectory)
-		del self.emlist[:]
-		mtimes = []
-		for fil in images:
-			if fil.endswith(".zip") or path.isdir(path.join(self.BackupDirectory, fil)):
-				mtimes.append((fil, stat(self.BackupDirectory + fil).st_mtime))  # (filname, mtime)
-		for fil in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]:  # sort by mtime
-			self.emlist.append(fil)
-		if len(self.emlist):
-			self["key_red"].show()
-			self["key_blue"].show()
-		else:
-			self["key_red"].hide()
-			self["key_blue"].hide()
-		self["list"].setList(self.emlist)
-		self["list"].show()
+		try:
+			images = listdir(self.BackupDirectory)
+			del self.emlist[:]
+			mtimes = []
+			for fil in images:
+				if fil.endswith(".zip") or path.isdir(path.join(self.BackupDirectory, fil)):
+					mtimes.append((fil, stat(self.BackupDirectory + fil).st_mtime))  # (filname, mtime)
+			for fil in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]:  # sort by mtime
+				self.emlist.append(fil)
+			if len(self.emlist):
+				self["key_red"].show()
+				self["key_blue"].show()
+			else:
+				self["key_red"].hide()
+				self["key_blue"].hide()
+			self["list"].setList(self.emlist)
+			self["list"].show()
+		except OSError as err:
+			print("[Errno 2] Device is in Read-Only mode, no such file or directory: %s" % self.BackupDirectory)
 
 	def getJobName(self, job):
 		return "%s: %s (%d%%)" % (job.getStatustext(), job.name, int(100 * job.progress / float(job.end)))
