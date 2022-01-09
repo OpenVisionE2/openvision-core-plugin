@@ -234,7 +234,7 @@ class VISIONImageManager(Screen):
 			self["list"].setList(self.emlist)
 			self["list"].show()
 		except OSError as err:
-			print("[Errno 2] Device is in Read-Only mode, no such file or directory: %s" % self.BackupDirectory)
+			print("[Errno 30] Device is in Read-Only mode. [Errno 2] No such file or directory: %s" % self.BackupDirectory)
 
 	def getJobName(self, job):
 		return "%s: %s (%d%%)" % (job.getStatustext(), job.name, int(100 * job.progress / float(job.end)))
