@@ -127,12 +127,12 @@ class VISIONBackupManager(Screen):
 
 		self['lab7'] = Label()
 		self["backupstatus"] = Label()
-		self["key_green"] = Button(_("New backup"))
-		self["key_yellow"] = Button(_("Restore"))
-		self["key_red"] = Button(_("Delete"))
+		self["key_red"] = StaticText("")
+		self["key_green"] = StaticText("")
+		self["key_yellow"] = StaticText("")
+		self["key_blue"] = StaticText("")
 		self["key_menu"] = StaticText(_("MENU"))
 		self["key_info"] = StaticText(_("INFO"))
-		self["key_blue"] = Button(_("Restore settings"))
 
 		self.BackupRunning = False
 		self.BackupDirectory = " "
@@ -171,16 +171,20 @@ class VISIONBackupManager(Screen):
 			cb(name, desc)
 
 	def backupRunning(self):
-		self.BackupRunning = False
-		for job in Components.Task.job_manager.getPendingJobs():
-			if job.name.startswith(_("Backup manager")):
-				self.BackupRunning = True
-		if self.BackupRunning:
-			self["key_green"].setText(_("View progress"))
-		else:
-			self["key_green"].setText(_("New backup"))
-		self.activityTimer.startLongTimer(5)
-		self.populate_List()
+		try:
+			if self.BackupDirectory:
+				self.BackupRunning = False
+				for job in Components.Task.job_manager.getPendingJobs():
+					if job.name.startswith(_("Backup manager")):
+						self.BackupRunning = True
+				if self.BackupRunning:
+					self["key_green"].setText(_("View progress"))
+				else:
+					self["key_green"].setText(_("New backup"))
+				self.activityTimer.startLongTimer(5)
+				self.populate_List()
+		except OSError as err:
+			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
 
 	def getJobName(self, job):
 		return "%s: %s (%d%%)" % (job.getStatustext(), job.name, int(100 * job.progress / float(job.end)))
@@ -198,7 +202,9 @@ class VISIONBackupManager(Screen):
 			mount = config.backupmanager.backuplocation.value, config.backupmanager.backuplocation.value[:-1]
 		else:
 			mount = config.backupmanager.backuplocation.value
-		hdd = "/media/hdd/", "/media/hdd"
+		hdd = "/media/hdd/"
+		size = statvfs(config.backupmanager.backuplocation.value)
+		free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
 		if not config.backupmanager.backuplocation.value:
 			self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
 				"cancel": self.close,
@@ -211,9 +217,9 @@ class VISIONBackupManager(Screen):
 										  'cancel': self.close,
 										  'ok': self.keyResstore,
 										  'red': self.keyDelete,
-										  'green': self.GreenPressed,
+										  'green': self.greenPressed,
 										  'yellow': self.keyResstore,
-										  'blue': self.RestoreSettings,
+										  'blue': self.restoreSettings,
 										  "menu": self.createSetup,
 										  'log': self.showLog,
 										  }, -1)
@@ -225,12 +231,12 @@ class VISIONBackupManager(Screen):
 			if mount not in config.backupmanager.backuplocation.choices.choices and hdd not in config.backupmanager.backuplocation.choices.choices:
 					self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
 					config.backupmanager.backuplocation.save()
-					self['lab7'].setText(_("Device: ") + config.backupmanager.backuplocation.value + "\n" + _("Select a backup to restore:"))
+					self['lab7'].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select a backup to restore:"))
 			else:
 				self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
-				self['lab7'].setText(_("Device: ") + config.backupmanager.backuplocation.value + "\n" + _("Select a backup to restore:"))
+				self['lab7'].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select a backup to restore:"))
 			try:
-				if not path.exists(self.BackupDirectory):
+				if not self.BackupDirectory:
 					mkdir(self.BackupDirectory, 0o755)
 				images = listdir(self.BackupDirectory)
 				del self.emlist[:]
@@ -246,24 +252,37 @@ class VISIONBackupManager(Screen):
 				for fil in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]: # sort by mtime
 					self.emlist.append(fil)
 				self["list"].setList(self.emlist)
-				self["list"].show()
 				if len(self.emlist):
-					self["key_red"].show()
-					self["key_yellow"].show()
+					self["list"].show()
+					self["key_red"].setText(_("Delete"))
+					self["key_yellow"].setText(_("Restore"))
+					self["key_blue"].setText(_("Restore settings"))
 				else:
-					self["key_red"].hide()
-					self["key_yellow"].hide()
-			except:
+					self["key_red"].setText("")
+					self["key_yellow"].setText("")
+					self["key_blue"].setText("")
+				if not self.BackupRunning and self.BackupDirectory:
+					self["key_green"].setText(_("New backup"))
+			except OSError as err:
 				self['lab7'].setText(_("Device: ") + config.backupmanager.backuplocation.value + "\n" + _("There is a problem with this device. Please reformat it and try again."))
+				self["list"].hide()
+				self["key_red"].setText("")
+				self["key_green"].setText("")
+				self["key_yellow"].setText("")
+				self["key_blue"].setText("")
 
 	def createSetup(self):
 		self.session.openWithCallback(self.setupDone, VISIONBackupManagerMenu, 'visionbackupmanager', 'SystemPlugins/Vision', PluginLanguageDomain)
 
 	def showLog(self):
-		self.sel = self['list'].getCurrent()
-		if self.sel:
-			filename = self.BackupDirectory + self.sel
-			self.session.open(VISIONBackupManagerLogView, filename)
+		try:
+			if self.BackupDirectory:
+				self.sel = self['list'].getCurrent()
+				if self.sel:
+					filename = self.BackupDirectory + self.sel
+					self.session.open(VISIONBackupManagerLogView, filename)
+		except OSError as err:
+			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
 
 	def setupDone(self, test=None):
 		if config.backupmanager.folderprefix.value == '':
@@ -297,13 +316,15 @@ class VISIONBackupManager(Screen):
 		self["backupstatus"].setText(str(backuptext))
 
 	def keyDelete(self):
-		self.sel = self['list'].getCurrent()
-		if self.sel:
-			message = _("Are you sure you want to delete this backup:\n ") + self.sel
-			confirm_delete = self.session.openWithCallback(self.BackupToDelete, MessageBox, message, MessageBox.TYPE_YESNO, default=False)
-			confirm_delete.setTitle(_("Remove confirmation"))
-		else:
-			self.session.open(MessageBox, _("There is no backup to delete."), MessageBox.TYPE_INFO, timeout=10)
+		try:
+			if self.BackupDirectory:
+				self.sel = self['list'].getCurrent()
+				if self.sel:
+					message = _("Are you sure you want to delete this backup:\n ") + self.sel
+					confirm_delete = self.session.openWithCallback(self.BackupToDelete, MessageBox, message, MessageBox.TYPE_YESNO, default=False)
+					confirm_delete.setTitle(_("Remove confirmation"))
+		except OSError as err:
+			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
 
 	def BackupToDelete(self, answer):
 		backupname = self.BackupDirectory + self.sel
@@ -311,48 +332,57 @@ class VISIONBackupManager(Screen):
 			remove(backupname)
 			self.populate_List()
 
-	def GreenPressed(self):
-		self.BackupRunning = False
-		for job in Components.Task.job_manager.getPendingJobs():
-			if job.name.startswith(_("Backup manager")):
-				self.BackupRunning = True
-				break
-		if self.BackupRunning:
-			self.showJobView(job)
-		else:
-			self.keyBackup()
+	def greenPressed(self):
+		try:
+			if self.BackupDirectory:
+				self.BackupRunning = False
+				for job in Components.Task.job_manager.getPendingJobs():
+					if job.name.startswith(_("Backup manager")):
+						self.BackupRunning = True
+						break
+				if self.BackupRunning:
+					self.showJobView(job)
+				else:
+					self.keyBackup()
+		except OSError as err:
+			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
 
 	def keyBackup(self):
 		self.BackupFiles = BackupFiles(self.session)
 		Components.Task.job_manager.AddJob(self.BackupFiles.createBackupJob())
 		self.BackupRunning = True
 		self["key_green"].setText(_("View progress"))
-		self["key_green"].show()
 		for job in Components.Task.job_manager.getPendingJobs():
 			if job.name.startswith(_("Backup manager")):
 				self.showJobView(job)
 				break
 
 	def keyResstore(self):
-		self.sel = self['list'].getCurrent()
-		if not self.BackupRunning:
-			if self.sel:
-				if path.exists('/tmp/ExtraInstalledPlugins'):
-					remove('/tmp/ExtraInstalledPlugins')
-				if path.exists('/tmp/backupkernelversion'):
-					remove('/tmp/backupkernelversion')
-				self.Console.ePopen("tar -xzvf " + self.BackupDirectory + self.sel + " -C / tmp/ExtraInstalledPlugins tmp/backupkernelversion tmp/backupimageversion", self.settingsRestoreCheck)
-			else:
-				self.session.open(MessageBox, _("There is no backup to restore."), MessageBox.TYPE_INFO, timeout=10)
-		else:
-			self.session.open(MessageBox, _("Backup in progress,\nPlease wait for it to finish, before trying again."), MessageBox.TYPE_INFO, timeout=10)
+		try:
+			if self.BackupDirectory:
+				self.sel = self['list'].getCurrent()
+				if not self.BackupRunning:
+					if self.sel:
+						if path.exists('/tmp/ExtraInstalledPlugins'):
+							remove('/tmp/ExtraInstalledPlugins')
+						if path.exists('/tmp/backupkernelversion'):
+							remove('/tmp/backupkernelversion')
+						self.Console.ePopen("tar -xzvf " + self.BackupDirectory + self.sel + " -C / tmp/ExtraInstalledPlugins tmp/backupkernelversion tmp/backupimageversion", self.settingsRestoreCheck)
+				else:
+					self.session.open(MessageBox, _("Backup in progress,\nPlease wait for it to finish, before trying again."), MessageBox.TYPE_INFO, timeout=10)
+		except OSError as err:
+			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
 
-	def RestoreSettings(self):
-		self.sel = self['list'].getCurrent()
-		if not self.BackupRunning:
-		    if self.sel:
-		        message = _("Restore only settings from this backup ?\n") + self.sel
-		        self.session.openWithCallback(self.StageRestoreSettings, MessageBox, message, MessageBox.TYPE_YESNO)
+	def restoreSettings(self):
+		try:
+			if self.BackupDirectory:
+				self.sel = self['list'].getCurrent()
+				if not self.BackupRunning:
+					if self.sel:
+						message = _("Restore only settings from this backup ?\n") + self.sel
+						self.session.openWithCallback(self.StageRestoreSettings, MessageBox, message, MessageBox.TYPE_YESNO)
+		except OSError as err:
+			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
 
 	def settingsRestoreCheck(self, result, retval, extra_args=None):
 		if path.exists('/tmp/backupkernelversion'):
@@ -378,7 +408,6 @@ class VISIONBackupManager(Screen):
 			Components.Task.job_manager.AddJob(self.createRestoreJob())
 			self.BackupRunning = True
 			self["key_green"].setText(_("View progress"))
-			self["key_green"].show()
 			for job in Components.Task.job_manager.getPendingJobs():
 				if job.name.startswith(_("Backup manager")):
 					self.showJobView(job)
@@ -458,18 +487,18 @@ class VISIONBackupManager(Screen):
 							 SETTINGSRESTOREQUESTIONID
 		)
 
+	def StageRestoreSettings(self, answer):
+		if answer == True:
+			 print('[BackupManager] Restoring only settings:')
+			 restoreSettings = "/sbin/init 4 && sleep 5 && tar -xzvf" + " " + self.BackupDirectory + self.sel + " -C / && /sbin/init 6"
+			 self.Console.ePopen("%s" % restoreSettings, self.Stage1SettingsComplete, self.session.open(MessageBox, _("Restoring settings, your receiver go to restart..."), MessageBox.TYPE_INFO))
+
 	def Stage1(self, answer=None):
 		print('[BackupManager] Restoring Stage 1:')
 		if answer is True:
 			self.Console.ePopen("sleep 1", self.Stage1SettingsComplete)
 		else:
 			self.Console.ePopen("tar -xzvf " + self.BackupDirectory + self.sel + " -C / tmp/ExtraInstalledPlugins tmp/backupkernelversion tmp/backupimageversion  tmp/3rdPartyPlugins", self.Stage1PluginsComplete)
-
-	def StageRestoreSettings(self, answer):
-		if answer == True:
-			 print('[BackupManager] Restoring only settings:')
-			 RestoreSettings = "/sbin/init 4 && sleep 5 && tar -xzvf" + " " + self.BackupDirectory + self.sel + " -C / && /sbin/init 6"
-			 self.Console.ePopen("%s" % RestoreSettings, self.Stage1SettingsComplete, self.session.open(MessageBox, _("Restoring settings, your receiver go to restart..."), MessageBox.TYPE_INFO))
 
 	def Stage1SettingsComplete(self, result, retval, extra_args):
 		print('[BackupManager] Restoring stage 1 result:', result)
@@ -717,10 +746,10 @@ class VISIONBackupManager(Screen):
 		self.Stage3Completed = True
 		self.Stage4Completed = True
 		self.Stage5Completed = True
-		KillE2ReBoot = "rm -f /tmp/backupkernelversion && /sbin/init 4 && sleep 10 && tar -xzvf " + self.BackupDirectory + self.sel + " -C / && /sbin/init 6"
+		killE2ReBoot = "rm -f /tmp/backupkernelversion && /sbin/init 4 && sleep 10 && tar -xzvf " + self.BackupDirectory + self.sel + " -C / && /sbin/init 6"
 		if self.didPluginsRestore and fileExists("/tmp/backupkernelversion") or self.didSettingsRestore and fileExists("/tmp/backupkernelversion"):
 			print('[BackupManager] Restoring backup')
-			self.Console.ePopen("%s" % KillE2ReBoot, self.Stage1SettingsComplete, self.session.open(MessageBox, _("Finishing restore, your receiver go to restart."), MessageBox.TYPE_INFO))
+			self.Console.ePopen("%s" % killE2ReBoot, self.Stage1SettingsComplete, self.session.open(MessageBox, _("Finishing restore, your receiver go to restart."), MessageBox.TYPE_INFO))
 		else:
 			return self.close()
 
@@ -1340,15 +1369,18 @@ class BackupFiles(Screen):
 		self.Console.ePopen("tar -T " + BackupFiles.tar_flist + " -czvf " + self.Backupfile, self.Stage4Complete)
 
 	def Stage4Complete(self, result, retval, extra_args):
-		if path.exists(self.Backupfile):
-			chmod(self.Backupfile, 0o644)
-			print('[BackupManager] Complete.')
-			remove('/tmp/ExtraInstalledPlugins')
-			self.Stage5Completed = True
-		else:
-			self.session.openWithCallback(self.BackupComplete, MessageBox, _("Backup failed - e. g. wrong backup destination or no space left on backup device."), MessageBox.TYPE_INFO, timeout=10)
-			print('[BackupManager] Result.', result)
-			print("{BackupManager] Backup failed - e. g. wrong backup destination or no space left on backup device")
+		try:
+			if listdir(self.BackupDevice):
+				chmod(self.Backupfile, 0o644)
+				print('[BackupManager] Complete.')
+				remove('/tmp/ExtraInstalledPlugins')
+				self.Stage5Completed = True
+			else:
+				self.session.openWithCallback(self.BackupComplete, MessageBox, _("Backup failed - e. g. wrong backup destination or no space left on backup device."), MessageBox.TYPE_INFO, timeout=10)
+				print('[BackupManager] Result.', result)
+				print("{BackupManager] Backup failed - e. g. wrong backup destination or no space left on backup device")
+		except OSError as err:
+			print("[Errno 5] Input/output error: %s" % self.BackupDevice)
 # Delete the list of backup files now that it's finished.
 # Ignore any failure here, as there's nothing useful we could do anyway...
 		try:

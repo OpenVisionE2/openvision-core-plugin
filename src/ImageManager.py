@@ -148,10 +148,10 @@ class VISIONImageManager(Screen):
 		self.setTitle(_("Vision Image Manager"))
 		self["lab7"] = Label()
 		self["backupstatus"] = Label()
-		self["key_red"] = Button(_("Delete"))
-		self["key_green"] = Button("New backup")
-		self["key_yellow"] = Button(_("Downloads"))
-		self["key_blue"] = Button(_("Flash"))
+		self["key_red"] = StaticText("")
+		self["key_green"] = StaticText("")
+		self["key_yellow"] = StaticText("")
+		self["key_blue"] = StaticText("")
 		self["key_menu"] = StaticText(_("MENU"))
 		self["lab1"] = StaticText(_("OpenVision"))
 		self["lab2"] = StaticText(_("Lets define enigma2 once more"))
@@ -196,16 +196,20 @@ class VISIONImageManager(Screen):
 			cb(name, desc)
 
 	def backupRunning(self):
-		self.BackupRunning = False
-		for job in Components.Task.job_manager.getPendingJobs():
-			if job.name.startswith(_("Image manager")):
-				self.BackupRunning = True
-		if self.BackupRunning:
-			self["key_green"].setText(_("View progress"))
-		else:
-			self["key_green"].setText(_("New backupimage"))
-		self.activityTimer.startLongTimer(5)
-		self.refreshList()
+		try:
+			if self.BackupDirectory:
+				self.BackupRunning = False
+				for job in Components.Task.job_manager.getPendingJobs():
+					if job.name.startswith(_("Image Manager")):
+						self.BackupRunning = True
+				if self.BackupRunning:
+					self["key_green"].setText(_("View progress"))
+				else:
+					self["key_green"].setText(_("New backupimage"))
+				self.activityTimer.startLongTimer(1)
+				self.refreshList()
+		except OSError as err:
+			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
 
 	def refreshUp(self):
 		self["list"].instance.moveSelection(self["list"].instance.moveUp)
@@ -226,14 +230,22 @@ class VISIONImageManager(Screen):
 			for fil in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]:  # sort by mtime
 				self.emlist.append(fil)
 			if len(self.emlist):
-				self["key_red"].show()
-				self["key_blue"].show()
+				self["list"].setList(self.emlist)
+				self["list"].show()
+				self["key_red"].setText(_("Delete"))
+				self["key_blue"].setText(_("Flash"))
+				self["key_yellow"].setText(_("Downloads"))
 			else:
-				self["key_red"].hide()
-				self["key_blue"].hide()
-			self["list"].setList(self.emlist)
-			self["list"].show()
+				self["key_red"].setText("")
+				self["key_blue"].setText("")
+				self["key_yellow"].setText(_("Downloads"))
 		except OSError as err:
+			self["lab7"].setText(_("Device: ") + config.imagemanager.backuplocation.value + "\n" + _("There is a problem with this device. Please reformat it and try again."))
+			self["list"].hide()
+			self["key_red"].setText("")
+			self["key_green"].setText("")
+			self["key_blue"].setText("")
+			self["key_yellow"].setText("")
 			print("[Errno 30] Device is in Read-Only mode. [Errno 2] No such file or directory: %s" % self.BackupDirectory)
 
 	def getJobName(self, job):
@@ -257,7 +269,7 @@ class VISIONImageManager(Screen):
 			self["myactions"] = ActionMap(["ColorActions", "OkCancelActions", "DirectionActions", "MenuActions", "HelpActions"], {
 				"cancel": self.close,
 				"red": self.keyDelete,
-				"green": self.GreenPressed,
+				"green": self.greenPressed,
 				"yellow": self.doDownload,
 				"menu": self.createSetup,
 				"ok": self.keyRestore,
@@ -269,27 +281,37 @@ class VISIONImageManager(Screen):
 			if hddchoices:
 				self.BackupDirectory = config.imagemanager.backuplocation.value + "/imagebackups/"
 				config.imagemanager.backuplocation.save()
-				s = statvfs(config.imagemanager.backuplocation.value)
-				free = (s.f_bsize * s.f_bavail) / (1024 * 1024)
-				self["lab7"].setText(_("Device: ") + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _("MB") + "\n" + _("Select what you want to do"))
-
+				size = statvfs(config.imagemanager.backuplocation.value)
+				free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
+				self["lab7"].setText(_("Device: ") + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select what you want to do"))
 			try:
-				if not path.exists(self.BackupDirectory):
+				if not self.BackupDirectory:
 					mkdir(self.BackupDirectory, 0o755)
 				if path.exists(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup"):
 					system("swapoff " + self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
 					remove(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
 				self.refreshList()
+				if self.BackupDirectory:
+					self["list"].show()
+					self["key_red"].setText(_("Delete"))
+					self["key_yellow"].setText(_("Downloads"))
+					self["key_blue"].setText(_("Flash"))
+				if self.BackupDirectory and not self.BackupRunning:
+					self["key_green"].setText(_("New backupimage"))
 			except Exception:
-				self["lab7"].setText(_("Device: ") + config.imagemanager.backuplocation.value + "\n" + _("There is a problem with this device. Please reformat it and try again."))
+				print("[Errno 30] Device is in Read-Only mode. [Errno 2] No such file or directory: %s" % self.BackupDirectory)
 
 	def createSetup(self):
 		self.session.openWithCallback(self.setupDone, ImageManagerSetup)
 
 	def doDownload(self):
-		choices = [("Open Vision", config.imagemanager.imagefeed_OV), ("OpenATV", config.imagemanager.imagefeed_ATV), ("OpenPLi", config.imagemanager.imagefeed_PLi), ("OpenViX", config.imagemanager.imagefeed_ViX), ("OpenBh", config.imagemanager.imagefeed_OBH)]
-		message = _("From which image library do you want to download?")
-		self.session.openWithCallback(self.doDownloadCallback, MessageBox, message, list=sorted(sorted(choices, key=lambda choice: choice[0]), key=lambda choice: choice[0] == imagedistro, reverse=True), default=0, simple=True)
+		try:
+			if self.BackupDirectory:
+				choices = [("Open Vision", config.imagemanager.imagefeed_OV), ("OpenATV", config.imagemanager.imagefeed_ATV), ("OpenPLi", config.imagemanager.imagefeed_PLi), ("OpenViX", config.imagemanager.imagefeed_ViX), ("OpenBh", config.imagemanager.imagefeed_OBH)]
+				message = _("From which image library do you want to download?")
+				self.session.openWithCallback(self.doDownloadCallback, MessageBox, message, list=sorted(sorted(choices, key=lambda choice: choice[0]), key=lambda choice: choice[0] == imagedistro, reverse=True), default=0, simple=True)
+		except OSError as err:
+			print("[Errno 30] Device is in Read-Only mode. [Errno 2] No such file or directory: %s" % self.BackupDirectory)
 
 	def doDownloadCallback(self, retval): # retval will be the config element (or False, in the case of aborting the MessageBox).
 		if retval:
@@ -319,35 +341,41 @@ class VISIONImageManager(Screen):
 		self["backupstatus"].setText(str(backuptext))
 
 	def keyDelete(self):
-		self.sel = self["list"].getCurrent()
-		if self.sel:
-			message = _("Are you sure you want to delete this backup:\n ") + self.sel
-			confirm_delete = self.session.openWithCallback(self.BackupToDelete, MessageBox, message, MessageBox.TYPE_YESNO, default=False)
-			confirm_delete.setTitle(_("Remove confirmation"))
-		else:
-			self.session.open(MessageBox, _("There is no backup to delete."), MessageBox.TYPE_INFO, timeout=10)
+		try:
+			if self.BackupDirectory:
+				self.sel = self["list"].getCurrent()
+				if self.sel:
+					message = _("Are you sure you want to delete this backup:\n ") + self.sel
+					confirm_delete = self.session.openWithCallback(self.backupToDelete, MessageBox, message, MessageBox.TYPE_YESNO, default=False)
+					confirm_delete.setTitle(_("Remove confirmation"))
+		except OSError as err:
+			print("[Errno 30] Device is in Read-Only mode. [Errno 2] No such file or directory: %s" % self.BackupDirectory)
 
-	def BackupToDelete(self, answer):
+	def backupToDelete(self, answer):
 		self.sel = self["list"].getCurrent()
 		backupname = self.BackupDirectory + self.sel
 		folderprefix = config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-" + str(visionlanguage)
 		cmd = "rm -rf %s" % backupname
 		if answer == True:
-		    if self.sel.startswith(folderprefix) and self.BackupRunning == False or self.sel.endswith(".zip"):
-		        Console().ePopen(cmd)
+			if self.sel.startswith(folderprefix) and self.BackupRunning == False or self.sel.endswith(".zip"):
+				Console().ePopen(cmd)
 			self.refreshList()
 
-	def GreenPressed(self):
-		backup = None
-		self.BackupRunning = False
-		for job in Components.Task.job_manager.getPendingJobs():
-			if job.name.startswith(_("Image manager")):
-				backup = job
-				self.BackupRunning = True
-		if self.BackupRunning and backup:
-			self.showJobView(backup)
-		else:
-			self.keyBackup()
+	def greenPressed(self):
+		try:
+			if self.BackupDirectory:
+				backup = None
+				self.BackupRunning = False
+				for job in Components.Task.job_manager.getPendingJobs():
+					if job.name.startswith(_("Image Manager")):
+						backup = job
+						self.BackupRunning = True
+				if self.BackupRunning and backup:
+					self.showJobView(backup)
+				else:
+					self.keyBackup()
+		except OSError as err:
+			print("[Errno 30] Device is in Read-Only mode. [Errno 2] No such file or directory: %s" % self.BackupDirectory)
 
 	def keyBackup(self):
 		message = _("Do you want to create a full image backup?\nThis can take about 6 minutes to complete.")
@@ -360,7 +388,6 @@ class VISIONImageManager(Screen):
 			Components.Task.job_manager.AddJob(self.ImageBackup.createBackupJob())
 			self.BackupRunning = True
 			self["key_green"].setText(_("View progress"))
-			self["key_green"].show()
 			for job in Components.Task.job_manager.getPendingJobs():
 				if job.name.startswith(_("Image manager")):
 					break
@@ -377,38 +404,42 @@ class VISIONImageManager(Screen):
 		self.session.openWithCallback(self.keyRestore3, JobView, job, cancelable=False, backgroundable=False, afterEventChangeable=False)
 
 	def keyRestore(self):
-		self.sel = self["list"].getCurrent()
-		if not self.sel:
-			return
-		self.HasSDmmc = False
-		self.multibootslot = 1
-		self.MTDKERNEL = mtdkernel
-		self.MTDROOTFS = mtdrootfs
-		if model == "et8500" and path.exists("/proc/mtd"):
-			self.dualboot = self.dualBoot()
-		recordings = self.session.nav.getRecordings()
-		if not recordings:
-			next_rec_time = self.session.nav.RecordTimer.getNextRecordingTime()
-		if recordings or (next_rec_time > 0 and (next_rec_time - time()) < 360):
-			self.message = _("Recording(s) are in progress or coming up in few seconds!\nDo you still want to flash image\n%s?") % self.sel
-		else:
-			self.message = _("Do you want to flash image\n%s") % self.sel
-		if BoxInfo.getItem("canMultiBoot") is False:
-			if config.imagemanager.autosettingsbackup.value:
-				self.doSettingsBackup()
-			else:
-				self.keyRestore3()
-		if BoxInfo.getItem("HiSilicon"):
-			if pathExists("/dev/sda4"):
-				self.HasSDmmc = True
-		imagedict = getImageList()
-		choices = []
-		HIslot = len(imagedict) + 1
-		currentimageslot = getCurrentImage()
-		print("ImageManager", currentimageslot, self.imagelist)
-		for x in range(1, HIslot):
-			choices.append(((_("slot%s - %s (current image)") if x == currentimageslot else _("slot%s - %s")) % (x, imagedict[x]["imagename"]), (x)))
-		self.session.openWithCallback(self.keyRestore2, MessageBox, self.message, list=choices, default=currentimageslot, simple=True)
+		try:
+			if self.BackupDirectory:
+				self.sel = self["list"].getCurrent()
+				if not self.sel:
+					return
+				self.HasSDmmc = False
+				self.multibootslot = 1
+				self.MTDKERNEL = mtdkernel
+				self.MTDROOTFS = mtdrootfs
+				if model == "et8500" and path.exists("/proc/mtd"):
+					self.dualboot = self.dualBoot()
+				recordings = self.session.nav.getRecordings()
+				if not recordings:
+					next_rec_time = self.session.nav.RecordTimer.getNextRecordingTime()
+				if recordings or (next_rec_time > 0 and (next_rec_time - time()) < 360):
+					self.message = _("Recording(s) are in progress or coming up in few seconds!\nDo you still want to flash image\n%s?") % self.sel
+				else:
+					self.message = _("Do you want to flash image\n%s") % self.sel
+				if BoxInfo.getItem("canMultiBoot") is False:
+					if config.imagemanager.autosettingsbackup.value:
+						self.doSettingsBackup()
+					else:
+						self.keyRestore3()
+				if BoxInfo.getItem("HiSilicon"):
+					if pathExists("/dev/sda4"):
+						self.HasSDmmc = True
+				imagedict = GetImagelist()
+				choices = []
+				HIslot = len(imagedict) + 1
+				currentimageslot = getCurrentImage()
+				print("ImageManager", currentimageslot, self.imagelist)
+				for x in range(1, HIslot):
+					choices.append(((_("slot%s - %s (current image)") if x == currentimageslot else _("slot%s - %s")) % (x, imagedict[x]["imagename"]), (x)))
+				self.session.openWithCallback(self.keyRestore2, MessageBox, self.message, list=choices, default=currentimageslot, simple=True)
+		except OSError as err:
+			print("[Errno 30] Device is in Read-Only mode. [Errno 2] No such file or directory: %s" % self.BackupDirectory)
 
 	def keyResstore0(self, answer):
 		if answer:
@@ -916,28 +947,32 @@ class ImageBackup(Screen):
 		self.SwapCreated = True
 
 	def doBackup1(self):
-		print("[ImageManager] Stage 1: Creating tmp folders.", self.BackupDirectory)
-		print("[ImageManager] Stage 1: Creating backup folders.")
-		mount = self.TMPDIR + "/root/"
-		for folder in ["linuxrootfs1", "proc"]:
-		    if path.exists(mount + folder):
-			    return self.session.open(TryQuitMainloop, 2)
-		if path.exists(self.WORKDIR):
-			rmtree(self.WORKDIR)
-		mkdir(self.WORKDIR, 0o644)
-		if path.exists(self.TMPDIR):
-			rmtree(self.TMPDIR)
-		makedirs(self.TMPDIR, 0o644)
-		makedirs(self.TMPDIR + "/root", 0o644)
-		makedirs(self.MAINDESTROOT, 0o644)
-		self.commands = []
-		makedirs(self.MAINDEST, 0o644)
-		print("[ImageManager] Stage 1: Making kernel image.")
-		if "bin" or "uImage" in self.KERNELFILE:
-			self.command = "dd if=/dev/%s of=%s/kernel.bin" % (self.MTDKERNEL, self.WORKDIR)
-		else:
-			self.command = "nanddump /dev/%s -f %s/vmlinux.gz" % (self.MTDKERNEL, self.WORKDIR)
-		self.Console.ePopen(self.command, self.Stage1Complete)
+		try:
+			if self.BackupDirectory:
+				print("[ImageManager] Stage 1: Creating tmp folders.", self.BackupDirectory)
+				print("[ImageManager] Stage 1: Creating backup folders.")
+				mount = self.TMPDIR + "/root/"
+				for folder in ["linuxrootfs1", "proc"]:
+					if path.exists(mount + folder):
+						return self.session.open(TryQuitMainloop, 2)
+				if path.exists(self.WORKDIR):
+					rmtree(self.WORKDIR)
+				mkdir(self.WORKDIR, 0o644)
+				if path.exists(self.TMPDIR):
+					rmtree(self.TMPDIR)
+				makedirs(self.TMPDIR, 0o644)
+				makedirs(self.TMPDIR + "/root", 0o644)
+				makedirs(self.MAINDESTROOT, 0o644)
+				self.commands = []
+				makedirs(self.MAINDEST, 0o644)
+				print("[ImageManager] Stage 1: Making kernel image.")
+				if "bin" or "uImage" in self.KERNELFILE:
+					self.command = "dd if=/dev/%s of=%s/kernel.bin" % (self.MTDKERNEL, self.WORKDIR)
+				else:
+					self.command = "nanddump /dev/%s -f %s/vmlinux.gz" % (self.MTDKERNEL, self.WORKDIR)
+				self.Console.ePopen(self.command, self.Stage1Complete)
+		except OSError as err:
+			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
 
 	def Stage1Complete(self, result, retval, extra_args=None):
 		if retval == 0:
