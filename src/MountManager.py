@@ -116,6 +116,7 @@ def buildPartitionInfo(partition, partitionList):
 
 	description = ""
 	mediamount = _("None")
+	mountpoint = _("None")
 	_format = _("unavailable")
 	rw = _("None")
 
@@ -123,8 +124,15 @@ def buildPartitionInfo(partition, partitionList):
 		for line in f.readlines():
 			if line.find(partition) != -1:
 				parts = line.strip().split()
-				mediamount = parts[1]		# media mount e.g. /media/xxxxx
-				_format = parts[2]		# _format e.g. ext4
+				mountpoint = parts[1]
+				_format = parts[2]
+				rw = parts[3]
+				break
+				continue
+	with open("/proc/partitions", "r") as f:
+		for line in f.readlines():
+			if line.find(partition) != -1:
+				parts = line.strip().split()
 # Also, map any fuseblk fstype to the real file-system behind it...
 # Use blkid to get the info we need....
 #
@@ -133,23 +141,16 @@ def buildPartitionInfo(partition, partitionList):
 					res = subprocess.run(['blkid', '-sTYPE', '-ovalue', parts[0]], capture_output=True)
 					if res.returncode == 0:
 						_format = six.ensure_str(res.stdout).strip()
-				rw = parts[3]			# read/write
 				break
-
-	if mediamount == _("None") or mediamount is None:
-		description = _("Size: ") + _("unavailable")
-	else:
-		stat = statvfs(mediamount)
-		# print("[MountManager1]mediamount: %s" % mediamount)
-		size = (stat.f_blocks * stat.f_bsize) / (1000 * 1000) # get size in MB
+		size = int(parts[2]) # get size partitions
 		if size < 1: # is condition ever fulfilled?
 			description = _("Size: unavailable")
-		if size < 1000:
+		if size < 1000 * 1000:
 			description = _("Size: %sMB") % str(int(size))
-		elif size < 1000 * 1000:
-			description = _("Size: %sGB") % format(size / 1000, '.2f')
+		elif size < 1000 * 1000 * 1000:
+			description = _("Size: %sGB") % format(size / (1000 * 1000), '.2f')
 		else:
-			description = _("Size: %sTB") % format(size / (1000 * 1000), '.2f')
+			description = _("Size: %sTB") % format(size / (1000 * 1000 * 1000), '.2f')
 	if description != "": # how will this ever return false?
 		if BoxInfo.getItem("MountManager"): # called by VISIONDevicesPanel else DeviceMountSetup
 			if rw.startswith("rw"):
@@ -158,7 +159,7 @@ def buildPartitionInfo(partition, partitionList):
 				rw = " R/O"
 			else:
 				rw = ""
-			description += "\t" + _("Mount: ") + mediamount + "\n" + _("Device: ") + "/dev/" + partition + "\t" + _("Type: ") + _format + rw
+			description += "\t" + _("Mount: ") + mountpoint + "\n" + _("Device: ") + "/dev/" + partition + "\t" + _("Type: ") + _format + rw
 			png = LoadPixmap(mypixmap)
 			partitionInfo = (name, description, png)
 		else:
@@ -264,7 +265,7 @@ class VISIONDevicesPanel(Screen):
 				line = line.strip()
 				if _("Mount: ") in line:
 					if line.find("/media/hdd") < 0:
-					    self["key_red"].setText(_("Use as HDD"))
+						self["key_red"].setText(_("Use as HDD"))
 				else:
 					self["key_red"].setText("")
 			except Exception:
@@ -346,23 +347,26 @@ class VISIONDevicesPanel(Screen):
 			self.session.open(MessageBox, _("This Device is already mounted as HDD."), MessageBox.TYPE_INFO, timeout=10, close_on_any_key=True)
 
 	def addFstab(self, result=None, retval=None, extra_args=None):
-		self.device = extra_args[0]
-		self.mountp = extra_args[1]
-		self.device_uuid = "UUID=" + six.ensure_str(result).split("UUID=")[1].split(" ")[0].replace('"', '')
-		# print("[MountManager1][addFstab1]: device = %s, mountp=%s, UUID=%s" %(self.device, self.mountp, self.device_uuid))
-		if not path.exists(self.mountp):
-			mkdir(self.mountp, 0o755)
-		open("/etc/fstab.tmp", "w").writelines([l for l in open("/etc/fstab").readlines() if "/media/hdd" not in l])
-		rename("/etc/fstab.tmp", "/etc/fstab")
-		open("/etc/fstab.tmp", "w").writelines([l for l in open("/etc/fstab").readlines() if self.device not in l])
-		rename("/etc/fstab.tmp", "/etc/fstab")
-		open("/etc/fstab.tmp", "w").writelines([l for l in open("/etc/fstab").readlines() if self.device_uuid not in l])
-		rename("/etc/fstab.tmp", "/etc/fstab")
-		with open("/etc/fstab", "a") as fd:
-			line = self.device_uuid + "\t/media/hdd\tauto\tdefaults\t0 0\n"
-			fd.write(line)
-		fd.close()
-		self.Console.ePopen("mount -a", self.setTimer)
+		try:
+			self.device = extra_args[0]
+			self.mountp = extra_args[1]
+			self.device_uuid = "UUID=" + six.ensure_str(result).split("UUID=")[1].split(" ")[0].replace('"', '')
+			# print("[MountManager1][addFstab1]: device = %s, mountp=%s, UUID=%s" %(self.device, self.mountp, self.device_uuid))
+			if not path.exists(self.mountp):
+				mkdir(self.mountp, 0o755)
+			open("/etc/fstab.tmp", "w").writelines([l for l in open("/etc/fstab").readlines() if "/media/hdd" not in l])
+			rename("/etc/fstab.tmp", "/etc/fstab")
+			open("/etc/fstab.tmp", "w").writelines([l for l in open("/etc/fstab").readlines() if self.device not in l])
+			rename("/etc/fstab.tmp", "/etc/fstab")
+			open("/etc/fstab.tmp", "w").writelines([l for l in open("/etc/fstab").readlines() if self.device_uuid not in l])
+			rename("/etc/fstab.tmp", "/etc/fstab")
+			with open("/etc/fstab", "a") as fd:
+				line = self.device_uuid + "\t/media/hdd\tauto\tdefaults\t0 0\n"
+				fd.write(line)
+			fd.close()
+			self.Console.ePopen("mount -a", self.setTimer)
+		except Exception:
+			pass
 
 	def saveMounthdd(self):
 		if len(self["list"].list) < 1:
@@ -422,9 +426,9 @@ class VISIONDevicesPanel(Screen):
 					return
 				for line in f.readlines():
 					if "/media/hdd" in line:
-					     message = _("The changes need a system restart to take effect.\nRestart your receiver now?")
-					     ybox = self.session.openWithCallback(self.restartBox, MessageBox, message, MessageBox.TYPE_YESNO)
-					     ybox.setTitle(_("Restart receiver."))
+						 message = _("The changes need a system restart to take effect.\nRestart your receiver now?")
+						 ybox = self.session.openWithCallback(self.restartBox, MessageBox, message, MessageBox.TYPE_YESNO)
+						 ybox.setTitle(_("Restart receiver."))
 
 	def restartBox(self, answer):
 		if answer is True:
