@@ -63,7 +63,7 @@ class VISIONMenu(Screen, ProtectedScreen):
 		if self.menu == 0:
 			self.list.append(("%s" % BackupManager, _("Backup Manager"), (_("Manage settings backup.")), None))
 			self.list.append(("%s" % ImageManager, _("Image Manager"), (_("Backup/Flash/ReBoot system image.")), None))
-			self.list.append(("%s" % InstallLocalExtension, _("Install Local Extension"), (_("Install IPK's from your tmp folder.")), None))
+			self.list.append(("%s" % InstallLocalExtension, _("Install Local Extension"), (_("Install IPK's from /tmp folder or from your default folder.")), None))
 			self.list.append(("%s" % MountManager, _("Mount Manager"), (_("Manage your devices mount points.")), None))
 			self.list.append(("%s" % ScriptRunner, _("Script Runner"), (_("Run your shell scripts.")), None))
 			self.list.append(("%s" % SwapManager, _("Swap Manager"), (_("Create and Manage your SWAP files.")), None))

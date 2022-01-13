@@ -59,7 +59,7 @@ class VISIONIPKInstaller(Screen):
 									  }, -1)
 
 		self["key_red"] = Button(_("Close"))
-		self["key_green"] = Button(_("Install"))
+		self["key_green"] = StaticText("")
 		self["key_yellow"] = Button()
 
 		self.list = []
@@ -87,8 +87,9 @@ class VISIONIPKInstaller(Screen):
 
 	def changelocation(self):
 		if self.defaultDir == '/tmp':
-			self["key_yellow"].setText(_("Extra IPK's"))
+			self["key_yellow"].setText(_("Search IPK's"))
 			self.defaultDir = config.backupmanager.xtraplugindir.value
+			self['lab7'].setText(_("No IPK files found in your default folder"))
 			if not self.defaultDir:
 				message = _("It seems you have not setup an extra location. Please set it up in the Backup manager setup menu.")
 				ybox = self.session.open(MessageBox, message, MessageBox.TYPE_INFO)
@@ -100,23 +101,24 @@ class VISIONIPKInstaller(Screen):
 			else:
 				self.populate_List()
 		else:
-			self["key_yellow"].setText(_("Temp folder"))
 			self.defaultDir = '/tmp'
+			self['lab7'].setText(_("No IPK files found in temp folder"))
+			self["key_green"].setText("")
 			self.populate_List()
 
 	def populate_List(self):
 		if self.defaultDir == '/tmp':
-			self["key_yellow"].setText(_("Extra IPK's"))
+			self["key_yellow"].setText(_("Search IPK's"))
 		else:
 			self["key_yellow"].setText(_("Temp folder"))
-
-		self['lab7'].setText(_("Select a package to install:"))
 
 		del self.list[:]
 		f = listdir(self.defaultDir)
 		for line in f:
 			if line.find('.ipk') != -1:
 				self.list.append(line)
+				self["key_green"].setText(_("Install"))
+				self['lab7'].setText(_("Select a package to install:"))
 
 		if path.ismount('/media/usb'):
 			f = listdir('/media/usb')
@@ -128,9 +130,11 @@ class VISIONIPKInstaller(Screen):
 		self['list'].l.setList(self.list)
 
 	def keyInstall(self):
-		message = _("Are you ready to install ?")
-		ybox = self.session.openWithCallback(self.Install, MessageBox, message, MessageBox.TYPE_YESNO)
-		ybox.setTitle(_("Install confirmation"))
+		sel = self['list'].getCurrent()
+		if sel:
+			message = _("Are you ready to install ?")
+			ybox = self.session.openWithCallback(self.Install, MessageBox, message, MessageBox.TYPE_YESNO)
+			ybox.setTitle(_("Install confirmation"))
 
 	def Install(self, answer):
 		if answer is True:
@@ -177,12 +181,11 @@ class OpkgInstaller(Screen):
 		Screen.setTitle(self, _("IPK installer"))
 		self.list = SelectionList()
 		self["list"] = self.list
+		self["key_green"] = StaticText("")
 		for listindex in range(len(list)):
 			if not list[listindex].split('/')[-1].startswith('._'):
 				self.list.addSelection(list[listindex].split('/')[-1], list[listindex], listindex, False)
-
 		self["key_red"] = StaticText(_("Close"))
-		self["key_green"] = StaticText(_("Install"))
 		self["key_yellow"] = StaticText()
 		self["key_blue"] = StaticText(_("Invert"))
 		self["introduction"] = StaticText(_("Press OK to toggle the selection."))
