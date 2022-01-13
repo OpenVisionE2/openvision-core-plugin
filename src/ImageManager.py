@@ -1402,7 +1402,7 @@ class ImageManagerDownload(Screen):
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
 		self["lab7"] = Label(_("Select an image to download:"))
 		self["key_red"] = Button(_("Close"))
-		self["key_green"] = Button(_("Download"))
+		self["key_green"] = StaticText("")
 		self["ImageDown"] = ActionMap(["OkCancelActions", "ColorActions", "DirectionActions", "KeyboardInputActions", "MenuActions"], {
 			"cancel": self.close,
 			"red": self.close,
