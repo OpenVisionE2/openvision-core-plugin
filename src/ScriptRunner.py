@@ -54,8 +54,14 @@ class VISIONScriptRunner(OpkgInstaller):
 		self["lab4"] = StaticText(_("https://openvision.tech"))
 		self["lab5"] = StaticText(_("Sources are available at:"))
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
-
-		self["key_green"] = StaticText(_("Run"))
+		self["key_green"] = StaticText("")
+		self["key_blue"] = StaticText("")
+		if list:
+			self["key_green"].setText(_("Run"))
+			self["key_blue"].setText(_("Invert"))
+		else:
+			self["key_green"].setText("")
+			self["key_blue"].setText("")
 
 		self['myactions'] = ActionMap(["ColorActions", "MenuActions"], {
 			"menu": self.createSetup,
