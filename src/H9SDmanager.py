@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 from Screens.Screen import Screen
 from Screens.Standby import TryQuitMainloop
 from Screens.Console import Console

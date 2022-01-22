@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 # for localized messages
 from . import _, PluginLanguageDomain
 
@@ -10,7 +8,7 @@ from Components.ActionMap import ActionMap
 from Components.Label import Label
 from Components.Sources.StaticText import StaticText
 from Components.config import config, ConfigSubsection, ConfigYesNo
-from IPKInstaller import OpkgInstaller
+from . IPKInstaller import OpkgInstaller
 from Components.PluginComponent import plugins
 from Tools.Directories import resolveFilename, SCOPE_PLUGINS
 from os import path, mkdir, listdir, rename

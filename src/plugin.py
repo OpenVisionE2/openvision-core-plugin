@@ -5,13 +5,13 @@ from . import _
 from os import listdir, path
 from Plugins.Plugin import PluginDescriptor
 from Components.config import config, ConfigBoolean
-from BackupManager import BackupManagerautostart
-from ImageManager import ImageManagerautostart
-from SwapManager import SwapAutostart
-from SoftcamManager import SoftcamAutostart
-from ScriptRunner import ScriptRunnerAutostart
-from IPKInstaller import OpkgInstaller
-from ClientModeBox import ClientModeBoxWizard
+from . BackupManager import BackupManagerautostart
+from . ImageManager import ImageManagerautostart
+from . SwapManager import SwapAutostart
+from . SoftcamManager import SoftcamAutostart
+from . ScriptRunner import ScriptRunnerAutostart
+from . IPKInstaller import OpkgInstaller
+from . ClientModeBox import ClientModeBoxWizard
 from Components.SystemInfo import BoxInfo
 
 config.misc.restorewizardrun = ConfigBoolean(default=False)
@@ -58,7 +58,7 @@ def checkConfigBackup():
 					for file in files:
 						if file.endswith('.tar.gz') and "vision" in file.lower():
 							list.append((path.join(devpath, file)))
- 		if len(list):
+		if len(list):
 			print('[Vision] Backup image:', list[0])
 			backupfile = list[0]
 			if path.isfile(backupfile):
@@ -79,7 +79,7 @@ if config.misc.firstrun.value and not config.misc.restorewizardrun.value:
 
 
 def VISIONMenu(session):
-	import ui
+	from .import ui
 	return ui.VISIONMenu(session)
 
 
@@ -94,12 +94,12 @@ def startSetup(menuid):
 
 
 def RestoreWizard(*args, **kwargs):
-	from RestoreWizard import RestoreWizard
+	from .RestoreWizard import RestoreWizard
 	return RestoreWizard(*args, **kwargs)
 
 
 def SoftcamManager(session):
-	from SoftcamManager import VISIONSoftcamManager
+	from .SoftcamManager import VISIONSoftcamManager
 	return VISIONSoftcamManager(session)
 
 
@@ -114,7 +114,7 @@ def SoftcamSetup(menuid):
 
 
 def BackupManager(session):
-	from BackupManager import VISIONBackupManager
+	from .BackupManager import VISIONBackupManager
 	return VISIONBackupManager(session)
 
 
@@ -123,7 +123,7 @@ def BackupManagerMenu(session, **kwargs):
 
 
 def ImageManager(session):
-	from ImageManager import VISIONImageManager
+	from .ImageManager import VISIONImageManager
 	return VISIONImageManager(session)
 
 
@@ -133,7 +133,7 @@ def ImageMangerMenu(session, **kwargs):
 
 if BoxInfo.getItem("HasH9SD"):
 	def H9SDmanager(session):
-		from H9SDmanager import H9SDmanager
+		from .H9SDmanager import H9SDmanager
 		return H9SDmanager(session)
 
 	def H9SDmanagerMenu(session, **kwargs):
@@ -141,7 +141,7 @@ if BoxInfo.getItem("HasH9SD"):
 
 
 def MountManager(session):
-	from MountManager import VISIONDevicesPanel
+	from .MountManager import VISIONDevicesPanel
 	return VISIONDevicesPanel(session)
 
 
@@ -150,7 +150,7 @@ def MountManagerMenu(session, **kwargs):
 
 
 def ScriptRunner(session):
-	from ScriptRunner import VISIONScriptRunner
+	from .ScriptRunner import VISIONScriptRunner
 	return VISIONScriptRunner(session)
 
 
@@ -159,7 +159,7 @@ def ScriptRunnerMenu(session, **kwargs):
 
 
 def SwapManager(session):
-	from SwapManager import VISIONSwap
+	from .SwapManager import VISIONSwap
 	return VISIONSwap(session)
 
 

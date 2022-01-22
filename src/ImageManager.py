@@ -880,7 +880,7 @@ class ImageBackup(Screen):
 			print("[ImageManager] Device: " + config.imagemanager.backuplocation.value + ", i don't seem to have write access to this device.")
 
 		s = statvfs(self.BackupDevice)
-		free = (s.f_bsize * s.f_bavail) / (1024 * 1024)
+		free = (s.f_bsize * s.f_bavail) // (1024 * 1024)
 		if int(free) < 200:
 			AddPopupWithCallback(
 				self.BackupComplete,

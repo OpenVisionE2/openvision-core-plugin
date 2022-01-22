@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 from __future__ import print_function
 import six
 from . import _
@@ -261,7 +259,7 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 		self.Console.ePopen('ifdown -v -f eth0; ifup -v eth0 && opkg update', self.doRestorePluginsTestComplete)
 
 	def doRestorePluginsTestComplete(self, result=None, retval=None, extra_args=None):
-		result2 = result.decode("utf8")
+		result2 = result
 		print('[RestoreWizard] Stage 4: Feeds test result', result2)
 		if result2.find('wget returned 4') != -1:
 			self.NextStep = 'reboot'
@@ -299,7 +297,7 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 		plugins = []
 		if path.exists('/tmp/ExtraInstalledPlugins'):
 			self.pluginslist = []
-			for line in result.decode("utf8").split("\n"):
+			for line in result.split("\n"):
 				if line:
 					parts = line.strip().split()
 					plugins.append(parts[0])

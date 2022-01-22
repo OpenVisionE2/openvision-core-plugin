@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 # for localized messages
 from . import _
 from Screens.Screen import Screen
@@ -128,28 +126,28 @@ class VISIONMenu(Screen, ProtectedScreen):
 			currentEntry = current[0]
 			if self.menu == 0:
 				if currentEntry == (_("Backup Manager")):
-					from BackupManager import VISIONBackupManager
+					from . BackupManager import VISIONBackupManager
 					self.session.open(VISIONBackupManager)
 				elif currentEntry == (_("Image Manager")):
-					from ImageManager import VISIONImageManager
+					from . ImageManager import VISIONImageManager
 					self.session.open(VISIONImageManager)
 				elif currentEntry == (_("Install Local Extension")):
-					from IPKInstaller import VISIONIPKInstaller
+					from . IPKInstaller import VISIONIPKInstaller
 					self.session.open(VISIONIPKInstaller)
 				elif currentEntry == (_("Mount Manager")):
-					from MountManager import VISIONDevicesPanel
+					from . MountManager import VISIONDevicesPanel
 					self.session.open(VISIONDevicesPanel)
 				elif currentEntry == (_("Script Runner")):
-					from ScriptRunner import VISIONScriptRunner
+					from . ScriptRunner import VISIONScriptRunner
 					self.session.open(VISIONScriptRunner, None)
 				elif currentEntry == (_("Swap Manager")):
-					from SwapManager import VISIONSwap
+					from . SwapManager import VISIONSwap
 					self.session.open(VISIONSwap)
 				elif currentEntry == (_("Client Mode Box")):
-					from ClientModeBox import ClientModeBoxWizard
+					from . ClientModeBox import ClientModeBoxWizard
 					self.session.open(ClientModeBoxWizard)
 				elif currentEntry == (_("H9 SDcard Manager")) and BoxInfo.getItem("HasH9SD"):
-					from H9SDmanager import H9SDmanager
+					from . H9SDmanager import H9SDmanager
 					self.session.open(H9SDmanager)
 
 	def closeRecursive(self):

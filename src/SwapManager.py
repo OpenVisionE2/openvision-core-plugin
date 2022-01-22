@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 from __future__ import print_function, division
 # for localized messages
 from os import system, stat as mystat, path, remove, rename
@@ -174,7 +172,7 @@ class VISIONSwap(Screen):
 		self.swap_active = False
 		self.device = False
 		if sys.version_info >= (3, 0):
-			result = result.decode('utf-8')
+			result = result
 		if result.find("sd") > 0:
 			self["key_blue"].setText("")
 			for line in result.split("\n"):
