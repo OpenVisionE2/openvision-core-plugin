@@ -430,7 +430,7 @@ class VISIONImageManager(Screen):
 				if BoxInfo.getItem("HiSilicon"):
 					if pathExists("/dev/sda4"):
 						self.HasSDmmc = True
-				imagedict = GetImagelist()
+				imagedict = getImageList()
 				choices = []
 				HIslot = len(imagedict) + 1
 				currentimageslot = getCurrentImage()
