@@ -1,6 +1,6 @@
 <!--suppress XmlUnboundNsPrefix -->
 <setupxml>
-    <setup key="visionsoftcammanager" title="Softcam Manager Setup" titleshort="Settings" showOpenWebIF="1">
+    <setup key="visionsoftcammanager" title="Softcam Manager Setup" titleshort="Settings" showOpenWebIf="1">
         <item level="2" text="Show in extensions" description="Allows the softcam manager to be launched from extensions.">config.softcammanager.showinextensions</item>
         <item level="2" text="Enable frozen check" description="Allows the softcam to be checked if it stopped working, and restarted automatically if needed.">config.softcammanager.softcamtimerenabled</item>
         <item level="2" text="Frozen check interval" requires="config.softcammanager.softcamtimerenabled" description="Set the interval to be checked in mins.">config.softcammanager.softcamtimer</item>
