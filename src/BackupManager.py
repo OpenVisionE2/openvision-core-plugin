@@ -85,12 +85,12 @@ def BackupManagerautostart(reason, session=None, **kwargs):
 	now = int(time())
 	if reason == 0:
 		print("[BackupManager] Autostart enabled")
-		if session != None:
+		if session is not None:
 			_session = session
 			if autoBackupManagerTimer is None:
 				autoBackupManagerTimer = AutoBackupManagerTimer(session)
 	else:
-		if autoBackupManagerTimer != None:
+		if autoBackupManagerTimer is not None:
 			print("[BackupManager] Stop")
 			autoBackupManagerTimer.stop()
 
@@ -299,11 +299,11 @@ class VISIONBackupManager(Screen):
 	def doneConfiguring(self):
 		now = int(time())
 		if config.backupmanager.schedule.value:
-			if autoBackupManagerTimer != None:
+			if autoBackupManagerTimer is not None:
 				print("[BackupManager] Backup schedule enabled at", strftime("%c", localtime(now)))
 				autoBackupManagerTimer.backupupdate()
 		else:
-			if autoBackupManagerTimer != None:
+			if autoBackupManagerTimer is not None:
 				global BackupTime
 				BackupTime = 0
 				print("[BackupManager] Backup schedule disabled at", strftime("%c", localtime(now)))

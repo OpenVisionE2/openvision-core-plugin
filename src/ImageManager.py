@@ -110,12 +110,12 @@ def ImageManagerautostart(reason, session=None, **kwargs):
 	now = int(time())
 	if reason == 0:
 		print("[ImageManager] Autostart enabled")
-		if session != None:
+		if session is not None:
 			_session = session
 			if autoImageManagerTimer is None:
 				autoImageManagerTimer = AutoImageManagerTimer(session)
 	else:
-		if autoImageManagerTimer != None:
+		if autoImageManagerTimer is not None:
 			print("[ImageManager] Stop")
 			autoImageManagerTimer.stop()
 
@@ -324,11 +324,11 @@ class VISIONImageManager(Screen):
 	def doneConfiguring(self):
 		now = int(time())
 		if config.imagemanager.schedule.value:
-			if autoImageManagerTimer != None:
+			if autoImageManagerTimer is not None:
 				print("[ImageManager] Backup schedule enabled at", strftime("%c", localtime(now)))
 				autoImageManagerTimer.backupupdate()
 		else:
-			if autoImageManagerTimer != None:
+			if autoImageManagerTimer is not None:
 				global BackupTime
 				BackupTime = 0
 				print("[ImageManager] Backup schedule disabled at", strftime("%c", localtime(now)))

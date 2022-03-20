@@ -73,7 +73,7 @@ def SoftcamAutostart(reason, session=None, **kwargs):
 			softcamautopoller.start()
 	elif reason == 1:
 		# Stop Poller
-		if softcamautopoller != None:
+		if softcamautopoller is not None:
 			softcamautopoller.stop()
 			softcamautopoller = None
 
