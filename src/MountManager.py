@@ -230,12 +230,17 @@ class VISIONDevicesPanel(Screen):
 		self["lab4"] = StaticText(_("https://openvision.tech"))
 		self["lab5"] = StaticText(_("Sources are available at:"))
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
-
-		self["key_red"] = StaticText("")
-		self["key_green"] = Label(_("Setup mounts"))
-		self["key_yellow"] = Label(_("Unmount"))
-		self["key_blue"] = Label(_("Mount"))
 		self["lab7"] = Label(_("Please wait while scanning for devices..."))
+		from Components.Harddisk import harddiskmanager
+		if harddiskmanager.HDDList():
+			self["key_red"] = StaticText("")
+			self["key_green"] = StaticText(_("Setup mounts"))
+			self["key_yellow"] = StaticText(_("Unmount"))
+			self["key_blue"] = StaticText(_("Mount"))
+		else:
+			self["key_green"] = StaticText("")
+			self["key_yellow"] = StaticText("")
+			self["key_blue"] = StaticText("")
 		self.onChangedEntry = []
 		self.partitionList = []
 		self["list"] = List(self.partitionList)
@@ -296,7 +301,9 @@ class VISIONDevicesPanel(Screen):
 		self["lab7"].hide()
 
 	def setupMounts(self):
-		self.session.openWithCallback(self.setTimer, DeviceMountSetup)	# print("[MountManager][setupMounts]")
+		sel = self["list"].getCurrent()
+		if sel:
+			self.session.openWithCallback(self.setTimer, DeviceMountSetup)	# print("[MountManager][setupMounts]")
 
 	def unmount(self):
 		sel = self["list"].getCurrent()

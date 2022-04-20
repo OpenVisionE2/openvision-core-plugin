@@ -179,7 +179,7 @@ class VISIONBackupManager(Screen):
 						self.BackupRunning = True
 				if self.BackupRunning:
 					self["key_green"].setText(_("View progress"))
-				else:
+				if config.backupmanager.backuplocation.value and not self.BackupRunning:
 					self["key_green"].setText(_("New backup"))
 				self.activityTimer.startLongTimer(5)
 				self.populate_List()
@@ -202,40 +202,38 @@ class VISIONBackupManager(Screen):
 			mount = config.backupmanager.backuplocation.value, config.backupmanager.backuplocation.value[:-1]
 		else:
 			mount = config.backupmanager.backuplocation.value
-		hdd = "/media/hdd/"
-		size = statvfs(config.backupmanager.backuplocation.value)
-		free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
-		if not config.backupmanager.backuplocation.value:
-			self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
-				"cancel": self.close,
-				"menu": self.createSetup,
-			}, -1)
-			self["lab7"].setText(_("Device: None available") + "\n" + _("Use Mount Manager Please"))
-		else:
-			self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', "MenuActions", "TimerEditActions"],
-										  {
-										  'cancel': self.close,
-										  'ok': self.keyResstore,
-										  'red': self.keyDelete,
-										  'green': self.greenPressed,
-										  'yellow': self.keyResstore,
-										  'blue': self.restoreSettings,
-										  "menu": self.createSetup,
-										  'log': self.showLog,
-										  }, -1)
+		try:
+			if not config.backupmanager.backuplocation.value:
+				self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
+					"cancel": self.close
+				}, -1)
+				self["lab7"].setText(_("Device: No found or not mount") + "\n" + _("Check devices availables in Mount Manager"))
+			else:
+				hdd = "/media/hdd/"
+				size = statvfs(config.backupmanager.backuplocation.value)
+				free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
+				self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', "MenuActions", "TimerEditActions"], {
+					'cancel': self.close,
+					'ok': self.keyResstore,
+					'red': self.keyDelete,
+					'green': self.greenPressed,
+					'yellow': self.keyResstore,
+					'blue': self.restoreSettings,
+					"menu": self.createSetup,
+					'log': self.showLog,
+				}, -1)
 
-			if mount not in config.backupmanager.backuplocation.choices.choices:
+				if mount not in config.backupmanager.backuplocation.choices.choices:
 					self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
 					config.backupmanager.backuplocation.save()
 					self['lab7'].setText(_("The chosen location does not exist, using.") + "\n" + _("Select a backup to restore:"))
-			if mount not in config.backupmanager.backuplocation.choices.choices and hdd not in config.backupmanager.backuplocation.choices.choices:
+				if mount not in config.backupmanager.backuplocation.choices.choices and hdd not in config.backupmanager.backuplocation.choices.choices:
 					self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
 					config.backupmanager.backuplocation.save()
 					self['lab7'].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select a backup to restore:"))
-			else:
-				self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
-				self['lab7'].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select a backup to restore:"))
-			try:
+				else:
+					self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
+					self['lab7'].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select a backup to restore:"))
 				if not self.BackupDirectory:
 					mkdir(self.BackupDirectory, 0o755)
 				images = listdir(self.BackupDirectory)
@@ -261,15 +259,18 @@ class VISIONBackupManager(Screen):
 					self["key_red"].setText("")
 					self["key_yellow"].setText("")
 					self["key_blue"].setText("")
-				if not self.BackupRunning and self.BackupDirectory:
+				if not self.BackupRunning and config.backupmanager.backuplocation.value:
 					self["key_green"].setText(_("New backup"))
-			except OSError as err:
-				self['lab7'].setText(_("Device: ") + config.backupmanager.backuplocation.value + "\n" + _("There is a problem with this device. Please reformat it and try again."))
-				self["list"].hide()
-				self["key_red"].setText("")
-				self["key_green"].setText("")
-				self["key_yellow"].setText("")
-				self["key_blue"].setText("")
+		except OSError as err:
+			self['lab7'].setText(_("Device: None available") + "\n" + "%s" % err + "\n" + _("There is a problem with this device."))
+			self["list"].hide()
+			self["key_red"].setText("")
+			self["key_green"].setText("")
+			self["key_yellow"].setText("")
+			self["key_blue"].setText("")
+			self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
+				"cancel": self.close
+			}, -1)
 
 	def createSetup(self):
 		self.session.openWithCallback(self.setupDone, VISIONBackupManagerMenu, 'visionbackupmanager', 'SystemPlugins/Vision', PluginLanguageDomain)

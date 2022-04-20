@@ -204,7 +204,7 @@ class VISIONImageManager(Screen):
 						self.BackupRunning = True
 				if self.BackupRunning:
 					self["key_green"].setText(_("View progress"))
-				else:
+				if config.imagemanager.backuplocation.value and not self.BackupRunning:
 					self["key_green"].setText(_("New backupimage"))
 				self.activityTimer.startLongTimer(1)
 				self.refreshList()
@@ -240,7 +240,7 @@ class VISIONImageManager(Screen):
 				self["key_blue"].setText("")
 				self["key_yellow"].setText(_("Downloads"))
 		except OSError as err:
-			self["lab7"].setText(_("Device: ") + config.imagemanager.backuplocation.value + "\n" + _("There is a problem with this device. Please reformat it and try again."))
+			self['lab7'].setText(_("Device: None available") + "\n" + "%s" % err + "\n" + _("There is a problem with this device."))
 			self["list"].hide()
 			self["key_red"].setText("")
 			self["key_green"].setText("")
@@ -261,10 +261,9 @@ class VISIONImageManager(Screen):
 	def populate_List(self):
 		if not config.imagemanager.backuplocation.getValue():
 			self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
-				"cancel": self.close,
-				"menu": self.createSetup,
+				"cancel": self.close
 			}, -1)
-			self["lab7"].setText(_("Device: Un-mount") + "\n" + _("Use Mount Manager and press green setup mounts"))
+			self["lab7"].setText(_("Device: No found or not mount") + "\n" + _("Check devices availables in Mount Manager"))
 		else:
 			self["myactions"] = ActionMap(["ColorActions", "OkCancelActions", "DirectionActions", "MenuActions", "HelpActions"], {
 				"cancel": self.close,
@@ -298,8 +297,9 @@ class VISIONImageManager(Screen):
 					self["key_blue"].setText(_("Flash"))
 				if self.BackupDirectory and not self.BackupRunning:
 					self["key_green"].setText(_("New backupimage"))
-			except Exception:
+			except Exception as err:
 				print("[Errno 30] Device is in Read-Only mode. [Errno 2] No such file or directory: %s" % self.BackupDirectory)
+				self['lab7'].setText(_("Device: None available") + "\n" + "%s" % err + "\n" + _("There is a problem with this device."))
 
 	def createSetup(self):
 		self.session.openWithCallback(self.setupDone, ImageManagerSetup)
