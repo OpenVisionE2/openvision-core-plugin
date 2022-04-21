@@ -5,7 +5,7 @@
         <item level="2" text="Enable frozen check" description="Allows the softcam to be checked if it stopped working, and restarted automatically if needed.">config.softcammanager.softcamtimerenabled</item>
         <item level="2" text="Frozen check interval" requires="config.softcammanager.softcamtimerenabled" description="Set the interval to be checked in mins.">config.softcammanager.softcamtimer</item>
     </setup>
-    <setup key="visionbackupmanager" title="Setup">
+    <setup key="visionbackupmanager" title="Backup Manager Setup">
         <item level="2" text="Backup location" description="Location of where backup should be saved.">config.backupmanager.backuplocation</item>
         <item level="2" text="Backup prefix" description="Allows you to tag your backups to a box.">config.backupmanager.folderprefix</item>
         <item level="2" text="Schedule backups" description="Allows you to schedule your backups.">config.backupmanager.schedule</item>
@@ -17,7 +17,7 @@
             <item level="2" text="- Max backups to keep (0==all)" description="Maximum number of backups to keep. Older backups are given priority for removal, so the fresher ones remain.">config.backupmanager.number_to_keep</item>
         </if>
     </setup>
-    <setup key="visionimagemanager" title="Setup">
+    <setup key="visionimagemanager" title="Image Manager Setup">
         <item level="1" text="Automatic settings backup" description="Create a settings backup before updating.">config.imagemanager.autosettingsbackup</item>
         <item level="2" text="Backup location" description="Location of where the image backup should be saved.">config.imagemanager.backuplocation</item>
         <item level="2" text="Backup prefix" description="Allows you to tag your image backup to a box. (default is box name/type)">config.imagemanager.folderprefix</item>

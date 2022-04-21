@@ -125,7 +125,7 @@ class VISIONBackupManager(Screen):
 		self["lab5"] = StaticText(_("Sources are available at:"))
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
 
-		self['lab7'] = Label()
+		self["lab7"] = Label()
 		self["backupstatus"] = Label()
 		self["key_red"] = StaticText("")
 		self["key_green"] = StaticText("")
@@ -184,7 +184,7 @@ class VISIONBackupManager(Screen):
 				self.activityTimer.startLongTimer(5)
 				self.populate_List()
 		except OSError as err:
-			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
+			print("%s" % err)
 
 	def getJobName(self, job):
 		return "%s: %s (%d%%)" % (job.getStatustext(), job.name, int(100 * job.progress / float(job.end)))
@@ -202,12 +202,16 @@ class VISIONBackupManager(Screen):
 			mount = config.backupmanager.backuplocation.value, config.backupmanager.backuplocation.value[:-1]
 		else:
 			mount = config.backupmanager.backuplocation.value
+		if mount:
+			if not fileExists(config.backupmanager.backuplocation.value + '/backup'):
+				mkdir(config.backupmanager.backuplocation.value + '/backup', 0o755)
 		try:
 			if not config.backupmanager.backuplocation.value:
 				self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
-					"cancel": self.close
+					"cancel": self.close,
+					"menu": self.createSetup
 				}, -1)
-				self["lab7"].setText(_("Device: No found or not mount") + "\n" + _("Check devices availables in Mount Manager"))
+				self["lab7"].setText(_("Device: No found or not mount") + "\n" + _("Check devices availables in Mount Manager."))
 			else:
 				hdd = "/media/hdd/"
 				size = statvfs(config.backupmanager.backuplocation.value)
@@ -220,26 +224,23 @@ class VISIONBackupManager(Screen):
 					'yellow': self.keyResstore,
 					'blue': self.restoreSettings,
 					"menu": self.createSetup,
-					'log': self.showLog,
+					'log': self.showLog
 				}, -1)
-
 				if mount not in config.backupmanager.backuplocation.choices.choices:
 					self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
 					config.backupmanager.backuplocation.save()
-					self['lab7'].setText(_("The chosen location does not exist, using.") + "\n" + _("Select a backup to restore:"))
+					self["lab7"].setText(_("The chosen location does not exist, using.") + "\n" + _("Select a backup to restore:"))
 				if mount not in config.backupmanager.backuplocation.choices.choices and hdd not in config.backupmanager.backuplocation.choices.choices:
 					self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
 					config.backupmanager.backuplocation.save()
-					self['lab7'].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select a backup to restore:"))
+					self["lab7"].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select a backup to restore:"))
 				else:
 					self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
-					self['lab7'].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select a backup to restore:"))
-				if not self.BackupDirectory:
-					mkdir(self.BackupDirectory, 0o755)
-				images = listdir(self.BackupDirectory)
+					self["lab7"].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select a backup to restore:"))
 				del self.emlist[:]
+				backups = listdir(self.BackupDirectory)
 				mtimes = []
-				for fil in images:
+				for fil in backups:
 					if fil.endswith(".tar.gz") and "vision" in fil.lower() or fil.startswith("%s" % defaultprefix):
 						if fil.startswith(defaultprefix):   # Ensure the current image backup are sorted to the top
 							prefix = "B"
@@ -262,14 +263,15 @@ class VISIONBackupManager(Screen):
 				if not self.BackupRunning and config.backupmanager.backuplocation.value:
 					self["key_green"].setText(_("New backup"))
 		except OSError as err:
-			self['lab7'].setText(_("Device: None available") + "\n" + "%s" % err + "\n" + _("There is a problem with this device."))
+			self["lab7"].setText(_("Device: None available") + "\n" + "%s" % err + "\n" + _("There is a problem with this device."))
 			self["list"].hide()
 			self["key_red"].setText("")
 			self["key_green"].setText("")
 			self["key_yellow"].setText("")
 			self["key_blue"].setText("")
 			self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
-				"cancel": self.close
+				"cancel": self.close,
+				"menu": self.createSetup
 			}, -1)
 
 	def createSetup(self):
@@ -283,7 +285,7 @@ class VISIONBackupManager(Screen):
 					filename = self.BackupDirectory + self.sel
 					self.session.open(VISIONBackupManagerLogView, filename)
 		except OSError as err:
-			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
+			print("%s" % err)
 
 	def setupDone(self, test=None):
 		if config.backupmanager.folderprefix.value == '':
@@ -325,7 +327,7 @@ class VISIONBackupManager(Screen):
 					confirm_delete = self.session.openWithCallback(self.BackupToDelete, MessageBox, message, MessageBox.TYPE_YESNO, default=False)
 					confirm_delete.setTitle(_("Remove confirmation"))
 		except OSError as err:
-			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
+			print("%s" % err)
 
 	def BackupToDelete(self, answer):
 		backupname = self.BackupDirectory + self.sel
@@ -346,7 +348,7 @@ class VISIONBackupManager(Screen):
 				else:
 					self.keyBackup()
 		except OSError as err:
-			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
+			print("%s" % err)
 
 	def keyBackup(self):
 		self.BackupFiles = BackupFiles(self.session)
@@ -372,7 +374,7 @@ class VISIONBackupManager(Screen):
 				else:
 					self.session.open(MessageBox, _("Backup in progress,\nPlease wait for it to finish, before trying again."), MessageBox.TYPE_INFO, timeout=10)
 		except OSError as err:
-			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
+			print("%s" % err)
 
 	def restoreSettings(self):
 		try:
@@ -383,7 +385,7 @@ class VISIONBackupManager(Screen):
 						message = _("Restore only settings from this backup ?\n") + self.sel
 						self.session.openWithCallback(self.StageRestoreSettings, MessageBox, message, MessageBox.TYPE_YESNO)
 		except OSError as err:
-			print("[Errno 5] Input/output error: %s" % self.BackupDirectory)
+			print("%s" % err)
 
 	def settingsRestoreCheck(self, result, retval, extra_args=None):
 		if path.exists('/tmp/backupkernelversion'):
@@ -791,7 +793,7 @@ class BackupSelection(Screen):
 									"right": self.right,
 									"down": self.down,
 									"up": self.up,
-									"menu": self.exit,
+									"menu": self.exit
 									}, -1)
 		if not self.selectionChanged in self["checkList"].onSelectionChanged:
 			self["checkList"].onSelectionChanged.append(self.selectionChanged)
@@ -884,7 +886,7 @@ class XtraPluginsSelection(Screen):
 									"right": self.right,
 									"down": self.down,
 									"up": self.up,
-									"menu": self.exit,
+									"menu": self.exit
 									}, -1)
 		if not self.selectionChanged in self["checkList"].onSelectionChanged:
 			self["checkList"].onSelectionChanged.append(self.selectionChanged)
@@ -1018,7 +1020,7 @@ class VISIONBackupManagerLogView(Screen):
 										 "ok": self.cancel,
 										 "up": self["list"].pageUp,
 										 "down": self["list"].pageDown,
-										 "menu": self.closeRecursive,
+										 "menu": self.closeRecursive
 										 }, -2)
 
 	def cancel(self):
@@ -1381,7 +1383,7 @@ class BackupFiles(Screen):
 				print('[BackupManager] Result.', result)
 				print("{BackupManager] Backup failed - e. g. wrong backup destination or no space left on backup device")
 		except OSError as err:
-			print("[Errno 5] Input/output error: %s" % self.BackupDevice)
+			print("%s" % err)
 # Delete the list of backup files now that it's finished.
 # Ignore any failure here, as there's nothing useful we could do anyway...
 		try:
@@ -1402,10 +1404,10 @@ class BackupFiles(Screen):
 			if config.backupmanager.types_to_prune.value != "none" \
 			 and config.backupmanager.number_to_keep.value > 0 \
 			 and path.exists(self.BackupDirectory): # !?!
-				images = listdir(self.BackupDirectory)
+				backups = listdir(self.BackupDirectory)
 # Only try to delete backups with the current user prefix
 				emlist = []
-				for fil in images:
+				for fil in backups:
 					if (fil.startswith(config.backupmanager.folderprefix.value) and fil.endswith(".tar.gz")):
 						if config.backupmanager.types_to_prune.value == "all":
 							emlist.append(fil)
