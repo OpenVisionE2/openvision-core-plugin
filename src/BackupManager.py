@@ -211,7 +211,7 @@ class VISIONBackupManager(Screen):
 					"cancel": self.close,
 					"menu": self.createSetup
 				}, -1)
-				self["lab7"].setText(_("Device: No found or not mount") + "\n" + _("Check devices availables in Mount Manager."))
+				self["lab7"].setText(_("Device: No found or not mount") + "\n" + _("Check devices availables in Mount Manager"))
 			else:
 				hdd = "/media/hdd/"
 				size = statvfs(config.backupmanager.backuplocation.value)
