@@ -203,7 +203,7 @@ class VISIONBackupManager(Screen):
 		else:
 			mount = config.backupmanager.backuplocation.value
 		if mount:
-			if not fileExists(config.backupmanager.backuplocation.value + '/backup'):
+			if not path.exists(config.backupmanager.backuplocation.value + '/backup'):
 				mkdir(config.backupmanager.backuplocation.value + '/backup', 0o755)
 		try:
 			if not config.backupmanager.backuplocation.value:

@@ -284,8 +284,8 @@ class VISIONImageManager(Screen):
 				size = statvfs(config.imagemanager.backuplocation.value)
 				free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
 				self["lab7"].setText(_("Device: ") + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select what you want to do"))
-				if not fileExists(self.BackupDirectory):
-					mkdir(self.BackupDirectory, 0o755)
+				if not path.exists(config.imagemanager.backuplocation.value + '/imagebackups'):
+					mkdir(config.imagemanager.backuplocation.value + '/imagebackups', 0o755)
 			try:
 				if path.exists(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup"):
 					system("swapoff " + self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
