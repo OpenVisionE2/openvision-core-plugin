@@ -195,7 +195,7 @@ def Plugins(**kwargs):
 	if config.softcammanager.showinextensions.value:
 		plist.append(PluginDescriptor(name=_("Vision Softcam"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=SoftcamMenu))
 	if config.scriptrunner.showinextensions.value:
-		plist.append(PluginDescriptor(name=_("Vision Script runner"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=ScriptRunnerMenu))
+		plist.append(PluginDescriptor(name=_("Vision Script Runner"), where=PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=ScriptRunnerMenu))
 	plist.append(PluginDescriptor(where=PluginDescriptor.WHERE_AUTOSTART, fnc=SoftcamAutostart))
 	plist.append(PluginDescriptor(where=PluginDescriptor.WHERE_AUTOSTART, fnc=SwapAutostart))
 	plist.append(PluginDescriptor(where=PluginDescriptor.WHERE_SESSIONSTART, fnc=ImageManagerautostart))

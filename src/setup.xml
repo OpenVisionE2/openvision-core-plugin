@@ -31,7 +31,7 @@
 		<item level="2" text="- Query before image backup starts" requires="config.imagemanager.schedule" description="Query before starting image backup.">config.imagemanager.query</item>
 		<item level="2" text="Max image backups to keep (0==all)" description="Backups to keep">config.imagemanager.number_to_keep</item>
 	</setup>
-	<setup key="visionscriptrunner" title="Setup">
+	<setup key="visionscriptrunner" title="Script Runner Setup">
 		<item level="2" text="Close window on success" description="Allows you to close the window automatically.">config.scriptrunner.close</item>
 		<item level="2" text="Show in extensions" description="Allows the script runner to be launched from extensions.">config.scriptrunner.showinextensions</item>
 	</setup>

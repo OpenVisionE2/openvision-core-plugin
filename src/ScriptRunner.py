@@ -54,6 +54,10 @@ class VISIONScriptRunner(OpkgInstaller):
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
 		self["key_green"] = StaticText("")
 		self["key_blue"] = StaticText("")
+		self['myactions'] = ActionMap(["ColorActions", "MenuActions"], {
+			"menu": self.createSetup,
+			"red": self.close
+		}, -1)
 		if list:
 			self["key_green"].setText(_("Run"))
 			self["key_blue"].setText(_("Invert"))
@@ -61,13 +65,8 @@ class VISIONScriptRunner(OpkgInstaller):
 			self["key_green"].setText("")
 			self["key_blue"].setText("")
 
-		self['myactions'] = ActionMap(["ColorActions", "MenuActions"], {
-			"menu": self.createSetup,
-			"red": self.close,
-			}, -1)
-
 	def createSetup(self):
-		self.session.open(Setup, "visionscriptrunner", "SystemPlugins/Vision", PluginLanguageDomain)
+		self.session.open(ScriptRunnerSetup, "visionscriptrunner", "SystemPlugins/Vision", PluginLanguageDomain)
 
 	def install(self):
 		list = self.list.getSelectionsList()
@@ -78,3 +77,8 @@ class VISIONScriptRunner(OpkgInstaller):
 			cmdList.append('chmod +x /usr/script/' + self.list.getCurrent()[0][0] + ' && . ' + '/usr/script/' + str(self.list.getCurrent()[0][0]))
 		if len(cmdList) > 0:
 			self.session.open(Console, cmdlist=cmdList, closeOnSuccess=config.scriptrunner.close.value)
+
+
+class ScriptRunnerSetup(Setup):
+	def __init__(self, session, setup, plugin=None, PluginLanguageDomain=None):
+		Setup.__init__(self, session, setup="visionscriptrunner", plugin="SystemPlugins/Vision", PluginLanguageDomain=PluginLanguageDomain)
