@@ -54,8 +54,9 @@ class VISIONScriptRunner(OpkgInstaller):
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
 		self["key_green"] = StaticText("")
 		self["key_blue"] = StaticText("")
-		self['myactions'] = ActionMap(["ColorActions", "MenuActions"], {
+		self['myactions'] = ActionMap(["OkCancelActions", "ColorActions", "MenuActions"], {
 			"menu": self.createSetup,
+			"cancel": self.close,
 			"red": self.close
 		}, -1)
 		if list:
