@@ -40,7 +40,7 @@ SETTINGSRESTOREQUESTIONID = 'RestoreSettingsNotification'
 PLUGINRESTOREQUESTIONID = 'RestorePluginsNotification'
 NOPLUGINS = 'NoPluginsNotification'
 
-hddchoices = []
+mountpointchoices = []
 defaultprefix = distro[4:]
 for p in harddiskmanager.getMountedPartitions():
 	if path.exists(p.mountpoint):
@@ -49,14 +49,14 @@ for p in harddiskmanager.getMountedPartitions():
 			if "mmcblk0p" in d or "mmcblk1p" in d:
 				continue
 		if p.mountpoint != '/':
-			hddchoices.append((p.mountpoint, d))
-	print("[BackupManager]hddchoices = %s" % hddchoices)
+			mountpointchoices.append((p.mountpoint, d))
+	print("[BackupManager]mountpointchoices = %s" % mountpointchoices)
 
 config.backupmanager = ConfigSubsection()
 config.backupmanager.backupdirs = ConfigLocations(
 	default=[eEnv.resolve('${sysconfdir}/enigma2/'), eEnv.resolve('${sysconfdir}/fstab'), eEnv.resolve('${sysconfdir}/hostname'), eEnv.resolve('${sysconfdir}/network/interfaces'), eEnv.resolve('${sysconfdir}/passwd'), eEnv.resolve('${sysconfdir}/shadow'), eEnv.resolve('${sysconfdir}/etc/shadow'),
 			 eEnv.resolve('${sysconfdir}/resolv.conf'), eEnv.resolve('${sysconfdir}/ushare.conf'), eEnv.resolve('${sysconfdir}/inadyn.conf'), eEnv.resolve('${sysconfdir}/tuxbox/config/'), eEnv.resolve('${sysconfdir}/wpa_supplicant.conf')])
-config.backupmanager.backuplocation = ConfigSelection(choices=hddchoices)
+config.backupmanager.backuplocation = ConfigSelection(choices=mountpointchoices)
 config.backupmanager.backupretry = ConfigNumber(default=30)
 config.backupmanager.backupretrycount = NoSave(ConfigNumber(default=0))
 config.backupmanager.folderprefix = ConfigText(default=defaultprefix, fixed_size=False)
@@ -202,7 +202,7 @@ class VISIONBackupManager(Screen):
 			mount = config.backupmanager.backuplocation.value, config.backupmanager.backuplocation.value[:-1]
 		else:
 			mount = config.backupmanager.backuplocation.value
-		if mount:
+		if mountpointchoices:
 			if not path.exists(config.backupmanager.backuplocation.value + '/backup'):
 				mkdir(config.backupmanager.backuplocation.value + '/backup', 0o755)
 		try:
