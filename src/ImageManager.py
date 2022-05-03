@@ -1,12 +1,6 @@
 from __future__ import print_function
-
-# required methods: Request, urlopen, HTTPError, URLError
-try: # python 3
-	from urllib.request import urlopen, Request, urlretrieve # raises ImportError in Python 2
-	from urllib.error import HTTPError, URLError # raises ImportError in Python 2
-except ImportError: # Python 2
-	from urllib2 import Request, urlopen, HTTPError, URLError
-	from urllib import urlretrieve
+from sys import version_info
+from six.moves.urllib.request import urlopen
 
 import json
 import tempfile
@@ -1517,7 +1511,7 @@ class ImageManagerDownload(Screen):
 			headers, fileurl = self.processAuthLogin(currentSelected[0][1])
 			fileloc = self.BackupDirectory + selectedimage
 			url_encode = "utf-8"
-			b_url = fileurl.encode(url_encode)
+			b_url = fileurl.encode(url_encode).decode() if version_info.major >= 3 else fileurl.encode(url_encode)
 			Tools.CopyFiles.downloadFile(b_url, fileloc, selectedimage.replace("_usb", ""), headers=headers)
 			for job in Components.Task.job_manager.getPendingJobs():
 				if job.name.startswith(_("Downloading")):
