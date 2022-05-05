@@ -654,6 +654,7 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 class ClientModeBoxDownloader:
 	DIR_ENIGMA2 = "/etc/enigma2/"
 	DIR_TMP = "/tmp/"
+
 	def __init__(self, session):
 		self.session = session
 
