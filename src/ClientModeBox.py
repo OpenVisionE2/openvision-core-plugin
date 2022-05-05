@@ -12,6 +12,7 @@ from xml.dom import minidom
 import re
 import os
 import six
+import shutil
 import locale
 from six.moves.urllib.parse import quote, urlencode
 from Components.Network import iNetwork
@@ -651,6 +652,8 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 
 
 class ClientModeBoxDownloader:
+	DIR_ENIGMA2 = "/etc/enigma2/"
+	DIR_TMP = "/tmp/"
 	def __init__(self, session):
 		self.session = session
 
@@ -813,11 +816,91 @@ class ClientModeBoxDownloader:
 		db.reloadServicelist()
 		db.reloadBouquets()
 
-	def downloadEPG(self, baseurl):
+	def downloadServerPy3EPG(self, baseurl): # PYTHON 3
+		print("[ClientModeBox] downloadEPG Force EPG save on remote receiver...")
+		self.forceSaveEPGonRemoteReceiver(baseurl)
+		print("[ClientModeBox] downloadEPG Searching for epg.dat...")
+		result = self.FTPdownloadFile(self.DIR_ENIGMA2, "settings", "settings")
+		if result:
+			self.checkEPGCallback()
+		else:
+			print("EPG not received from server")
+
+	def forceSaveEPGonRemoteReceiver(self, baseurl):
+		urlserver = "%s/api/saveepg" % baseurl.replace(":80", "")
+		print('[ClientModeBox] saveEPGonRemoteReceiver URL: %s' % urlserver)
+		try:
+			req = Request(urlserver)
+			response = urlopen(req, timeout=timeout)
+			print('[ClientModeBox] saveEPGonRemoteReceiver Response: %d, %s' % (response.getcode(), response.read().strip().replace("\r", "").replace("\n", "")))
+		except HTTPError as err:
+			print('[ClientModeBox] saveEPGonRemoteReceiver ERROR: %s', err)
+		except URLError as err:
+			print('[ClientModeBox] saveEPGonRemoteReceiver ERROR: %s', err)
+		except:
+			print('[ClientModeBox] saveEPGonRemoteReceiver undefined error')
+
+	def FTPdownloadFile(self, sourcefolder, sourcefile, destfile):
+		serverip = ""
+		serverip += config.ipboxclient.host.value
+		print("[ClientModeBox] Downloading remote file '%s'" % sourcefile)
+		try:
+			from ftplib import FTP
+			ftp = FTP()
+			ftp.set_pasv(config.clientmode.passive.value)
+			ftp.connect(host=serverip, port=config.clientmode.serverFTPPort.value, timeout=5)
+			ftp.login(user=config.clientmode.serverFTPusername.value, passwd=config.clientmode.serverFTPpassword.value)
+			ftp.cwd(sourcefolder)
+			with open(self.DIR_TMP + destfile, 'wb') as f:
+				result = ftp.retrbinary('RETR %s' % sourcefile, f.write)
+				ftp.quit()
+				f.close()
+				if result.startswith("226"):
+					return True
+			return False
+		except Exception as err:
+			print("[ClientModeBox] FTPdownloadFile Error:", err)
+			return False
+
+	def removeFiles(self, targetdir, target):
+		targetLen = len(target)
+		for root, dirs, files in os.walk(targetdir):
+			for name in files:
+				if target in name[:targetLen]:
+					os.remove(os.path.join(root, name))
+
+	def checkEPGCallback(self):
+		self.remoteEPGpath = self.DIR_ENIGMA2
+		self.remoteEPGfile = "epg"
+		self.remoteEPGfile = "%s.dat" % self.remoteEPGfile.replace('.dat', '')
+		print("[ClientModeBox] Remote EPG filename. '%s%s'" % (self.remoteEPGpath, self.remoteEPGfile))
+		result = self.FTPdownloadFile(self.remoteEPGpath, self.remoteEPGfile, "epg.dat")
+		if result:
+			self.importEPGCallback()
+		else:
+			print("EPG not received from server")
+
+	def copyFile(self, source, dest):
+		shutil.copy2(source, dest)
+
+	def importEPGCallback(self):
+		print("[ClientModeBox] importEPGCallback '%s%s' downloaded successfully. " % (self.remoteEPGpath, self.remoteEPGfile))
+		print("[ClientModeBox] importEPGCallback Removing current EPG data...")
+		try:
+			os.remove(config.misc.epgcache_filename.value)
+		except OSError:
+			pass
+		self.copyFile(self.DIR_TMP + "epg.dat", config.misc.epgcache_filename.value)
+		self.removeFiles(self.DIR_TMP, "epg.dat")
+		eEPGCache.getInstance().load()
+		print("[ClientModeBox] importEPGCallback New EPG data loaded...")
+		print("[ClientModeBox] importEPGCallback Closing importer.")
+
+	def downloadEPG(self, baseurl): # PYTHON 2
 		print("[ClientModeBox] reading remote EPG location ...")
 		filename = self.getEPGLocation(baseurl)
 		if not filename:
-			print("[ClientModeBox] Error downloading remote EPG location. Skip EPG sync.")
+			self.downloadServerPy3EPG(baseurl)
 			return
 
 		print("[ClientModeBox] Remote EPG found at " + filename)
