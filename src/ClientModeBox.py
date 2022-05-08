@@ -821,10 +821,10 @@ class ClientModeBoxDownloader:
 		db.reloadBouquets()
 		AddNotificationWithID("ClientModeBoxChannelsImportOK", MessageBox, _("Channels imported successfully from %s") % baseurl, type=MessageBox.TYPE_INFO, timeout=5)
 
-	def downloadServerPy3EPG(self, baseurl): # PYTHON 3
-		print("[ClientModeBox] downloadServerPy3EPG Force EPG save on remote receiver...")
+	def downloadEPGFTP(self, baseurl): # PYTHON 3
+		print("[ClientModeBox] downloadEPGFTP Force EPG save on remote receiver...")
 		self.forceSaveEPGonRemoteReceiver(baseurl)
-		print("[ClientModeBox] downloadServerPy3EPG Searching for epg.dat...")
+		print("[ClientModeBox] downloadEPGFTP Searching for epg.dat...")
 		result = self.FTPdownloadFile(self.DIR_ENIGMA2, "settings", "settings")
 		if result:
 			self.checkEPGCallback()
@@ -935,7 +935,7 @@ class ClientModeBoxDownloader:
 					print("[ClientModeBox] cannot save EPG %s" % err)
 		except Exception as err:
 			print("[ClientModeBox] cannot save EPG %s" % err)
-			self.downloadServerPy3EPG(baseurl)
+			self.downloadEPGFTP(baseurl)
 
 	def downloadParentalControl(self, baseurl):
 		print("[ClientModeBox] Reading remote parental control status ...")
