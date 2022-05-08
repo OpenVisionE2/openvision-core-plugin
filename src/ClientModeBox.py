@@ -26,6 +26,7 @@ from Tools import Directories
 from Tools.Directories import fileHas, resolveFilename, SCOPE_PLUGINS
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
+from Tools.Notifications import AddNotificationWithID
 from Screens.Standby import TryQuitMainloop
 from Components.ActionMap import ActionMap
 from Components.Button import Button
@@ -813,14 +814,17 @@ class ClientModeBoxDownloader:
 		bouquetsfile.close()
 
 	def reloadBouquets(self):
+		baseurl = "http://"
+		baseurl += config.ipboxclient.host.value
 		db = eDVBDB.getInstance()
 		db.reloadServicelist()
 		db.reloadBouquets()
+		AddNotificationWithID("ClientModeBoxChannelsImportOK", MessageBox, _("Channels imported successfully from %s") % baseurl, type=MessageBox.TYPE_INFO, timeout=5)
 
 	def downloadServerPy3EPG(self, baseurl): # PYTHON 3
-		print("[ClientModeBox] downloadEPG Force EPG save on remote receiver...")
+		print("[ClientModeBox] downloadServerPy3EPG Force EPG save on remote receiver...")
 		self.forceSaveEPGonRemoteReceiver(baseurl)
-		print("[ClientModeBox] downloadEPG Searching for epg.dat...")
+		print("[ClientModeBox] downloadServerPy3EPG Searching for epg.dat...")
 		result = self.FTPdownloadFile(self.DIR_ENIGMA2, "settings", "settings")
 		if result:
 			self.checkEPGCallback()
@@ -871,6 +875,8 @@ class ClientModeBoxDownloader:
 					os.remove(os.path.join(root, name))
 
 	def checkEPGCallback(self):
+		baseurl = "http://"
+		baseurl += config.ipboxclient.host.value
 		self.remoteEPGpath = self.DIR_ENIGMA2
 		self.remoteEPGfile = "epg"
 		self.remoteEPGfile = "%s.dat" % self.remoteEPGfile.replace('.dat', '')
@@ -879,12 +885,14 @@ class ClientModeBoxDownloader:
 		if result:
 			self.importEPGCallback()
 		else:
-			print("EPG not received from server")
+			AddNotificationWithID("EPGImportNOK", MessageBox, _("EPG not imported check that path EPG in %s is in internal flash") % baseurl, type=MessageBox.TYPE_ERROR, timeout=5)
 
 	def copyFile(self, source, dest):
 		shutil.copy2(source, dest)
 
 	def importEPGCallback(self):
+		baseurl = "http://"
+		baseurl += config.ipboxclient.host.value
 		print("[ClientModeBox] importEPGCallback '%s%s' downloaded successfully. " % (self.remoteEPGpath, self.remoteEPGfile))
 		print("[ClientModeBox] importEPGCallback Removing current EPG data...")
 		try:
@@ -896,37 +904,38 @@ class ClientModeBoxDownloader:
 		eEPGCache.getInstance().load()
 		print("[ClientModeBox] importEPGCallback New EPG data loaded...")
 		print("[ClientModeBox] importEPGCallback Closing importer.")
+		AddNotificationWithID("EPGImportOK", MessageBox, _("EPG imported successfully from %s") % baseurl, type=MessageBox.TYPE_INFO, timeout=5)
 
-	def downloadEPG(self, baseurl): # PYTHON 2
-		print("[ClientModeBox] reading remote EPG location ...")
-		filename = self.getEPGLocation(baseurl)
-		if not filename:
-			self.downloadServerPy3EPG(baseurl)
-			return
-
-		print("[ClientModeBox] Remote EPG found at " + filename)
-
-		print("[ClientModeBox] Dump remote EPG to epg.dat")
-		httprequest = urlopen(baseurl + '/web/saveepg')
-
-		httprequest = urlopen(baseurl + '/file?action=download&file=' + quote(filename))
-		data = httprequest.read()
-		if not data:
-			print("[ClientModeBox] Cannot download remote EPG. Skip EPG sync.")
-			return
-
+	def downloadEPG(self, baseurl):
+		from json import loads
 		try:
-			epgfile = open(config.misc.epgcache_filename.value, "w")
-		except Exception:
-			print("[ClientModeBox] Cannot save EPG. Skip EPG sync.")
-			return
-
-		epgfile.write(data)
-		epgfile.close()
-
-		print("[ClientModeBox] Reload EPG")
-		epgcache = eEPGCache.getInstance()
-		epgcache.load()
+			urlopen("%s/web/saveepg" % baseurl, timeout=5)
+		except Exception as err:
+			print("[ClientModeBox] %s" % err)
+		print("[ClientModeBox] Get EPG Location")
+		try:
+			epgdatfile = "/media/hdd/epg.dat" or "/media/usb/epg.dat" or "/etc/enigma2/epg.dat"
+			files = [file for file in loads(urlopen("%s/file?dir=%s" % (baseurl, os.path.dirname(epgdatfile)), timeout=5).read())["files"] if os.path.basename(file).startswith("epg.dat")]
+			epg_location = files[0] if files else None
+			if epg_location:
+				print("[ClientModeBox] Copy EPG file...")
+				try:
+					try:
+						os.mkdir("/tmp/epgdat")
+					except:
+						print("[ClientModeBox] epgdat folder exists in tmp")
+					epgdattmp = "/tmp/epgdat"
+					epgdatserver = "/tmp/epgdat/epg.dat"
+					open("%s/%s" % (epgdattmp, os.path.basename(epg_location)), "wb").write(urlopen("%s/file?file=%s" % (baseurl, epg_location), timeout=5).read())
+					shutil.move("%s" % epgdatserver, "%s" % (config.misc.epgcache_filename.value))
+					eEPGCache.getInstance().load()
+					shutil.rmtree(epgdattmp)
+					AddNotificationWithID("EPGImportOK", MessageBox, _("EPG imported successfully from %s") % baseurl, type=MessageBox.TYPE_INFO, timeout=5)
+				except Exception as err:
+					print("[ClientModeBox] cannot save EPG %s" % err)
+		except Exception as err:
+			print("[ClientModeBox] cannot save EPG %s" % err)
+			self.downloadServerPy3EPG(baseurl)
 
 	def downloadParentalControl(self, baseurl):
 		print("[ClientModeBox] Reading remote parental control status ...")
