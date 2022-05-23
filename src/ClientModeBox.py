@@ -23,7 +23,7 @@ from Components.Console import Console
 from Components.Pixmap import Pixmap
 from Components.Sources.Boolean import Boolean
 from Tools import Directories
-from Tools.Directories import fileHas, resolveFilename, SCOPE_PLUGINS
+from Tools.Directories import resolveFilename, SCOPE_PLUGINS
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
 from Tools.Notifications import AddNotificationWithID
@@ -339,8 +339,8 @@ class ClientModeBoxMount:
 		self.session = session
 		self.console = Console()
 		if os.path.exists('/media/hdd') or os.system('mount |grep -i /media/hdd') == 0:
-			self.mountpoint = '/media/net/hddboxserver'
-		else:
+			self.mountpoint = '/media/hdd-server'
+		if not os.path.isdir('/media/hdd'):
 			self.mountpoint = '/media/hdd'
 		self.share = '/mnt/hdd'
 
@@ -379,12 +379,11 @@ class ClientModeBoxMount:
 		return os.system('umount ' + path) == 0
 
 	def mount(self, ip, share, path):
-		if not fileHas("/etc/fstab", ":/mnt/hdd"):
-			try:
-				os.makedirs(path)
-			except Exception:
-				pass
-			return os.system('mount -t nfs' + ' ' + ip + ':' + '/' + share + ' ' + path + ' ' + '&&' + ' ' + 'echo -e' + ' ' + '"' + ip + ':' + share + ' ' + path + ' ' + 'nfs nolock,rsize=8192,wsize=8192' + ' ' + '\n"' + ' ' + '>>' + ' ' + '/etc/fstab') == 0
+		try:
+			os.makedirs(self.mountpoint)
+		except Exception:
+			pass
+		return os.system('mount -t nfs' + ' ' + ip + ':' + '/' + share + ' ' + path + ' ' + '&&' + ' ' + 'echo -e' + ' ' + '"' + ip + ':' + share + ' ' + path + ' ' + 'nfs nolock,rsize=8192,wsize=8192' + ' ' + '\n"' + ' ' + '>>' + ' ' + '/etc/fstab') == 0
 
 
 class ClientModeBoxMenu(Screen, ConfigListScreen):
