@@ -484,10 +484,10 @@ class VISIONBackupManager(Screen):
 
 	def JobStart(self):
 		AddPopupWithCallback(self.Stage1,
-							 _("Do you want to restore your enigma2 settings ?"),
-							 MessageBox.TYPE_YESNO,
-							 10,
-							 SETTINGSRESTOREQUESTIONID
+			_("Do you want to restore your enigma2 settings ?"),
+			MessageBox.TYPE_YESNO,
+			10,
+			SETTINGSRESTOREQUESTIONID
 		)
 
 	def StageRestoreSettings(self, answer):
@@ -521,10 +521,10 @@ class VISIONBackupManager(Screen):
 		else:
 			print('[BackupManager] Restoring stage 1 failed:')
 			AddPopupWithCallback(self.Stage2,
-								 _("Sorry, but the restore failed."),
-								 MessageBox.TYPE_INFO,
-								 10,
-								 'StageOneFailedNotification'
+				_("Sorry, but the restore failed."),
+				MessageBox.TYPE_INFO,
+				10,
+				'StageOneFailedNotification'
 			)
 
 	def Stage1PluginsComplete(self, result, retval, extra_args):
@@ -549,10 +549,10 @@ class VISIONBackupManager(Screen):
 			self.Stage2Completed = True
 		elif result2.find('Collected errors') != -1: # none of the above errors. What condition requires this to loop? Maybe double key press.
 			AddPopupWithCallback(self.Stage2,
-								 _("A background update check is in progress, please try again."),
-								 MessageBox.TYPE_INFO,
-								 10,
-								 NOPLUGINS
+				_("A background update check is in progress, please try again."),
+				MessageBox.TYPE_INFO,
+				10,
+				NOPLUGINS
 			)
 		else:
 			print('[BackupManager] Restoring stage 2: Complete')
@@ -588,28 +588,28 @@ class VISIONBackupManager(Screen):
 			print('[BackupManager] Restoring stage 3: No network connection, plugin restore not possible')
 			self.kernelcheck = False
 			AddPopupWithCallback(self.Stage6,
-								 _("Your receiver is not connected to a network. Please check your network settings and try again."),
-								 MessageBox.TYPE_INFO,
-								 15,
-								 NOPLUGINS
+				_("Your receiver is not connected to a network. Please check your network settings and try again."),
+				MessageBox.TYPE_INFO,
+				15,
+				NOPLUGINS
 			)
 		elif self.feeds == 'DOWN':
 			print('[BackupManager] Restoring stage 3: Feeds are down, plugin restore not possible')
 			self.kernelcheck = False
 			AddPopupWithCallback(self.Stage6,
-								 _("Sorry the feeds are down for maintenance. Please try again later."),
-								 MessageBox.TYPE_INFO,
-								 15,
-								 NOPLUGINS
+				_("Sorry the feeds are down for maintenance. Please try again later."),
+				MessageBox.TYPE_INFO,
+				15,
+				NOPLUGINS
 			)
 		elif self.feeds == 'BAD':
 			print('[BackupManager] Restoring stage 3: No network connection, plugin restore not possible')
 			self.kernelcheck = False
 			AddPopupWithCallback(self.Stage6,
-								 _("Your receiver is not connected to the Internet.\nIf restoring doesn't fix the problem, check your network settings.\nYour network settings will be restored now from backup."),
-								 MessageBox.TYPE_INFO,
-								 15,
-								 NOPLUGINS
+				_("Your receiver is not connected to the Internet.\nIf restoring doesn't fix the problem, check your network settings.\nYour network settings will be restored now from backup."),
+				MessageBox.TYPE_INFO,
+				15,
+				NOPLUGINS
 			)
 		else:
 			print('[BackupManager] Restoring stage 3: Feeds state is unknown aborting')
@@ -704,10 +704,10 @@ class VISIONBackupManager(Screen):
 			print('[BackupManager] Restoring stage 4: Plugins to restore (extra plugins)', self.pluginslist)
 			print('[BackupManager] Restoring stage 4: Plugins to restore (3rd party plugins)', self.pluginslist2)
 			AddPopupWithCallback(self.Stage4Complete,
-								 _("Do you want to restore your Enigma2 plugins ?"),
-								 MessageBox.TYPE_YESNO,
-								 15,
-								 PLUGINRESTOREQUESTIONID
+				_("Do you want to restore your Enigma2 plugins ?"),
+				MessageBox.TYPE_YESNO,
+				15,
+				PLUGINRESTOREQUESTIONID
 			)
 		else:
 			print('[BackupManager] Restoring stage 4: Plugin restore not required')
@@ -721,10 +721,10 @@ class VISIONBackupManager(Screen):
 		elif answer is False:
 			print('[BackupManager] Restoring stage 4: Plugin restore skipped by user')
 			AddPopupWithCallback(self.Stage6,
-								 _("Now skipping restore process"),
-								 MessageBox.TYPE_INFO,
-								 15,
-								 NOPLUGINS
+				_("Now skipping restore process"),
+				MessageBox.TYPE_INFO,
+				15,
+				NOPLUGINS
 			)
 
 	def Stage5(self):
@@ -782,19 +782,18 @@ class BackupSelection(Screen):
 		self.filelist = MultiFileSelectList(self.selectedFiles, defaultDir)
 		self["checkList"] = self.filelist
 
-		self["actions"] = ActionMap(["DirectionActions", "OkCancelActions", "ShortcutActions", "MenuActions"],
-									{
-									"cancel": self.exit,
-									"red": self.exit,
-									"yellow": self.changeSelectionState,
-									"green": self.saveSelection,
-									"ok": self.okClicked,
-									"left": self.left,
-									"right": self.right,
-									"down": self.down,
-									"up": self.up,
-									"menu": self.exit
-									}, -1)
+		self["actions"] = ActionMap(["DirectionActions", "OkCancelActions", "ShortcutActions", "MenuActions"], {
+			"cancel": self.exit,
+			"red": self.exit,
+			"yellow": self.changeSelectionState,
+			"green": self.saveSelection,
+			"ok": self.okClicked,
+			"left": self.left,
+			"right": self.right,
+			"down": self.down,
+			"up": self.up,
+			"menu": self.exit
+		}, -1)
 		if not self.selectionChanged in self["checkList"].onSelectionChanged:
 			self["checkList"].onSelectionChanged.append(self.selectionChanged)
 		self.onLayoutFinish.append(self.layoutFinished)
@@ -876,18 +875,17 @@ class XtraPluginsSelection(Screen):
 		self.filelist = FileList(defaultDir, showFiles=True, matchingPattern='^.*.(ipk)')
 		self["checkList"] = self.filelist
 
-		self["actions"] = ActionMap(["DirectionActions", "OkCancelActions", "ShortcutActions", "MenuActions"],
-									{
-									"cancel": self.exit,
-									"red": self.exit,
-									"green": self.saveSelection,
-									"ok": self.okClicked,
-									"left": self.left,
-									"right": self.right,
-									"down": self.down,
-									"up": self.up,
-									"menu": self.exit
-									}, -1)
+		self["actions"] = ActionMap(["DirectionActions", "OkCancelActions", "ShortcutActions", "MenuActions"], {
+			"cancel": self.exit,
+			"red": self.exit,
+			"green": self.saveSelection,
+			"ok": self.okClicked,
+			"left": self.left,
+			"right": self.right,
+			"down": self.down,
+			"up": self.up,
+			"menu": self.exit
+		}, -1)
 		if not self.selectionChanged in self["checkList"].onSelectionChanged:
 			self["checkList"].onSelectionChanged.append(self.selectionChanged)
 		self.onLayoutFinish.append(self.layoutFinished)
@@ -969,8 +967,8 @@ class VISIONBackupManagerMenu(Setup):
 		self["key_yellow"] = Button(_("Choose files"))
 		self["key_blue"] = Button(_("Choose IPK folder"))
 		self["actions2"] = ActionMap(["ColorActions", "VirtualKeyboardActions"], {
-		"yellow": self.chooseFiles,
-		"blue": self.chooseXtraPluginDir,
+			"yellow": self.chooseFiles,
+			"blue": self.chooseXtraPluginDir,
 		}, -2)
 
 	def chooseFiles(self):
@@ -1014,14 +1012,13 @@ class VISIONBackupManagerLogView(Screen):
 		self["lab5"] = StaticText(_("Sources are available at:"))
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
 		self["list"] = ScrollLabel(str(backuplog))
-		self["setupActions"] = ActionMap(["SetupActions", "ColorActions", "DirectionActions", "MenuActions"],
-										 {
-										 "cancel": self.cancel,
-										 "ok": self.cancel,
-										 "up": self["list"].pageUp,
-										 "down": self["list"].pageDown,
-										 "menu": self.closeRecursive
-										 }, -2)
+		self["setupActions"] = ActionMap(["SetupActions", "ColorActions", "DirectionActions", "MenuActions"], {
+			"cancel": self.cancel,
+			"ok": self.cancel,
+			"up": self["list"].pageUp,
+			"down": self["list"].pageDown,
+			"menu": self.closeRecursive
+		}, -2)
 
 	def cancel(self):
 		self.close()

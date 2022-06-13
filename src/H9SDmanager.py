@@ -34,8 +34,7 @@ class H9SDmanager(Screen):
 		self["key_red"] = StaticText(_("Reboot"))
 		self["key_green"] = StaticText(_("Init SDcard"))
 		self["key_yellow"] = StaticText(_("Init USB/SDA1"))
-		self["actions"] = ActionMap(["OkCancelActions", "ColorActions"],
-		{
+		self["actions"] = ActionMap(["OkCancelActions", "ColorActions"], {
 			"red": self.reboot,
 			"green": self.SDInit,
 			"yellow": self.USBInit,

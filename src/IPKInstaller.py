@@ -46,15 +46,14 @@ class VISIONIPKInstaller(Screen):
 		self['lab7'] = Label()
 		self.defaultDir = '/tmp'
 		self.onChangedEntry = []
-		self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', 'DirectionActions', "MenuActions"],
-									  {
-									  'cancel': self.close,
-									  'red': self.close,
-									  'green': self.keyInstall,
-									  'yellow': self.changelocation,
-									  'ok': self.keyInstall,
-									  "menu": self.close,
-									  }, -1)
+		self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', 'DirectionActions', "MenuActions"], {
+			'cancel': self.close,
+			'red': self.close,
+			'green': self.keyInstall,
+			'yellow': self.changelocation,
+			'ok': self.keyInstall,
+			"menu": self.close,
+		}, -1)
 
 		self["key_red"] = Button(_("Close"))
 		self["key_green"] = StaticText("")
@@ -188,14 +187,13 @@ class OpkgInstaller(Screen):
 		self["key_blue"] = StaticText(_("Invert"))
 		self["introduction"] = StaticText(_("Press OK to toggle the selection."))
 
-		self["actions"] = ActionMap(["OkCancelActions", "ColorActions"],
-									{
-									"ok": self.list.toggleSelection,
-									"cancel": self.close,
-									"red": self.close,
-									"green": self.install,
-									"blue": self.list.toggleAllSelection
-									}, -1)
+		self["actions"] = ActionMap(["OkCancelActions", "ColorActions"], {
+			"ok": self.list.toggleSelection,
+			"cancel": self.close,
+			"red": self.close,
+			"green": self.install,
+			"blue": self.list.toggleAllSelection
+		}, -1)
 
 	def install(self):
 		list = self.list.getSelectionsList()

@@ -133,11 +133,10 @@ class ClientModeBoxWizard(WizardLanguage):
 		self["lab4"] = StaticText(_("https://openvision.tech"))
 		self["lab5"] = StaticText(_("Sources are available at:"))
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
-		self['myactions'] = ActionMap(["MenuActions"],
-									  {
-									  'menu': self.Menu,
-									  'cancel': self.KeyCancel,
-									  }, -1)
+		self['myactions'] = ActionMap(["MenuActions"], {
+			'menu': self.Menu,
+			'cancel': self.KeyCancel,
+		}, -1)
 
 	def Menu(self, session=None, **kwargs):
 		self.session.open(ClientModeBoxMenu, PluginLanguageDomain)
@@ -496,8 +495,7 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 		self["key_green"] = Button(_('Save'))
 		self["key_yellow"] = Button(_('Scan'))
 		self["key_blue"] = Button(_('About'))
-		self["actions"] = ActionMap(["OkCancelActions", "ColorActions"],
-		{
+		self["actions"] = ActionMap(["OkCancelActions", "ColorActions"], {
 			"cancel": self.keyCancel,
 			"red": self.closeRecursive,
 			"green": self.keySave,
@@ -1070,8 +1068,7 @@ class ClientModeBoxAbout(Screen):
 		self.setTitle(_('Vision Client Mode Box'))
 
 		self['about'] = Label(_("Client Mode Box: If you want to exit Client Mode and have a backup with your original settings. You can restore from blue button on Vision Backup Manager."))
-		self["actions"] = ActionMap(["SetupActions"],
-		{
+		self["actions"] = ActionMap(["SetupActions"], {
 			"cancel": self.keyCancel
 		})
 
@@ -1334,18 +1331,18 @@ class ClientModeBoxRemoteTimer():
 
 		entry.service_ref = ServiceReference(":".join(str(entry.service_ref).split(":")[:10]))
 		args = urlencode({
-				'sRef': str(entry.service_ref),
-				'begin': str(entry.begin),
-				'end': str(entry.end),
-				'name': entry.name,
-				'disabled': str(1 if entry.disabled else 0),
-				'justplay': str(1 if entry.justplay else 0),
-				'afterevent': str(entry.afterEvent),
-				'dirname': str(entry.dirname),
-				'tags': " ".join(entry.tags),
-				'repeated': str(entry.repeated),
-				'description': entry.description
-			})
+			'sRef': str(entry.service_ref),
+			'begin': str(entry.begin),
+			'end': str(entry.end),
+			'name': entry.name,
+			'disabled': str(1 if entry.disabled else 0),
+			'justplay': str(1 if entry.justplay else 0),
+			'afterevent': str(entry.afterEvent),
+			'dirname': str(entry.dirname),
+			'tags': " ".join(entry.tags),
+			'repeated': str(entry.repeated),
+			'description': entry.description
+		})
 
 		baseurl = self.getBaseUrl()
 
@@ -1377,21 +1374,21 @@ class ClientModeBoxRemoteTimer():
 		entry.service_ref = ServiceReference(":".join(str(entry.service_ref).split(":")[:10]))
 		try:
 			args = urlencode({
-					'sRef': str(entry.service_ref),
-					'begin': str(entry.begin),
-					'end': str(entry.end),
-					'channelOld': str(entry.orig.service_ref),
-					'beginOld': str(entry.orig.begin),
-					'endOld': str(entry.orig.end),
-					'name': entry.name,
-					'disabled': str(1 if entry.disabled else 0),
-					'justplay': str(1 if entry.justplay else 0),
-					'afterevent': str(entry.afterEvent),
-					'dirname': str(entry.dirname),
-					'tags': " ".join(entry.tags),
-					'repeated': str(entry.repeated),
-					'description': entry.description
-				})
+				'sRef': str(entry.service_ref),
+				'begin': str(entry.begin),
+				'end': str(entry.end),
+				'channelOld': str(entry.orig.service_ref),
+				'beginOld': str(entry.orig.begin),
+				'endOld': str(entry.orig.end),
+				'name': entry.name,
+				'disabled': str(1 if entry.disabled else 0),
+				'justplay': str(1 if entry.justplay else 0),
+				'afterevent': str(entry.afterEvent),
+				'dirname': str(entry.dirname),
+				'tags': " ".join(entry.tags),
+				'repeated': str(entry.repeated),
+				'description': entry.description
+			})
 
 			baseurl = self.getBaseUrl()
 			httprequest = urlopen(baseurl + '/web/timerchange?' + args)
@@ -1418,10 +1415,10 @@ class ClientModeBoxRemoteTimer():
 
 		entry.service_ref = ServiceReference(":".join(str(entry.service_ref).split(":")[:10]))
 		args = urlencode({
-				'sRef': str(entry.service_ref),
-				'begin': str(entry.begin),
-				'end': str(entry.end)
-			})
+			'sRef': str(entry.service_ref),
+			'begin': str(entry.begin),
+			'end': str(entry.end)
+		})
 
 		baseurl = self.getBaseUrl()
 		try:

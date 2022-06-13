@@ -119,17 +119,16 @@ class VISIONSoftcamManager(Screen):
 		self.emlist = MultiFileSelectList(self.selectedFiles, self.defaultDir, showDirectories=False)
 		self["list"] = self.emlist
 
-		self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', "TimerEditActions", "MenuActions"],
-									  {
-									  'ok': self.keyStart,
-									  'cancel': self.close,
-									  'red': self.close,
-									  'green': self.keyStart,
-									  'yellow': self.getRestartPID,
-									  'blue': self.changeSelectionState,
-									  'log': self.showLog,
-									  'menu': self.createSetup,
-									  }, -1)
+		self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', "TimerEditActions", "MenuActions"], {
+			'ok': self.keyStart,
+			'cancel': self.close,
+			'red': self.close,
+			'green': self.keyStart,
+			'yellow': self.getRestartPID,
+			'blue': self.changeSelectionState,
+			'log': self.showLog,
+			'menu': self.createSetup,
+		}, -1)
 
 		self["key_red"] = Button(_("Close"))
 		self["key_green"] = StaticText("")
@@ -357,11 +356,10 @@ class VISIONSoftcamMenu(ConfigListScreen, Screen):
 		ConfigListScreen.__init__(self, self.list, session=self.session, on_change=self.changedEntry)
 		self.createSetup()
 
-		self["actions"] = ActionMap(["SetupActions", "MenuActions"],
-		{
-		  "cancel": self.keyCancel,
-		  "save": self.keySave,
-		  "menu": self.closeRecursive,
+		self["actions"] = ActionMap(["SetupActions", "MenuActions"], {
+			"cancel": self.keyCancel,
+			"save": self.keySave,
+			"menu": self.closeRecursive,
 		}, -2)
 		self["key_red"] = Button(_("Cancel"))
 		self["key_green"] = Button(_("Save"))
@@ -594,13 +592,12 @@ class VISIONSoftcamLog(Screen):
 		else:
 			softcamlog = ""
 		self["list"] = ScrollLabel(str(softcamlog))
-		self["setupActions"] = ActionMap(["SetupActions", "ColorActions", "DirectionActions"],
-										 {
-										 "cancel": self.cancel,
-										 "ok": self.cancel,
-										 "up": self["list"].pageUp,
-										 "down": self["list"].pageDown
-										 }, -2)
+		self["setupActions"] = ActionMap(["SetupActions", "ColorActions", "DirectionActions"], {
+			"cancel": self.cancel,
+			"ok": self.cancel,
+			"up": self["list"].pageUp,
+			"down": self["list"].pageDown
+		 }, -2)
 
 	def cancel(self):
 		self.close()

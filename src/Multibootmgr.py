@@ -42,8 +42,7 @@ class MultiBoot(Screen):
 		self.imageList = None
 		self.startit()
 
-		self["actions"] = ActionMap(["OkCancelActions", "ColorActions", "DirectionActions", "KeyboardInputActions", "MenuActions"],
-		{
+		self["actions"] = ActionMap(["OkCancelActions", "ColorActions", "DirectionActions", "KeyboardInputActions", "MenuActions"], {
 			"red": boundFunction(self.close, None),
 			"green": self.erase,
 			"yellow": boundFunction(self.close, None),
