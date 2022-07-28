@@ -1,20 +1,14 @@
 from __future__ import print_function
-try: # python 3
-	from urllib.request import urlopen, Request, urlretrieve
-	from urllib.parse import quote	# raises ImportError in Python 2
-	from urllib.error import HTTPError, URLError # raises ImportError in Python 2
-except ImportError: # Python 2
-	from urllib import quote
-	from urllib2 import Request, urlopen, HTTPError, URLError
 from Screens.WizardLanguage import WizardLanguage
 from enigma import eEPGCache, eDVBDB
 from xml.dom import minidom
 import re
 import os
-import six
 import shutil
 import locale
 from six.moves.urllib.parse import quote, urlencode
+from six.moves.urllib.request import urlopen, Request
+from six.moves.urllib.error import URLError, HTTPError
 from Components.Network import iNetwork
 from time import localtime, time, mktime
 import socket

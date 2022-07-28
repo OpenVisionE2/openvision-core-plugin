@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-from six import ensure_str
 # for localized messages
 from os import path, stat, mkdir, listdir, remove, statvfs, chmod
 from time import localtime, time, strftime, mktime
@@ -737,8 +736,10 @@ class VISIONBackupManager(Screen):
 			self.Stage6()
 
 	def Stage5Complete(self, result, retval, extra_args):
+		from six import ensure_str
+		result = ensure_str(result)
 		if result:
-			print("[BackupManager] opkg install result:\n", ensure_str(result))
+			print("[BackupManager] opkg install result:\n", result)
 			self.didPluginsRestore = True
 			self.Stage5Completed = True
 			print('[BackupManager] Restoring stage 5: Completed')

@@ -1,5 +1,4 @@
 from __future__ import print_function
-import six
 from . import _
 from os import listdir, path, stat
 from Components.About import about
@@ -219,8 +218,10 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 		self.doRestorePlugins1()
 
 	def pluginsRestore_Finished(self, result, retval, extra_args=None):
+		from six import ensure_str
+		result = ensure_str(result)
 		if result:
-			print("[RestoreWizard] opkg install result:\n", six.ensure_str(result))
+			print("[RestoreWizard] opkg install result:\n", result)
 		self.didPluginRestore = True
 		self.NextStep = 'reboot'
 		self.buildListRef.close(True)

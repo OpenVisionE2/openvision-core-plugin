@@ -28,10 +28,9 @@ from Screens.Setup import Setup
 from Screens.Standby import TryQuitMainloop
 from Screens.TaskView import JobView
 from Tools.Directories import fileExists, pathExists, fileHas
-import Tools.CopyFiles
 from Tools.MultiBoot import getCurrentImage, getImageList
 from Tools.Notifications import AddPopupWithCallback
-import six
+from six import ensure_str, ensure_binary
 
 model = BoxInfo.getItem("model")
 brand = BoxInfo.getItem("brand")
@@ -539,13 +538,14 @@ class VISIONImageManager(Screen):
 		fbClass.getInstance().lock()
 
 	def ofgwriteResult(self, result, retval, extra_args=None):
+		result = ensure_str(result)
 		fbClass.getInstance().unlock()
 		print("[ImageManager] ofgwrite retval:", retval)
 		if retval == 0:
 			if BoxInfo.getItem("HiSilicon") and BoxInfo.getItem("HasRootSubdir") is False and self.HasSDmmc is False:	# sf8008 receiver 1 eMMC parition, No SD card
 				self.session.open(TryQuitMainloop, 2)
 			if BoxInfo.getItem("canMultiBoot"):
-				print("[ImageManager] slot %s result %s\n" % (self.multibootslot, six.ensure_str(result)))
+				print("[ImageManager] slot %s result %s\n" % (self.multibootslot, result))
 				tmp_dir = tempfile.mkdtemp(prefix="ImageManagerFlash")
 				Console().ePopen("mount %s %s" % (self.mtdboot, tmp_dir))
 				if pathExists(path.join(tmp_dir, "STARTUP")):
@@ -1510,9 +1510,8 @@ class ImageManagerDownload(Screen):
 			selectedimage = currentSelected[0][0]
 			headers, fileurl = self.processAuthLogin(currentSelected[0][1])
 			fileloc = self.BackupDirectory + selectedimage
-			url_encode = "utf-8"
-			b_url = fileurl.encode(url_encode).decode() if version_info.major >= 3 else fileurl.encode(url_encode)
-			Tools.CopyFiles.downloadFile(b_url, fileloc, selectedimage.replace("_usb", ""), headers=headers)
+			import Tools.CopyFiles
+			Tools.CopyFiles.downloadFile(fileurl, fileloc, selectedimage.replace("_usb", ""), headers=headers)
 			for job in Components.Task.job_manager.getPendingJobs():
 				if job.name.startswith(_("Downloading")):
 					break
@@ -1540,8 +1539,8 @@ class ImageManagerDownload(Screen):
 		path = parsed.path
 		if username or password:
 			import base64
-			base64string = base64.b64encode(six.ensure_binary('%s:%s' % (username, password)))
-			headers = {six.ensure_binary("Authorization"): six.ensure_binary("Basic %s" % six.ensure_str(base64string))}
+			base64string = base64.b64encode(ensure_binary('%s:%s' % (username, password)))
+			headers = {ensure_binary("Authorization"): ensure_binary("Basic %s" % ensure_str(base64string))}
 		return headers, scheme + "://" + hostname + path
 
 

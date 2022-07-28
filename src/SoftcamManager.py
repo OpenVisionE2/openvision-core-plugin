@@ -1,5 +1,5 @@
 from __future__ import print_function
-import six
+from six import PY2, ensure_str
 
 import re
 from os import path, makedirs, remove, rename, symlink, mkdir, listdir, unlink
@@ -49,7 +49,13 @@ def SoftcamAutostart(reason, session=None, **kwargs):
 	"""called with reason=1 to during shutdown, with reason=0 at startup?"""
 	global softcamautopoller
 	if reason == 0:
-		if six.PY3:
+		if PY2:
+			print("[SoftcamManager] AutoStart Enabled")
+			if path.exists("/tmp/SoftcamsDisableCheck"):
+				remove("/tmp/SoftcamsDisableCheck")
+			softcamautopoller = SoftcamAutoPoller()
+			softcamautopoller.start()
+		else:
 			link = "/etc/init.d/softcam"
 			print("[SoftcamAutostart] config.misc.softcams.value=%s" % (config.misc.softcams.value))
 			if path.exists(link) and config.misc.softcams.value != "None":
@@ -65,12 +71,6 @@ def SoftcamAutostart(reason, session=None, **kwargs):
 					remove("/tmp/SoftcamsDisableCheck")
 				softcamautopoller = SoftcamAutoPoller()
 				softcamautopoller.start()
-		else:
-			print("[SoftcamManager] AutoStart Enabled")
-			if path.exists("/tmp/SoftcamsDisableCheck"):
-				remove("/tmp/SoftcamsDisableCheck")
-			softcamautopoller = SoftcamAutoPoller()
-			softcamautopoller.start()
 	elif reason == 1:
 		# Stop Poller
 		if softcamautopoller is not None:
@@ -207,11 +207,9 @@ class VISIONSoftcamManager(Screen):
 		# self.Console.ePopen("ps.procps | grep softcams | grep -v 'grep' | sed 's/</ /g' | awk '{print $5}' | awk '{a[$1] = $0} END { for (x in a) { print a[x] } }' | awk -F'[/]' '{print $4}'", self.showActivecam2)
 
 	def showActivecam2(self, result, retval, extra_args):
+		result = ensure_str(result)
 		if retval == 0:
-			if six.PY3:
-				self.currentactivecamtemp = six.ensure_str(result)
-			else:
-				self.currentactivecamtemp = result
+			self.currentactivecamtemp = result
 			self.currentactivecam = "".join([s for s in self.currentactivecamtemp.splitlines(True) if s.strip("\r\n")])
 			self.currentactivecam = self.currentactivecam.replace("\n", ", ")
 			if path.exists("/tmp/SoftcamsScriptsRunning"):
@@ -274,16 +272,14 @@ class VISIONSoftcamManager(Screen):
 			self.Console.ePopen("pidof " + selectedcam, self.keyRestart, selectedcam)
 
 	def keyRestart(self, result, retval, extra_args):
+		result = ensure_str(result)
 		selectedcam = extra_args
 		strpos = self.currentactivecam.find(selectedcam)
 		if strpos < 0:
 			return
 		else:
 			if retval == 0:
-				if six.PY3:
-					stopcam = six.ensure_str(result)
-				else:
-					stopcam = str(result)
+				stopcam = result
 				print('[SoftcamManager] Stopping ' + selectedcam + ' PID ' + stopcam.replace("\n", ""))
 				now = datetime.now()
 				open('/tmp/cam.check.log', 'a').write(now.strftime("%Y-%m-%d %H:%M") + ": Stopping: " + selectedcam + "\n")
@@ -537,10 +533,11 @@ class VISIONStopCam(Screen):
 			self.Console.ePopen("pidof " + stopselectedcam, self.startShow)
 
 	def startShow(self, result, retval, extra_args):
+		result = ensure_str(result)
 		if retval == 0:
 			self.count = 0
 			self['connect'].setPixmapNum(0)
-			stopcam = six.ensure_str(result)
+			stopcam = result
 			print("[SoftcamManager][startShow] stopcam=%s" % stopcam)
 			if path.exists('/etc/SoftcamsAutostart'):
 				data = open('/etc/SoftcamsAutostart').read()
