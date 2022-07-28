@@ -2,7 +2,6 @@ from __future__ import print_function, division
 # for localized messages
 from os import system, stat as mystat, path, remove, rename
 from glob import glob
-import sys
 import stat
 
 from enigma import eTimer
@@ -42,9 +41,9 @@ class StartSwap:
 		self.Console.ePopen("parted -l /dev/sd? | grep swap", self.startSwap2)
 
 	def startSwap2(self, result=None, retval=None, extra_args=None):
+		from six import ensure_str
+		result = ensure_str(result)
 		swap_place = ""
-		if sys.version_info >= (3, 0):
-			result = result.decode('utf-8')
 		if result and result.find("sd") != -1:
 			for line in result.split("\n"):
 				if line.find("sd") != -1:
@@ -171,8 +170,6 @@ class VISIONSwap(Screen):
 		self.swap_place = ""
 		self.swap_active = False
 		self.device = False
-		if sys.version_info >= (3, 0):
-			result = result
 		if result.find("sd") > 0:
 			self["key_blue"].setText("")
 			for line in result.split("\n"):

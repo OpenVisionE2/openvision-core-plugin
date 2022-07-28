@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division
-import six
+from six import ensure_str
 
 import errno
 from os import mkdir, path, remove, rename, statvfs, system
@@ -140,7 +140,7 @@ def buildPartitionInfo(partition, partitionList):
 					import subprocess
 					res = subprocess.run(['blkid', '-sTYPE', '-ovalue', parts[0]], capture_output=True)
 					if res.returncode == 0:
-						_format = six.ensure_str(res.stdout).strip()
+						_format = ensure_str(res.stdout).strip()
 				break
 		size = int(parts[2]) # get size partitions
 		if size < 1: # is condition ever fulfilled?
@@ -354,10 +354,11 @@ class VISIONDevicesPanel(Screen):
 			self.session.open(MessageBox, _("This Device is already mounted as HDD."), MessageBox.TYPE_INFO, timeout=10, close_on_any_key=True)
 
 	def addFstab(self, result=None, retval=None, extra_args=None):
+		result = ensure_str(result)
 		try:
 			self.device = extra_args[0]
 			self.mountp = extra_args[1]
-			self.device_uuid = "UUID=" + six.ensure_str(result).split("UUID=")[1].split(" ")[0].replace('"', '')
+			self.device_uuid = "UUID=" + result.split("UUID=")[1].split(" ")[0].replace('"', '')
 			# print("[MountManager1][addFstab1]: device = %s, mountp=%s, UUID=%s" %(self.device, self.mountp, self.device_uuid))
 			if not path.exists(self.mountp):
 				mkdir(self.mountp, 0o755)
@@ -512,11 +513,11 @@ class DeviceMountSetup(Screen, ConfigListScreen):
 		ybox.setTitle(_("Restart receiver."))
 
 	def addconfFstab(self, result=None, retval=None, extra_args=None):
+		result = ensure_str(result)
 		# print "[MountManager] Result:", result
 		if result:
 			self.device = extra_args[0]
 			self.mountp = extra_args[1]
-			result = six.ensure_str(result)
 			uuid = re.search('UUID=\"([^\"]+)\"', result)
 			type = re.search('TYPE=\"([^\"]+)\"', result)
 			if uuid and type:
