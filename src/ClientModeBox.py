@@ -1,4 +1,4 @@
-from __future__ import print_function
+# -*- coding: utf-8 -*-
 from Screens.WizardLanguage import WizardLanguage
 from enigma import eEPGCache, eDVBDB
 from xml.dom import minidom

@@ -1,4 +1,4 @@
-from __future__ import print_function
+# -*- coding: utf-8 -*-
 from six.moves.urllib.request import urlopen
 
 import json

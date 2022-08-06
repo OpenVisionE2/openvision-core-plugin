@@ -1,4 +1,4 @@
-from __future__ import print_function, division
+# -*- coding: utf-8 -*-
 # for localized messages
 from os import system, stat as mystat, path, remove, rename
 from glob import glob

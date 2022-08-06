@@ -1,4 +1,4 @@
-from __future__ import print_function
+# -*- coding: utf-8 -*-
 from . import _
 from os import listdir, path, stat
 from Components.About import about
