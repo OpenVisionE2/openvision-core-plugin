@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 from six.moves.urllib.request import urlopen
 
 import json
@@ -42,7 +43,7 @@ imagedir = BoxInfo.getItem("imagedir")
 imagefs = BoxInfo.getItem("imagefs")
 imagedistro = BoxInfo.getItem("distro")
 imageversion = BoxInfo.getItem("imageversion")
-visionlanguage = BoxInfo.getItem("imglanguage")
+imagetype = BoxInfo.getItem("imagetype")
 visionversion = BoxInfo.getItem("imgversion")
 visionrevision = BoxInfo.getItem("imgrevision")
 
@@ -347,7 +348,7 @@ class VISIONImageManager(Screen):
 	def backupToDelete(self, answer):
 		self.sel = self["list"].getCurrent()
 		backupname = self.BackupDirectory + self.sel
-		folderprefix = config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-" + str(visionlanguage)
+		folderprefix = config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-" + str(imagetype)
 		cmd = "rm -rf %s" % backupname
 		if answer == True:
 			if self.sel.startswith(folderprefix) and self.BackupRunning == False or self.sel.endswith(".zip"):
@@ -726,7 +727,7 @@ class ImageBackup(Screen):
 		self.BackupDate = strftime("%Y%m%d_%H%M%S", localtime())
 		self.WORKDIR = self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-temp"
 		self.TMPDIR = self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-mount"
-		LanguageType = "-" + str(visionlanguage) + "-"
+		LanguageType = "-" + str(imagetype) + "-"
 		imageSubBuild = ""
 		if imageversion != "develop":
 			imageSubBuild = ".%s" % str(imagebuild)
@@ -739,7 +740,7 @@ class ImageBackup(Screen):
 		self.MCBUILD = platform
 		self.IMAGEDISTRO = imagedistro
 		self.IMAGEVERSION = imageversion
-		self.DISTROLANGUAGE = visionlanguage
+		self.DISTROTYPE = imagetype
 		self.DISTROVERSION = visionversion
 		self.DISTROREVISION = visionrevision
 		self.KERNELBIN = kernelfile
@@ -1325,7 +1326,7 @@ class ImageBackup(Screen):
 		zipfolder = path.split(self.MAINDESTROOT)
 		self.commands = []
 		if BoxInfo.getItem("HasRootSubdir"):
-			self.commands.append("7za a -r -bt -bd %s/%s-%s-%s-%s-%s-%s-%s_mmc.zip %s/*" % (self.BackupDirectory, self.IMAGEDISTRO, self.IMAGEVERSION, self.DISTROLANGUAGE, self.DISTROVERSION, self.DISTROREVISION, self.MODEL, self.BackupDate, self.MAINDESTROOT))
+			self.commands.append("7za a -r -bt -bd %s/%s-%s-%s-%s-%s-%s-%s_mmc.zip %s/*" % (self.BackupDirectory, self.IMAGEDISTRO, self.IMAGEVERSION, self.DISTROTYPE, self.DISTROVERSION, self.DISTROREVISION, self.MODEL, self.BackupDate, self.MAINDESTROOT))
 		else:
 			self.commands.append("cd " + self.MAINDESTROOT + " && zip -r " + self.MAINDESTROOT + ".zip *")
 		self.commands.append("rm -rf " + self.MAINDESTROOT)
