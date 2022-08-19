@@ -65,6 +65,8 @@ def SoftcamAutostart(reason, session=None, **kwargs):
 				cmd = "%s %s" % (link, "start")
 				print("[SoftcamAutostart][command]Executing %s" % cmd)
 				eConsoleAppContainer().execute(cmd)
+				softcamautopoller = SoftcamAutoPoller()
+				softcamautopoller.start()
 			else:
 				print("[SoftcamManager] AutoStart Enabled")
 				if path.exists("/tmp/SoftcamsDisableCheck"):
