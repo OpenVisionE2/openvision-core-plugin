@@ -15,16 +15,16 @@ class H9SDmanager(Screen):
 	<screen name="H9SDmanager" position="center,center" size="750,700" flags="wfNoBorder" backgroundColor="transparent">
 		<eLabel name="b" position="0,0" size="750,700" backgroundColor="#00ffffff" zPosition="-2" />
 		<eLabel name="a" position="1,1" size="748,698" backgroundColor="#00000000" zPosition="-1" />
-		<widget source="Title" render="Label" position="60,10" foregroundColor="#00ffffff" size="480,50" halign="left" font="Regular; 28" backgroundColor="#00000000" />
+		<widget source="Title" render="Label" position="60,10" foregroundColor="#00ffffff" size="480,50" horizontalAlignment="left" font="Regular; 28" backgroundColor="#00000000" />
 		<eLabel name="line" position="1,60" size="748,1" backgroundColor="#00ffffff" zPosition="1" />
 		<eLabel name="line2" position="1,250" size="748,4" backgroundColor="#00ffffff" zPosition="1" />
-		<widget source="labe14" render="Label" position="2,80" size="730,30" halign="center" font="Regular; 22" backgroundColor="#00000000" foregroundColor="#00ffffff" />
-		<widget source="key_red" render="Label" position="30,200" size="150,30" noWrap="1" zPosition="1" valign="center" font="Regular; 20" halign="left" backgroundColor="#00000000" foregroundColor="#00ffffff" />
-		<widget source="key_green" render="Label" position="200,200" size="150,30" noWrap="1" zPosition="1" valign="center" font="Regular; 20" halign="left" backgroundColor="#00000000" foregroundColor="#00ffffff" />
-		<widget source="key_yellow" render="Label" position="370,200" size="150,30" noWrap="1" zPosition="1" valign="center" font="Regular; 20" halign="left" backgroundColor="#00000000" foregroundColor="#00ffffff" />
-		<ePixmap pixmap="buttons/red.png" position="30,200" size="40,40" alphatest="blend" />
-		<ePixmap pixmap="buttons/green.png" position="200,200" size="40,40" alphatest="blend" />
-		<ePixmap pixmap="buttons/yellow.png" position="370,200" size="40,40" alphatest="blend" />
+		<widget source="labe14" render="Label" position="2,80" size="730,30" horizontalAlignment="center" font="Regular; 22" backgroundColor="#00000000" foregroundColor="#00ffffff" />
+		<widget source="key_red" render="Label" position="30,200" size="150,30" noWrap="1" zPosition="1" verticalAlignment="center" font="Regular; 20" horizontalAlignment="left" backgroundColor="#00000000" foregroundColor="#00ffffff" />
+		<widget source="key_green" render="Label" position="200,200" size="150,30" noWrap="1" zPosition="1" verticalAlignment="center" font="Regular; 20" horizontalAlignment="left" backgroundColor="#00000000" foregroundColor="#00ffffff" />
+		<widget source="key_yellow" render="Label" position="370,200" size="150,30" noWrap="1" zPosition="1" verticalAlignment="center" font="Regular; 20" horizontalAlignment="left" backgroundColor="#00000000" foregroundColor="#00ffffff" />
+		<ePixmap pixmap="buttons/red.png" position="30,200" size="40,40" alphaTest="blend" />
+		<ePixmap pixmap="buttons/green.png" position="200,200" size="40,40" alphaTest="blend" />
+		<ePixmap pixmap="buttons/yellow.png" position="370,200" size="40,40" alphaTest="blend" />
 	</screen>
 	"""
 

@@ -108,7 +108,7 @@ class ClientModeBoxWizard(WizardLanguage):
 					 zPosition="0"
 					 size="15,16"
 					 transparent="1"
-					 alphatest="blend" />
+					 alphaTest="blend" />
 
 			<widget name="languagetext"
 					position="65,520"
@@ -398,8 +398,8 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 			<widget name="key_red"
 					position="0,360"
 					size="140,40"
-					valign="center"
-					halign="center"
+					verticalAlignment="center"
+					horizontalAlignment="center"
 					zPosition="5"
 					transparent="1"
 					foregroundColor="white"
@@ -408,8 +408,8 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 			<widget name="key_green"
 					position="140,360"
 					size="140,40"
-					valign="center"
-					halign="center"
+					verticalAlignment="center"
+					horizontalAlignment="center"
 					zPosition="5"
 					transparent="1"
 					foregroundColor="white"
@@ -418,8 +418,8 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 			<widget name="key_yellow"
 					position="280,360"
 					size="140,40"
-					valign="center"
-					halign="center"
+					verticalAlignment="center"
+					horizontalAlignment="center"
 					zPosition="5"
 					transparent="1"
 					foregroundColor="white"
@@ -428,8 +428,8 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 			<widget name="key_blue"
 					position="420,360"
 					size="140,40"
-					valign="center"
-					halign="center"
+					verticalAlignment="center"
+					horizontalAlignment="center"
 					zPosition="5"
 					transparent="1"
 					foregroundColor="white"
@@ -441,7 +441,7 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 					 size="140,40"
 					 zPosition="4"
 					 transparent="1"
-					 alphatest="blend" />
+					 alphaTest="blend" />
 
 			<ePixmap name="green"
 					 pixmap="buttons/green.png"
@@ -449,7 +449,7 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 					 size="140,40"
 					 zPosition="4"
 					 transparent="1"
-					 alphatest="blend" />
+					 alphaTest="blend" />
 
 			<ePixmap name="yellow"
 					 pixmap="buttons/yellow.png"
@@ -457,7 +457,7 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 					 size="140,40"
 					 zPosition="4"
 					 transparent="1"
-					 alphatest="blend" />
+					 alphaTest="blend" />
 
 			<ePixmap name="blue"
 					 pixmap="buttons/blue.png"
@@ -465,7 +465,7 @@ class ClientModeBoxMenu(Screen, ConfigListScreen):
 					 size="140,40"
 					 zPosition="4"
 					 transparent="1"
-					 alphatest="blend" />
+					 alphaTest="blend" />
 		</screen>"""
 
 	def __init__(self, session, timerinstance):

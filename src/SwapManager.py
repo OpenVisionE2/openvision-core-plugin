@@ -84,24 +84,24 @@ class StartSwap:
 class VISIONSwap(Screen):
 	skin = """
 	<screen name="VISIONSwap" position="center,center" size="620,250">
-		<ePixmap pixmap="buttons/red.png" position="10,0" size="140,40" alphatest="blend"/>
-		<ePixmap pixmap="buttons/green.png" position="160,0" size="140,40" alphatest="blend"/>
-		<ePixmap pixmap="buttons/yellow.png" position="310,0" size="140,40" alphatest="blend"/>
-		<ePixmap pixmap="buttons/blue.png" position="460,0" size="140,40" alphatest="blend"/>
-		<widget name="key_red" position="10,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1"/>
-		<widget name="key_green" position="160,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1"/>
-		<widget name="key_yellow" position="310,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#a08500" transparent="1"/>
-		<widget name="key_blue" position="460,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1"/>
-		<widget name="autostart_off" position="10,50" zPosition="1" pixmap="icons/lock_off.png" size="32,32" alphatest="blend"/>
-		<widget name="autostart_on" position="10,50" zPosition="2" pixmap="icons/lock_on.png" size="32,32" alphatest="blend"/>
-		<widget name="lab7" position="50,50" size="360,30" font="Regular;20" valign="center" transparent="1"/>
-		<widget name="lab8" position="10,100" size="150,30" font="Regular;20" valign="center" transparent="1"/>
-		<widget name="lab9" position="10,150" size="150,30" font="Regular;20" valign="center" transparent="1"/>
-		<widget name="lab10" position="10,200" size="150,30" font="Regular;20" valign="center" transparent="1" />
-		<widget name="labplace" position="160,100" size="220,30" font="Regular;20" valign="center" backgroundColor="#4D5375"/>
-		<widget name="labsize" position="160,150" size="220,30" font="Regular;20" valign="center" backgroundColor="#4D5375"/>
-		<widget name="inactive" position="160,200" size="100,30" font="Regular;20" valign="center" halign="center" backgroundColor="red"/>
-		<widget name="active" position="160,200" size="100,30" font="Regular;20" valign="center" halign="center" backgroundColor="green"/>
+		<ePixmap pixmap="buttons/red.png" position="10,0" size="140,40" alphaTest="blend"/>
+		<ePixmap pixmap="buttons/green.png" position="160,0" size="140,40" alphaTest="blend"/>
+		<ePixmap pixmap="buttons/yellow.png" position="310,0" size="140,40" alphaTest="blend"/>
+		<ePixmap pixmap="buttons/blue.png" position="460,0" size="140,40" alphaTest="blend"/>
+		<widget name="key_red" position="10,0" zPosition="1" size="140,40" font="Regular;20" horizontalAlignment="center" verticalAlignment="center" backgroundColor="#1f771f" transparent="1"/>
+		<widget name="key_green" position="160,0" zPosition="1" size="140,40" font="Regular;20" horizontalAlignment="center" verticalAlignment="center" backgroundColor="#1f771f" transparent="1"/>
+		<widget name="key_yellow" position="310,0" zPosition="1" size="140,40" font="Regular;20" horizontalAlignment="center" verticalAlignment="center" backgroundColor="#a08500" transparent="1"/>
+		<widget name="key_blue" position="460,0" zPosition="1" size="140,40" font="Regular;20" horizontalAlignment="center" verticalAlignment="center" backgroundColor="#9f1313" transparent="1"/>
+		<widget name="autostart_off" position="10,50" zPosition="1" pixmap="icons/lock_off.png" size="32,32" alphaTest="blend"/>
+		<widget name="autostart_on" position="10,50" zPosition="2" pixmap="icons/lock_on.png" size="32,32" alphaTest="blend"/>
+		<widget name="lab7" position="50,50" size="360,30" font="Regular;20" verticalAlignment="center" transparent="1"/>
+		<widget name="lab8" position="10,100" size="150,30" font="Regular;20" verticalAlignment="center" transparent="1"/>
+		<widget name="lab9" position="10,150" size="150,30" font="Regular;20" verticalAlignment="center" transparent="1"/>
+		<widget name="lab10" position="10,200" size="150,30" font="Regular;20" verticalAlignment="center" transparent="1" />
+		<widget name="labplace" position="160,100" size="220,30" font="Regular;20" verticalAlignment="center" backgroundColor="#4D5375"/>
+		<widget name="labsize" position="160,150" size="220,30" font="Regular;20" verticalAlignment="center" backgroundColor="#4D5375"/>
+		<widget name="inactive" position="160,200" size="100,30" font="Regular;20" verticalAlignment="center" horizontalAlignment="center" backgroundColor="red"/>
+		<widget name="active" position="160,200" size="100,30" font="Regular;20" verticalAlignment="center" horizontalAlignment="center" backgroundColor="green"/>
 	</screen>"""
 
 	def __init__(self, session):
