@@ -222,7 +222,7 @@ class VISIONSoftcamManager(Screen):
 				self.currentactivecam += SoftcamsScriptsRunning
 			print("[SoftcamManager] Active:%s SoftcamSetup:%s" % (self.currentactivecam, config.misc.softcams.value))
 			if config.misc.softcams.value != "None":
-				self["activecam"].setText(_("From Softcam Setup [%s].\nActive: %s") % (config.misc.softcams.value, self.currentactivecam))
+				self["activecam"].setText(_("From Softcam Setup [%s].\n%s") % (config.misc.softcams.value, self.currentactivecam))
 			else:
 				self["activecam"].setText(self.currentactivecam)
 			self["activecam"].show()
