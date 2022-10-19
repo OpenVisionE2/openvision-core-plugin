@@ -4,8 +4,7 @@ from six import PY2, ensure_str
 import re
 from os import path, makedirs, remove, rename, symlink, mkdir, listdir, unlink
 from datetime import datetime
-from time import time, sleep
-
+from time import time
 from enigma import eTimer, eConsoleAppContainer
 
 from . import _, PluginLanguageDomain
@@ -286,7 +285,6 @@ class VISIONSoftcamManager(Screen):
 				now = datetime.now()
 				open('/tmp/cam.check.log', 'a').write(now.strftime("%Y-%m-%d %H:%M") + ": Stopping: " + selectedcam + "\n")
 				self.Console.ePopen("kill -9 " + stopcam.replace("\n", ""))
-				sleep(4)
 			else:
 				print('[SoftcamManager] Result failed: ' + str(result))
 			if selectedcam.lower().endswith('oscam') and path.exists('/etc/tuxbox/config/oscam/oscam.conf') == True:
@@ -669,7 +667,7 @@ class SoftcamAutoPoller:
 		if BoxInfo.getItem("OScamInstalled") and not path.exists("/usr/softcams/oscam"):
 			self.Console.ePopen('ln -s /usr/bin/*oscam* /usr/softcams/')
 		if BoxInfo.getItem("NCamInstalled") and not path.exists("/usr/softcams/ncam"):
-		    self.Console.ePopen('ln -s /usr/bin/ncam /usr/softcams/')
+			self.Console.ePopen('ln -s /usr/bin/ncam /usr/softcams/')
 		if path.exists('/tmp/cam.check.log'):
 			if path.getsize('/tmp/cam.check.log') > 40000:
 				fh = open('/tmp/cam.check.log', 'rb+')
@@ -740,7 +738,6 @@ class SoftcamAutoPoller:
 							if port == "":
 								port = "16000"
 							self.Console.ePopen("wget -T 1 http://127.0.0.1:" + port + "/status.html -O /tmp/status.html &> /tmp/frozen")
-							sleep(2)
 							frozen = open('/tmp/frozen').read()
 							if frozen.find('Unauthorized') != -1 or frozen.find('Authorization Required') != -1 or frozen.find('Forbidden') != -1 or frozen.find('Connection refused') != -1 or frozen.find('100%') != -1 or path.exists('/tmp/status.html'):
 								print('[SoftcamManager] ' + softcamcheck + ' is responding like it should')
@@ -754,12 +751,10 @@ class SoftcamAutoPoller:
 								now = datetime.now()
 								open('/tmp/cam.check.log', 'a').write(now.strftime("%Y-%m-%d %H:%M") + ": AutoStopping: " + softcamcheck + "\n")
 								self.Console.ePopen("killall -9 " + softcamcheck)
-								sleep(1)
 								print('[SoftcamManager] Starting ' + softcamcheck)
 								now = datetime.now()
 								open('/tmp/cam.check.log', 'a').write(now.strftime("%Y-%m-%d %H:%M") + ": AutoStarting: " + softcamcheck + "\n")
 								self.Console.ePopen('ulimit -s 1024;/usr/softcams/' + softcamcheck + ' -b')
-								sleep(10)
 
 					elif softcamcheck_process == "":
 						print("[SoftcamManager] Couldn't find " + softcamcheck + " running, starting " + softcamcheck)
@@ -767,11 +762,9 @@ class SoftcamAutoPoller:
 						open('/tmp/cam.check.log', 'a').write(now.strftime("%Y-%m-%d %H:%M") + ": Couldn't find " + softcamcheck + " running, Starting " + softcamcheck + "\n")
 						if softcamcheck.lower().startswith('oscam') or softcamcheck.lower().startswith('ncam'):
 							self.Console.ePopen("ps.procps | grep softcams | grep -v grep | awk 'NR==1' | awk '{print $5}'| awk  -F'[/]' '{print $4}' > /tmp/softcamRuningCheck.tmp")
-							sleep(2)
 
 #							open('/tmp/softcamRuningCheck.tmp')
 							self.Console.ePopen('ulimit -s 1024;/usr/softcams/' + softcamcheck + " -b")
-							sleep(10)
 							remove('/tmp/softcamRuningCheck.tmp')
 						else:
 							self.Console.ePopen('ulimit -s 1024;/usr/softcams/' + softcamcheck)
