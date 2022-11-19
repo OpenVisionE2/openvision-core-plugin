@@ -134,7 +134,8 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 
 	def buildList(self, action):
 		if self.NextStep == 'reboot':
-			self.Console.ePopen("killall -9 enigma2 && init 6")
+			kille2reboot = "sleep 10 && killall -9 enigma2 && init 6"
+			self.Console.ePopen("%s" % kille2reboot, self.session.open(MessageBox, _("Finishing restore, your receiver go to restart."), MessageBox.TYPE_INFO))
 		elif self.NextStep == 'settingsquestion' or self.NextStep == 'settingsrestore' or self.NextStep == 'pluginsquestion' or self.NextStep == 'pluginsrestoredevice' or self.NextStep == 'end' or self.NextStep == 'noplugins':
 			self.buildListfinishedCB(False)
 		elif self.NextStep == 'settingrestorestarted':
