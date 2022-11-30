@@ -73,9 +73,9 @@ class VISIONMenu(Screen, ProtectedScreen):
 		self["menu"] = List(self.list)
 		self["key_red"] = StaticText(_("Close"))
 
-		self["shortcuts"] = NumberActionMap(["ShortcutActions", "WizardActions", "InfobarEPGActions", "MenuActions", "NumberActions"], {
+		self["shortcuts"] = NumberActionMap(["ShortcutActions", "InfobarEPGActions", "MenuActions", "NumberActions", "OkCancelActions"], {
 			"ok": self.go,
-			"back": self.close,
+			"cancel": self.close,
 			"red": self.close,
 			"menu": self.closeRecursive,
 			"1": self.go,
