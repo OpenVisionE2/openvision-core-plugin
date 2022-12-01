@@ -337,7 +337,6 @@ class VISIONSoftcamMenu(ConfigListScreen, Screen):
 
 	def __init__(self, session):
 		Screen.__init__(self, session)
-		ConfigListScreen.__init__(self, [])
 		self.skinName = "VISIONSoftcamMenu"
 		Screen.setTitle(self, _("Vision Softcam setup"))
 		self["lab1"] = StaticText(_("OpenVision"))
