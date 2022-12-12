@@ -41,8 +41,7 @@ class StartSwap:
 		self.Console.ePopen("parted -l /dev/sd? | grep swap", self.startSwap2)
 
 	def startSwap2(self, result=None, retval=None, extra_args=None):
-		from six import ensure_str
-		result = ensure_str(result)
+		result = str(result)
 		swap_place = ""
 		if result and result.find("sd") != -1:
 			for line in result.split("\n"):
@@ -170,6 +169,7 @@ class VISIONSwap(Screen):
 		self.swap_place = ""
 		self.swap_active = False
 		self.device = False
+		result = str(result)
 		if result.find("sd") > 0:
 			self["key_blue"].setText("")
 			for line in result.split("\n"):
