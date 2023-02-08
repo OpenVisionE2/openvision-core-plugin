@@ -1551,9 +1551,10 @@ class ImageManagerDownload(Screen):
 			import Tools.CopyFiles
 			Tools.CopyFiles.downloadFile(fileurl, fileloc, selectedimage.replace("_usb", ""), headers=headers)
 			for job in Components.Task.job_manager.getPendingJobs():
-				if job.name.startswith(_("Downloading")):
-					break
-			self.showJobView(job)
+				if job:
+					if job.name.startswith(_("Downloading")):
+						break
+					self.showJobView(job)
 			self.close()
 
 	def showJobView(self, job):
