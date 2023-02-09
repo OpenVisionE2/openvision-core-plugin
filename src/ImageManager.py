@@ -1443,12 +1443,16 @@ class ImageManagerDownload(Screen):
 			"ok": self.keyDownload,
 			"up": self.keyUp,
 			"down": self.keyDown,
+			"upUp": self.doNothing,
+			"downUp": self.doNothing,
+			"rightUp": self.doNothing,
+			"leftUp": self.doNothing,
 			"left": self.keyLeft,
 			"right": self.keyRight,
 			"upRepeated": self.keyUp,
 			"downRepeated": self.keyDown,
-			"leftRepeated": self.keyLeft,
-			"rightRepeated": self.keyRight,
+			"leftRepeated": self.keyUp,
+			"rightRepeated": self.keyDown,
 			"menu": self.close
 		}, -1)
 		self.imagesList = {}
@@ -1522,6 +1526,9 @@ class ImageManagerDownload(Screen):
 	def keyDown(self):
 		self["list"].instance.moveSelection(self["list"].instance.moveDown)
 		self.SelectionChanged()
+
+	def doNothing(self):
+		pass
 
 	def keyDownload(self):
 		currentSelected = self["list"].l.getCurrentSelection()
