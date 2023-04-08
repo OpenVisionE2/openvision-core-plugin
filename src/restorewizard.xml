@@ -85,7 +85,7 @@ self.buildList(None)
         <displaytext value="No plugins needed to be installed"/>
     </step>
     <step id="end">
-        <text value="The wizard is finished now."/>
-        <displaytext value="The wizard is finished now."/>
+        <text value="The restore wizard is over now. Press OK to continue."/>
+        <displaytext value="The restore wizard is over now. Press OK to continue."/>
     </step>
 </wizard>
