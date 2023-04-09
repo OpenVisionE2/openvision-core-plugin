@@ -70,10 +70,7 @@ config.imagemanager.scheduletime = ConfigClock(default=0)  # 1:00
 config.imagemanager.query = ConfigYesNo(default=True)
 config.imagemanager.lastbackup = ConfigNumber(default=0)
 config.imagemanager.number_to_keep = ConfigNumber(default=0)
-if imagetype != "test":
-	config.imagemanager.imagefeed_OV = ConfigText(default="https://images.openvision.dedyn.io/json", fixed_size=False)
-else:
-	config.imagemanager.imagefeed_OV = ConfigText(default="https://images.openvision.dedyn.io/jsonall", fixed_size=False)
+config.imagemanager.imagefeed_OV = ConfigText(default="https://images.openvision.dedyn.io/json", fixed_size=False) if config.usage.alternative_imagefeed.value != "all" else ConfigText(default="https://images.openvision.dedyn.io/json%s" % config.usage.alternative_imagefeed.value, fixed_size=False)
 config.imagemanager.imagefeed_OV.value = config.imagemanager.imagefeed_OV.default # this is no longer a user setup option
 config.imagemanager.imagefeed_ViX = ConfigText(default="https://www.openvix.co.uk/json", fixed_size=False)
 config.imagemanager.imagefeed_ViX.value = config.imagemanager.imagefeed_ViX.default # this is no longer a user setup option
@@ -1600,6 +1597,7 @@ class ImageManagerSetup(Setup):
 		Setup.__init__(self, session=session, setup="visionimagemanager", plugin="SystemPlugins/Vision", PluginLanguageDomain=PluginLanguageDomain)
 
 	def keySave(self):
+		config.imagemanager.imagefeed_OV = ConfigText(default="https://images.openvision.dedyn.io/json", fixed_size=False) if config.usage.alternative_imagefeed.value != "all" else ConfigText(default="https://images.openvision.dedyn.io/json%s" % config.usage.alternative_imagefeed.value, fixed_size=False)
 		if config.imagemanager.folderprefix.value == "":
 			config.imagemanager.folderprefix.value = defaultprefix
 		for configElement in (config.imagemanager.imagefeed_OV, config.imagemanager.imagefeed_ATV, config.imagemanager.imagefeed_PLi, config.imagemanager.imagefeed_ViX, config.imagemanager.imagefeed_OBH):
