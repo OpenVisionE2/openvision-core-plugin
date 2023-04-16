@@ -10,6 +10,7 @@ from Screens.HelpMenu import ShowRemoteControl
 from Screens.MessageBox import MessageBox
 from Tools.Directories import fileExists, resolveFilename, SCOPE_PLUGINS
 from Components.SystemInfo import BoxInfo
+from Tools.Multiboot import getCurrentImage
 
 currentkernelversion = BoxInfo.getItem("kernel")
 visionversion = BoxInfo.getItem("imgversion")
@@ -134,6 +135,8 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 
 	def buildList(self, action):
 		if self.NextStep == 'reboot':
+			if BoxInfo.getItem("hasKexec"):
+				slot = getCurrentImage()
 			kille2reboot = "sleep 10 && killall -9 enigma2 && init 6"
 			self.Console.ePopen("%s" % kille2reboot, self.session.open(MessageBox, _("Finishing restore, your receiver go to restart."), MessageBox.TYPE_INFO))
 		elif self.NextStep == 'settingsquestion' or self.NextStep == 'settingsrestore' or self.NextStep == 'pluginsquestion' or self.NextStep == 'pluginsrestoredevice' or self.NextStep == 'end' or self.NextStep == 'noplugins':
