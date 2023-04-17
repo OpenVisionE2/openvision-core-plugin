@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+from . import _, PluginLanguageDomain
 from Screens.WizardLanguage import WizardLanguage
 from enigma import eEPGCache, eDVBDB
 from xml.dom import minidom
-import re
-import os
-import shutil
+from re import search
+from os import makedirs, walk, remove, mkdir, system
+from os.path import exists, isdir, join, dirname, basename
+from shutil import copy2, move, rmtree
 import locale
 from six.moves.urllib.parse import quote, urlencode
 from six.moves.urllib.request import urlopen, Request
@@ -16,7 +18,6 @@ import threading
 from Components.Console import Console
 from Components.Pixmap import Pixmap
 from Components.Sources.Boolean import Boolean
-from Tools import Directories
 from Tools.Directories import resolveFilename, SCOPE_PLUGINS
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
@@ -34,7 +35,6 @@ from Components.TimerSanityCheck import TimerSanityCheck
 from RecordTimer import RecordTimerEntry, AFTEREVENT
 from ServiceReference import ServiceReference
 from timer import TimerEntry
-from . import _, PluginLanguageDomain
 
 mountstate = False
 mounthost = None
@@ -117,7 +117,7 @@ class ClientModeBoxWizard(WizardLanguage):
 		</screen>"""
 
 	def __init__(self, session):
-		self.xmlfile = Directories.resolveFilename(Directories.SCOPE_PLUGINS, "SystemPlugins/Vision/clientmodebox.xml")
+		self.xmlfile = resolveFilename(SCOPE_PLUGINS, "SystemPlugins/Vision/clientmodebox.xml")
 		WizardLanguage.__init__(self, session)
 		self.setTitle(_('Vision Client Mode Box'))
 		self.skinName = ["ClientModeBoxWizard"]
@@ -331,9 +331,9 @@ class ClientModeBoxMount:
 	def __init__(self, session):
 		self.session = session
 		self.console = Console()
-		if os.path.exists('/media/hdd') or os.system('mount |grep -i /media/hdd') == 0:
+		if exists('/media/hdd') or system('mount |grep -i /media/hdd') == 0:
 			self.mountpoint = '/media/hdd-server'
-		if not os.path.isdir('/media/hdd'):
+		if not isdir('/media/hdd'):
 			self.mountpoint = '/media/hdd'
 		self.share = '/mnt/hdd'
 
@@ -366,17 +366,17 @@ class ClientModeBoxMount:
 			self.automount()
 
 	def isMountPoint(self, path):
-		return os.system('mountpoint ' + path) == 0
+		return system('mountpoint ' + path) == 0
 
 	def umount(self, path=None):
-		return os.system('umount ' + path) == 0
+		return system('umount ' + path) == 0
 
 	def mount(self, ip, share, path):
 		try:
-			os.makedirs(self.mountpoint)
+			makedirs(self.mountpoint)
 		except Exception:
 			pass
-		return os.system('mount -t nfs' + ' ' + ip + ':' + '/' + share + ' ' + path + ' ' + '&&' + ' ' + 'echo -e' + ' ' + '"' + ip + ':' + share + ' ' + path + ' ' + 'nfs nolock,rsize=8192,wsize=8192' + ' ' + '\n"' + ' ' + '>>' + ' ' + '/etc/fstab') == 0
+		return system('mount -t nfs' + ' ' + ip + ':' + '/' + share + ' ' + path + ' ' + '&&' + ' ' + 'echo -e' + ' ' + '"' + ip + ':' + share + ' ' + path + ' ' + 'nfs nolock,rsize=8192,wsize=8192' + ' ' + '\n"' + ' ' + '>>' + ' ' + '/etc/fstab') == 0
 
 
 class ClientModeBoxMenu(Screen, ConfigListScreen):
@@ -775,7 +775,7 @@ class ClientModeBoxDownloader:
 		print("[ClientModeBox] Stream URL " + streamingurl)
 		for bouquet in bouquets:
 			pattern = r'"([A-Za-z0-9_\./\\-]*)"'
-			m = re.search(pattern, bouquet['reference'])
+			m = search(pattern, bouquet['reference'])
 			if not m:
 				continue
 
@@ -862,10 +862,10 @@ class ClientModeBoxDownloader:
 
 	def removeFiles(self, targetdir, target):
 		targetLen = len(target)
-		for root, dirs, files in os.walk(targetdir):
+		for root, dirs, files in walk(targetdir):
 			for name in files:
 				if target in name[:targetLen]:
-					os.remove(os.path.join(root, name))
+					remove(join(root, name))
 
 	def checkEPGCallback(self):
 		baseurl = "http://"
@@ -908,7 +908,7 @@ class ClientModeBoxDownloader:
 			print("[ClientModeBox] cannot save EPG %s" % err)
 
 	def copyFile(self, source, dest):
-		shutil.copy2(source, dest)
+		copy2(source, dest)
 
 	def importEPGCallback(self):
 		baseurl = "http://"
@@ -916,7 +916,7 @@ class ClientModeBoxDownloader:
 		print("[ClientModeBox] importEPGCallback '%s%s' downloaded successfully from server." % (self.remoteEPGpath, self.remoteEPGfile))
 		print("[ClientModeBox] importEPGCallback Removing current EPG data...")
 		try:
-			os.remove(config.misc.epgcache_filename.value)
+			remove(config.misc.epgcache_filename.value)
 		except OSError:
 			pass
 		self.copyFile(self.DIR_TMP + "epg.dat", config.misc.epgcache_filename.value)
@@ -935,22 +935,22 @@ class ClientModeBoxDownloader:
 		print("[ClientModeBox] Get EPG Location")
 		try:
 			epgdatfile = "/etc/enigma2/epg.dat"
-			files = [file for file in loads(urlopen("%s/file?dir=%s" % (baseurl, os.path.dirname(epgdatfile)), timeout=5).read())["files"] if os.path.basename(file).startswith("epg.dat")]
+			files = [file for file in loads(urlopen("%s/file?dir=%s" % (baseurl, dirname(epgdatfile)), timeout=5).read())["files"] if basename(file).startswith("epg.dat")]
 			epg_location = files[0] if files else None
 			if epg_location:
 				print("[ClientModeBox] Copy EPG file from %s" % baseurl)
 				try:
 					try:
-						os.mkdir("/tmp/epgdat")
+						mkdir("/tmp/epgdat")
 					except:
 						print("[ClientModeBox] epgdat folder exists in tmp")
 					epgdattmp = "/tmp/epgdat"
 					epgdatserver = "/tmp/epgdat/epg.dat"
-					open("%s/%s" % (epgdattmp, os.path.basename(epg_location)), "wb").write(urlopen("%s/file?file=%s" % (baseurl, epg_location), timeout=5).read())
+					open("%s/%s" % (epgdattmp, basename(epg_location)), "wb").write(urlopen("%s/file?file=%s" % (baseurl, epg_location), timeout=5).read())
 					if "epg.dat" in (epgdatserver):
-						shutil.move("%s" % epgdatserver, "%s" % (config.misc.epgcache_filename.value))
+						move("%s" % epgdatserver, "%s" % (config.misc.epgcache_filename.value))
 						eEPGCache.getInstance().load()
-						shutil.rmtree(epgdattmp)
+						rmtree(epgdattmp)
 						AddNotificationWithID("ClientModeBoxEPGImportOK", MessageBox, _("EPG imported successfully from %s") % baseurl, type=MessageBox.TYPE_INFO, timeout=5)
 				except Exception as err:
 					print("[ClientModeBox] cannot save EPG %s" % err)
@@ -959,22 +959,22 @@ class ClientModeBoxDownloader:
 			return self.downloadEPGFTP(baseurl)
 		try:
 			epgdatfile = "/media/hdd/epg.dat"
-			files = [file for file in loads(urlopen("%s/file?dir=%s" % (baseurl, os.path.dirname(epgdatfile)), timeout=5).read())["files"] if os.path.basename(file).startswith("epg.dat")]
+			files = [file for file in loads(urlopen("%s/file?dir=%s" % (baseurl, dirname(epgdatfile)), timeout=5).read())["files"] if basename(file).startswith("epg.dat")]
 			epg_location = files[0] if files else None
 			if epg_location:
 				print("[ClientModeBox] Copy EPG file from %s" % baseurl)
 				try:
 					try:
-						os.mkdir("/tmp/epgdat")
+						mkdir("/tmp/epgdat")
 					except:
 						print("[ClientModeBox] epgdat folder exists in tmp")
 					epgdattmp = "/tmp/epgdat"
 					epgdatserver = "/tmp/epgdat/epg.dat"
-					open("%s/%s" % (epgdattmp, os.path.basename(epg_location)), "wb").write(urlopen("%s/file?file=%s" % (baseurl, epg_location), timeout=5).read())
+					open("%s/%s" % (epgdattmp, basename(epg_location)), "wb").write(urlopen("%s/file?file=%s" % (baseurl, epg_location), timeout=5).read())
 					if "epg.dat" in (epgdatserver):
-						shutil.move("%s" % epgdatserver, "%s" % (config.misc.epgcache_filename.value))
+						move("%s" % epgdatserver, "%s" % (config.misc.epgcache_filename.value))
 						eEPGCache.getInstance().load()
-						shutil.rmtree(epgdattmp)
+						rmtree(epgdattmp)
 						AddNotificationWithID("ClientModeBoxEPGImportOK", MessageBox, _("EPG imported successfully from %s") % baseurl, type=MessageBox.TYPE_INFO, timeout=5)
 				except Exception as err:
 					print("[ClientModeBox] cannot save EPG %s" % err)
@@ -983,22 +983,22 @@ class ClientModeBoxDownloader:
 			return self.downloadEPGFTP(baseurl)
 		try:
 			epgdatfile = "/media/usb/epg.dat"
-			files = [file for file in loads(urlopen("%s/file?dir=%s" % (baseurl, os.path.dirname(epgdatfile)), timeout=5).read())["files"] if os.path.basename(file).startswith("epg.dat")]
+			files = [file for file in loads(urlopen("%s/file?dir=%s" % (baseurl, dirname(epgdatfile)), timeout=5).read())["files"] if basename(file).startswith("epg.dat")]
 			epg_location = files[0] if files else None
 			if epg_location:
 				print("[ClientModeBox] Copy EPG file from %s" % baseurl)
 				try:
 					try:
-						os.mkdir("/tmp/epgdat")
+						mkdir("/tmp/epgdat")
 					except:
 						print("[ClientModeBox] epgdat folder exists in tmp")
 					epgdattmp = "/tmp/epgdat"
 					epgdatserver = "/tmp/epgdat/epg.dat"
-					open("%s/%s" % (epgdattmp, os.path.basename(epg_location)), "wb").write(urlopen("%s/file?file=%s" % (baseurl, epg_location), timeout=5).read())
+					open("%s/%s" % (epgdattmp, basename(epg_location)), "wb").write(urlopen("%s/file?file=%s" % (baseurl, epg_location), timeout=5).read())
 					if "epg.dat" in (epgdatserver):
-						shutil.move("%s" % epgdatserver, "%s" % (config.misc.epgcache_filename.value))
+						move("%s" % epgdatserver, "%s" % (config.misc.epgcache_filename.value))
 						eEPGCache.getInstance().load()
-						shutil.rmtree(epgdattmp)
+						rmtree(epgdattmp)
 						AddNotificationWithID("ClientModeBoxEPGImportOK", MessageBox, _("EPG imported successfully from %s") % baseurl, type=MessageBox.TYPE_INFO, timeout=5)
 				except Exception as err:
 					print("[ClientModeBox] cannot save EPG %s" % err)

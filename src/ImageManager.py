@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from . import _, PluginLanguageDomain
 from __future__ import print_function
 from six.moves.urllib.request import urlopen
 
@@ -6,11 +7,10 @@ import json
 import tempfile
 
 from enigma import eTimer, fbClass
-from os import path, stat, system, mkdir, makedirs, listdir, remove, rename, rmdir, statvfs, chmod, walk
+from os import stat, system, mkdir, makedirs, listdir, remove, rename, rmdir, statvfs, chmod, walk
+from os.path import exists, isfile
 from shutil import rmtree, move, copy, copyfile
 from time import localtime, time, strftime, mktime
-from Components.ConfigList import ConfigListScreen
-from . import _, PluginLanguageDomain
 from Components.ActionMap import ActionMap
 from Components.Button import Button
 from Components.ChoiceList import ChoiceList, ChoiceEntryComponent
@@ -27,7 +27,7 @@ from Screens.Screen import Screen
 from Screens.Setup import Setup
 from Screens.Standby import TryQuitMainloop
 from Screens.TaskView import JobView
-from Tools.Directories import fileExists, pathExists, fileHas
+from Tools.Directories import fileHas
 from Tools.MultiBoot import getCurrentImage, getImageList
 from Tools.Notifications import AddPopupWithCallback
 from six import ensure_str, ensure_binary
@@ -41,28 +41,35 @@ mtdrootfs = BoxInfo.getItem("mtdrootfs")
 imagebuild = BoxInfo.getItem("imagebuild")
 imagedir = BoxInfo.getItem("imagedir")
 imagefs = BoxInfo.getItem("imagefs")
-imagedistro = BoxInfo.getItem("distro")
+distro = BoxInfo.getItem("distro")
 imageversion = BoxInfo.getItem("imageversion")
 imagetype = BoxInfo.getItem("imagetype")
 visionversion = BoxInfo.getItem("imgversion")
 visionrevision = BoxInfo.getItem("imgrevision")
+canMultiBoot = BoxInfo.getItem("canMultiBoot")
+HasRootSubdir = BoxInfo.getItem("HasRootSubdir")
+HiSilicon = BoxInfo.getItem("HiSilicon")
+hasKexec = BoxInfo.getItem("hasKexec")
+HasMultibootMTD = BoxInfo.getItem("HasMultibootMTD")
+canBackupEMC = BoxInfo.getItem("canBackupEMC")
+HasMMC = BoxInfo.getItem("HasMMC")
 
 mountpointchoices = []
 for p in harddiskmanager.getMountedPartitions():
-	if path.exists(p.mountpoint):
+	if exists(p.mountpoint):
 		d = path.normpath(p.mountpoint)
-		if BoxInfo.getItem("canMultiBoot"):
+		if canMultiBoot:
 			if "mmcblk0p" in d or "mmcblk1p" in d:
 				continue
 		if p.mountpoint != "/":
 			mountpointchoices.append((p.mountpoint, d))
-defaultprefix = imagedistro
+defaultprefix = distro
 config.imagemanager = ConfigSubsection()
 config.imagemanager.autosettingsbackup = ConfigYesNo(default=True)
 config.imagemanager.backuplocation = ConfigSelection(choices=mountpointchoices)
 config.imagemanager.backupretry = ConfigNumber(default=30)
 config.imagemanager.backupretrycount = NoSave(ConfigNumber(default=0))
-config.imagemanager.folderprefix = ConfigText(default=imagedistro, fixed_size=False)
+config.imagemanager.folderprefix = ConfigText(default=distro, fixed_size=False)
 config.imagemanager.nextscheduletime = NoSave(ConfigNumber(default=0))
 config.imagemanager.repeattype = ConfigSelection(default="daily", choices=[("daily", _("Daily")), ("weekly", _("Weekly")), ("monthly", _("Monthly"))])
 config.imagemanager.schedule = ConfigYesNo(default=False)
@@ -83,13 +90,13 @@ config.imagemanager.imagefeed_OBH.value = config.imagemanager.imagefeed_OBH.defa
 
 autoImageManagerTimer = None
 
-if path.exists(config.imagemanager.backuplocation.value + "/imagebackups/imagerestore"):
+if exists(config.imagemanager.backuplocation.value + "/imagebackups/imagerestore"):
 	try:
 		rmtree(config.imagemanager.backuplocation.value + "/imagebackups/imagerestore")
 	except Exception:
 		pass
 TMPMOUNTDIR = config.imagemanager.backuplocation.value + "/imagebackups/" + config.imagemanager.folderprefix.value + "-" + "mount"
-if path.exists(TMPMOUNTDIR + "/root/"):
+if exists(TMPMOUNTDIR + "/root/"):
 	try:
 		system("umount " + TMPMOUNTDIR + "/root")
 	except Exception:
@@ -155,8 +162,8 @@ class VISIONImageManager(Screen):
 
 		self.BackupRunning = False
 		self.BackupDirectory = " "
-		if BoxInfo.getItem("canMultiBoot"):
-			self.mtdboot = BoxInfo.getItem("HasRootSubdir")
+		if canMultiBoot:
+			self.mtdboot = HasRootSubdir
 		self.imagelist = {}
 		self.onChangedEntry = []
 		self.emlist = []
@@ -277,10 +284,10 @@ class VISIONImageManager(Screen):
 				size = statvfs(config.imagemanager.backuplocation.value)
 				free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
 				self["lab7"].setText(_("Device: ") + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select what you want to do"))
-				if not path.exists(config.imagemanager.backuplocation.value + '/imagebackups'):
+				if not exists(config.imagemanager.backuplocation.value + '/imagebackups'):
 					mkdir(config.imagemanager.backuplocation.value + '/imagebackups', 0o755)
 			try:
-				if path.exists(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup"):
+				if exists(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup"):
 					system("swapoff " + self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
 					remove(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
 				self.refreshList()
@@ -303,7 +310,7 @@ class VISIONImageManager(Screen):
 			if self.BackupDirectory:
 				choices = [("Open Vision", config.imagemanager.imagefeed_OV), ("OpenATV", config.imagemanager.imagefeed_ATV), ("OpenPLi", config.imagemanager.imagefeed_PLi), ("OpenViX", config.imagemanager.imagefeed_ViX), ("OpenBh", config.imagemanager.imagefeed_OBH)]
 				message = _("From which image library do you want to download?")
-				self.session.openWithCallback(self.doDownloadCallback, MessageBox, message, list=sorted(sorted(choices, key=lambda choice: choice[0]), key=lambda choice: choice[0] == imagedistro, reverse=True), default=0, simple=True)
+				self.session.openWithCallback(self.doDownloadCallback, MessageBox, message, list=sorted(sorted(choices, key=lambda choice: choice[0]), key=lambda choice: choice[0] == distro, reverse=True), default=0, simple=True)
 		except OSError as err:
 			print("%s" % err)
 
@@ -430,7 +437,7 @@ class VISIONImageManager(Screen):
 		self.multibootslot = 1
 		self.MTDKERNEL = mtdkernel
 		self.MTDROOTFS = mtdrootfs
-		if model == "et8500" and path.exists("/proc/mtd"):
+		if model == "et8500" and exists("/proc/mtd"):
 			self.dualboot = self.dualBoot()
 		recordings = self.session.nav.getRecordings()
 		if not recordings:
@@ -439,13 +446,13 @@ class VISIONImageManager(Screen):
 			message = _("Recording(s) are in progress or coming up in few seconds!\nDo you still want to flash image\n%s?") % self.sel[0]
 		else:
 			message = _("Do you want to flash image\n%s") % self.sel[0]
-		if BoxInfo.getItem("canMultiBoot") is False:
+		if not canMultiBoot:
 			if config.imagemanager.autosettingsbackup.value:
 				self.doSettingsBackup()
 			else:
 				self.keyRestore3()
-		if BoxInfo.getItem("HiSilicon"):
-			if pathExists("/dev/sda4"):
+		if HiSilicon:
+			if exists("/dev/sda4"):
 				self.HasSDmmc = True
 		imagedict = getImageList()
 		choices = []
@@ -456,13 +463,13 @@ class VISIONImageManager(Screen):
 
 	def keyResstore0(self, answer):
 		if answer:
-			if BoxInfo.getItem("canMultiBoot") is False:
+			if not canMultiBoot:
 				if config.imagemanager.autosettingsbackup.value:
 					self.doSettingsBackup()
 				else:
 					self.keyRestore3()
-			if BoxInfo.getItem("HiSilicon"):
-				if pathExists("/dev/sda4"):
+			if HiSilicon:
+				if exists("/dev/sda4"):
 					self.HasSDmmc = True
 			imagedict = getImageList()
 			choices = []
@@ -473,15 +480,15 @@ class VISIONImageManager(Screen):
 
 	def keyRestore2(self, retval):
 		if retval:
-			if BoxInfo.getItem("canMultiBoot"):
+			if canMultiBoot:
 				self.multibootslot = retval
 				print("ImageManager", retval)
-				self.MTDKERNEL = BoxInfo.getItem("canMultiBoot")[self.multibootslot]["kernel"].split("/")[2]
-				if BoxInfo.getItem("HasMultibootMTD"):
-					self.MTDROOTFS = BoxInfo.getItem("canMultiBoot")[self.multibootslot]["device"]
+				self.MTDKERNEL = canMultiBoot[self.multibootslot]["kernel"].split("/")[2]
+				if HasMultibootMTD:
+					self.MTDROOTFS = canMultiBoot[self.multibootslot]["device"]
 				else:
-					self.MTDROOTFS = BoxInfo.getItem("canMultiBoot")[self.multibootslot]["device"].split("/")[2]
-			if BoxInfo.getItem("HiSilicon") and getCurrentImage() >= 4 and self.multibootslot < 4:
+					self.MTDROOTFS = canMultiBoot[self.multibootslot]["device"].split("/")[2]
+			if HiSilicon and getCurrentImage() >= 4 and self.multibootslot < 4:
 				self.session.open(MessageBox, _("ImageManager - %s - cannot flash eMMC slot from sd card slot.") % model, MessageBox.TYPE_INFO, timeout=10)
 				return
 			if self.sel:
@@ -499,7 +506,7 @@ class VISIONImageManager(Screen):
 		else:
 			self.TEMPDESTROOT = self.BackupDirectory + "imagerestore"
 		if self.sel.endswith(".zip"):
-			if not path.exists(self.TEMPDESTROOT):
+			if not exists(self.TEMPDESTROOT):
 				mkdir(self.TEMPDESTROOT, 0o755)
 			self.Console.ePopen("unzip -o %s%s -d %s" % (self.BackupDirectory, self.sel, self.TEMPDESTROOT), self.keyRestore4)
 		else:
@@ -515,7 +522,7 @@ class VISIONImageManager(Screen):
 				ybox.setTitle(_("ET8500 Image Restore"))
 			else:
 				MAINDEST = "%s/%s" % (self.TEMPDESTROOT, imagedir)
-				if pathExists("%s/SDAbackup" % MAINDEST) and self.multibootslot != 1:
+				if exists("%s/SDAbackup" % MAINDEST) and self.multibootslot != 1:
 						self.session.open(MessageBox, _("MultiBoot only able to restore this backup to MMC slot1"), MessageBox.TYPE_INFO, timeout=20)
 						print("[ImageManager] SF8008 MMC restore to SDcard failed:\n", end=' ')
 						self.close()
@@ -537,17 +544,17 @@ class VISIONImageManager(Screen):
 		if ret == 0:
 			CMD = "/usr/bin/ofgwrite -r -k '%s'" % MAINDEST
 			# normal non multiboot receiver
-			if BoxInfo.getItem("canMultiBoot"):
-				if self.multibootslot == 0 and BoxInfo.getItem("hasKexec"):	# reset Vu Multiboot slot0
+			if canMultiBoot:
+				if self.multibootslot == 0 and hasKexec:	# reset Vu Multiboot slot0
 					kz0 = mtdkernel
 					rz0 = mtdrootfs
 					CMD = "/usr/bin/ofgwrite -kkz0 -rrz0 '%s'" % MAINDEST	# slot0 treat as kernel/root only multiboot receiver
-				elif BoxInfo.getItem("HiSilicon") and BoxInfo.getItem("canMultiBoot")[self.multibootslot]["rootsubdir"] is None:	# sf8008 type receiver using SD card in multiboot
+				elif HiSilicon and canMultiBoot[self.multibootslot]["rootsubdir"] is None:	# sf8008 type receiver using SD card in multiboot
 					CMD = "/usr/bin/ofgwrite -r%s -k%s -m0 '%s'" % (self.MTDROOTFS, self.MTDKERNEL, MAINDEST)
 					print("[ImageManager] running commnd:%s slot = %s" % (CMD, self.multibootslot))
-					if fileExists("/boot/STARTUP") and fileExists("/boot/STARTUP_6"):
+					if isfile("/boot/STARTUP") and isfile("/boot/STARTUP_6"):
 						copyfile("/boot/STARTUP_%s" % self.multibootslot, "/boot/STARTUP")
-				elif BoxInfo.getItem("hasKexec"):
+				elif hasKexec:
 					if BoxInfo.getItem("HasKexecUSB") and "mmcblk" not in self.MTDROOTFS:
 						   CMD = "/usr/bin/ofgwrite -r%s -kzImage -s'%s/linuxrootfs' -m%s '%s'" % (self.MTDROOTFS, model[2:], self.multibootslot, MAINDEST)
 					else:
@@ -556,9 +563,9 @@ class VISIONImageManager(Screen):
 				else:
 					CMD = "/usr/bin/ofgwrite -r -k -m%s '%s'" % (self.multibootslot, MAINDEST)	# Normal multiboot
 			elif BoxInfo.getItem("HasH9SD"):
-				if fileHas("/proc/cmdline", "root=/dev/mmcblk0p1") is True and fileExists("%s/rootfs.tar.bz2" % MAINDEST):  # h9 using SD card
+				if fileHas("/proc/cmdline", "root=/dev/mmcblk0p1") is True and isfile("%s/rootfs.tar.bz2" % MAINDEST):  # h9 using SD card
 					CMD = "/usr/bin/ofgwrite -rmmcblk0p1 '%s'" % MAINDEST
-				elif fileExists("%s/rootfs.ubi" % MAINDEST) and fileExists("%s/rootfs.tar.bz2" % MAINDEST):  # h9 no SD card - build has both roots causes ofgwrite issue
+				elif isfile("%s/rootfs.ubi" % MAINDEST) and isfile("%s/rootfs.tar.bz2" % MAINDEST):  # h9 no SD card - build has both roots causes ofgwrite issue
 					rename("%s/rootfs.tar.bz2" % MAINDEST, "%s/xx.txt" % MAINDEST)
 		else:
 			CMD = "/usr/bin/ofgwrite -rmtd4 -kmtd3  %s/" % MAINDEST  # Xtrend ET8500 with OS2 multiboot
@@ -572,16 +579,16 @@ class VISIONImageManager(Screen):
 		fbClass.getInstance().unlock()
 		print("[ImageManager] ofgwrite retval:", retval)
 		if retval == 0:
-			if BoxInfo.getItem("HiSilicon") and BoxInfo.getItem("HasRootSubdir") is False and self.HasSDmmc is False:	# sf8008 receiver 1 eMMC parition, No SD card
+			if HiSilicon and HasRootSubdir is False and self.HasSDmmc is False:	# sf8008 receiver 1 eMMC parition, No SD card
 				self.session.open(TryQuitMainloop, 2)
-			if BoxInfo.getItem("canMultiBoot"):
+			if canMultiBoot:
 				print("[ImageManager] slot %s result %s\n" % (self.multibootslot, result))
 				tmp_dir = tempfile.mkdtemp(prefix="ImageManagerFlash")
 				Console().ePopen("mount %s %s" % (self.mtdboot, tmp_dir))
-				if pathExists(path.join(tmp_dir, "STARTUP")):
-					copyfile(path.join(tmp_dir, BoxInfo.getItem("canMultiBoot")[self.multibootslot]["startupfile"].replace("boxmode=12'", "boxmode=1'")), path.join(tmp_dir, "STARTUP"))
+				if exists(path.join(tmp_dir, "STARTUP")):
+					copyfile(path.join(tmp_dir, canMultiBoot[self.multibootslot]["startupfile"].replace("boxmode=12'", "boxmode=1'")), path.join(tmp_dir, "STARTUP"))
 				else:
-					if path.exists(config.imagemanager.backuplocation.value + "/imagebackups/imagerestore"):
+					if exists(config.imagemanager.backuplocation.value + "/imagebackups/imagerestore"):
 						try:
 							rmtree(config.imagemanager.backuplocation.value + "/imagebackups/imagerestore")
 						except Exception:
@@ -639,12 +646,12 @@ class VISIONImageManager(Screen):
 			if '/media/hdd' in item[1] and "/dev/sd" in item[0]:
 				installedHDD = True
 				break
-		if installedHDD and pathExists("/media/hdd"):
-			if not pathExists("/media/hdd/%s" % model):
+		if installedHDD and exists("/media/hdd"):
+			if not exists("/media/hdd/%s" % model):
 				mkdir("/media/hdd/%s" % model)
 			for usbslot in range(1, 4):
-				if pathExists("/linuxrootfs%s" % usbslot):
-					if pathExists("/media/hdd/%s/linuxrootfs%s/" % (model, usbslot)):
+				if exists("/linuxrootfs%s" % usbslot):
+					if exists("/media/hdd/%s/linuxrootfs%s/" % (model, usbslot)):
 						rmtree("/media/hdd/%s/linuxrootfs%s" % (model, usbslot), ignore_errors=True)
 					Console().ePopen("cp -R /linuxrootfs%s . /media/hdd/%s/" % (usbslot, model))
 		if not installedHDD:
@@ -810,9 +817,10 @@ class ImageBackup(Screen):
 		self.ROOTFSFILE = BoxInfo.getItem("rootfile")
 		self.MAINDEST = self.MAINDESTROOT + "/" + imagedir + "/"
 		self.MAINDEST2 = self.MAINDESTROOT + "/"
+		self.HASKEXEC = hasKexec
 		self.MODEL = model
 		self.MCBUILD = platform
-		self.IMAGEDISTRO = imagedistro
+		self.IMAGEDISTRO = distro
 		self.IMAGEVERSION = imageversion
 		self.DISTROTYPE = imagetype
 		self.DISTROVERSION = visionversion
@@ -825,25 +833,25 @@ class ImageBackup(Screen):
 		self.VuSlot0 = ""
 		self.EMMCIMG = "none"
 		self.MTDBOOT = "none"
-		if BoxInfo.getItem("canBackupEMC"):
-			(self.EMMCIMG, self.MTDBOOT) = BoxInfo.getItem("canBackupEMC")
-		print("[ImageManager] canBackupEMC:", BoxInfo.getItem("canBackupEMC"))
+		if canBackupEMC:
+			(self.EMMCIMG, self.MTDBOOT) = canBackupEMC
+		print("[ImageManager] canBackupEMC:", canBackupEMC)
 		self.KERN = "mmc"
 		self.rootdir = 0
-		if BoxInfo.getItem("canMultiBoot"):
+		if canMultiBoot:
 			slot = getCurrentImage()
-			if BoxInfo.getItem("hasKexec"):
-				self.MTDKERNEL = mtdkernel if slot == 0 else BoxInfo.getItem("canMultiBoot")[slot]["kernel"]
-				self.MTDROOTFS = mtdrootfs if slot == 0 else BoxInfo.getItem("canMultiBoot")[slot]["device"].split("/")[2]
+			if hasKexec:
+				self.MTDKERNEL = mtdkernel if slot == 0 else canMultiBoot[slot]["kernel"]
+				self.MTDROOTFS = mtdrootfs if slot == 0 else canMultiBoot[slot]["device"].split("/")[2]
 				self.VuSlot0 = "-VuSlot0" if slot == 0 else ""
 			else:
-				self.MTDKERNEL = BoxInfo.getItem("canMultiBoot")[slot]["kernel"].split("/")[2]
-			if BoxInfo.getItem("HasMultibootMTD"):
-				self.MTDROOTFS = BoxInfo.getItem("canMultiBoot")[slot]["device"]	# sfx60xx ubi0:ubifs not mtd=
-			elif not BoxInfo.getItem("hasKexec"):
-				self.MTDROOTFS = BoxInfo.getItem("canMultiBoot")[slot]["device"].split("/")[2]
-			if BoxInfo.getItem("HasRootSubdir") and slot != 0:
-				self.ROOTFSSUBDIR = BoxInfo.getItem("canMultiBoot")[slot]["rootsubdir"]
+				self.MTDKERNEL = canMultiBoot[slot]["kernel"].split("/")[2]
+			if HasMultibootMTD:
+				self.MTDROOTFS = canMultiBoot[slot]["device"]	# sfx60xx ubi0:ubifs not mtd=
+			elif not hasKexec:
+				self.MTDROOTFS = canMultiBoot[slot]["device"].split("/")[2]
+			if HasRootSubdir and slot != 0:
+				self.ROOTFSSUBDIR = canMultiBoot[slot]["rootsubdir"]
 		else:
 			self.MTDKERNEL = mtdkernel
 			self.MTDROOTFS = mtdrootfs
@@ -852,7 +860,7 @@ class ImageBackup(Screen):
 			self.GB4Krescue = "rescue.bin"
 		if "sda" in self.MTDKERNEL:
 			self.KERN = "sda"
-		print("[ImageManager] hasKexec:", BoxInfo.getItem("hasKexec"))
+		print("[ImageManager] hasKexec:", self.HASKEXEC)
 		print("[ImageManager] MODEL:", self.MODEL)
 		print("[ImageManager] MCBUILD:", self.MCBUILD)
 		print("[ImageManager] KERNELFILE:", self.KERNELFILE)
@@ -949,9 +957,9 @@ class ImageBackup(Screen):
 
 	def JobStart(self):
 		try:
-			if not path.exists(self.BackupDirectory):
+			if not exists(self.BackupDirectory):
 				mkdir(self.BackupDirectory, 0o755)
-			if path.exists(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup"):
+			if exists(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup"):
 				system("swapoff " + self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
 				remove(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
 		except Exception as e:
@@ -1032,26 +1040,26 @@ class ImageBackup(Screen):
 				print("[ImageManager] Stage 1: Creating backup folders.")
 				mount = self.TMPMOUNTDIR + "/root/"
 				for folder in ["linuxrootfs1", "proc"]:
-					if path.exists(mount + folder):
+					if exists(mount + folder):
 						return self.session.open(TryQuitMainloop, 2)
-				if path.exists(self.WORKDIR):
+				if exists(self.WORKDIR):
 					rmtree(self.WORKDIR)
 				mkdir(self.WORKDIR, 0o644)
-				if path.exists(self.TMPMOUNTDIR):
+				if exists(self.TMPMOUNTDIR):
 					rmtree(self.TMPMOUNTDIR)
 				makedirs(self.TMPMOUNTDIR, 0o644)
 				makedirs(self.TMPMOUNTDIR + "/root", 0o644)
 				makedirs(self.MAINDESTROOT, 0o644)
 				self.commands = []
 				makedirs(self.MAINDEST, 0o644)
-			if BoxInfo.getItem("canMultiBoot"):
+			if canMultiBoot:
 				slot = getCurrentImage()
 				print("[ImageManager] Stage 1: Making kernel image.")
 			if "bin" or "uImage" in self.KERNELFILE:
-				if BoxInfo.getItem("hasKexec"):
+				if hasKexec:
 	#				boot = "boot" if slot > 0 and slot < 4 else "dev/%s/%s"  %(self.MTDROOTFS, self.ROOTFSSUBDIR)
 					boot = "boot"
-					self.command = "dd if=/%s/%s of=%s/vmlinux.bin" % (boot, BoxInfo.getItem("canMultiBoot")[slot]["kernel"].rsplit("/", 1)[1], self.WORKDIR) if slot != 0 else "dd if=/dev/%s of=%s/vmlinux.bin" % (self.MTDKERNEL, self.WORKDIR)
+					self.command = "dd if=/%s/%s of=%s/vmlinux.bin" % (boot, canMultiBoot[slot]["kernel"].rsplit("/", 1)[1], self.WORKDIR) if slot != 0 else "dd if=/dev/%s of=%s/vmlinux.bin" % (self.MTDKERNEL, self.WORKDIR)
 				else:
 					self.command = "dd if=/dev/%s of=%s/kernel.bin" % (self.MTDKERNEL, self.WORKDIR)
 			else:
@@ -1092,7 +1100,7 @@ class ImageBackup(Screen):
 				self.commands.append("mount -o bind,ro / %s/root" % self.TMPMOUNTDIR)
 				if model in ("h9", "i55plus"):
 					with open("/proc/cmdline", "r") as z:
-						if BoxInfo.getItem("HasMMC") and "root=/dev/mmcblk0p1" in z.read():
+						if HasMMC and "root=/dev/mmcblk0p1" in z.read():
 							self.ROOTFSTYPE = "tar.bz2"
 							self.commands.append("/bin/tar -jcf %s/rootfs.tar.bz2 -C %s/root --exclude ./var/nmbd --exclude ./.resizerootfs --exclude ./.resize-rootfs --exclude ./.resize-linuxrootfs --exclude ./.resize-userdata --exclude ./var/lib/samba/private/msg.sock ." % (self.WORKDIR, self.TMPMOUNTDIR))
 							self.commands.append("/usr/bin/bzip2 %s/rootfs.tar" % self.WORKDIR)
@@ -1122,13 +1130,13 @@ class ImageBackup(Screen):
 			else:
 				print("[ImageManager] Stage 2: TAR.BZIP detected.")
 				self.ROOTFSTYPE = "tar.bz2"
-				if BoxInfo.getItem("canMultiBoot"):
+				if canMultiBoot:
 					self.commands.append("mount /dev/%s %s/root" % (self.MTDROOTFS, self.TMPMOUNTDIR))
 				else:
 					self.commands.append("mount --bind / %s/root" % self.TMPMOUNTDIR)
-				if BoxInfo.getItem("HasRootSubdir") and getCurrentImage() == 0:
+				if HasRootSubdir and getCurrentImage() == 0:
 					self.commands.append("/bin/tar -jcf %s/rootfs.tar.bz2 -C %s/root --exclude ./var/nmbd --exclude ./.resizerootfs --exclude ./.resize-rootfs --exclude ./.resize-linuxrootfs --exclude ./.resize-userdata --exclude ./var/lib/samba/private/msg.sock ." % (self.WORKDIR, self.TMPDIR))
-				elif BoxInfo.getItem("HasRootSubdir"):
+				elif HasRootSubdir:
 					self.commands.append("/bin/tar -jcf %s/rootfs.tar.bz2 -C %s/root/%s --exclude ./var/nmbd --exclude ./.resizerootfs --exclude ./.resize-rootfs --exclude ./.resize-linuxrootfs --exclude ./.resize-userdata --exclude ./var/lib/samba/private/msg.sock ." % (self.WORKDIR, self.TMPMOUNTDIR, self.ROOTFSSUBDIR))
 				else:
 					self.commands.append("/bin/tar -jcf %s/rootfs.tar.bz2 -C %s/root --exclude ./var/nmbd --exclude ./.resizerootfs --exclude ./.resize-rootfs --exclude ./.resize-linuxrootfs --exclude ./.resize-userdata --exclude ./var/lib/samba/private/msg.sock ." % (self.WORKDIR, self.TMPMOUNTDIR))
@@ -1314,11 +1322,11 @@ class ImageBackup(Screen):
 	def doBackup4(self):
 		print("[ImageManager] Stage4: Unmounting and removing tmp system")
 		try:
-			if path.exists(self.TMPMOUNTDIR + "/root") and path.ismount(self.TMPMOUNTDIR + "/root"):
+			if exists(self.TMPMOUNTDIR + "/root") and path.ismount(self.TMPMOUNTDIR + "/root"):
 				self.command = "umount " + self.TMPMOUNTDIR + "/root && rm -rf " + self.TMPMOUNTDIR
 				self.Console.ePopen(self.command, self.Stage4Complete)
 			else:
-				if path.exists(self.TMPMOUNTDIR):
+				if exists(self.TMPMOUNTDIR):
 					rmtree(self.TMPMOUNTDIR)
 				self.Stage4Complete("pass", 0)
 		except Exception as err:
@@ -1332,22 +1340,22 @@ class ImageBackup(Screen):
 	def doBackup5(self):
 		print("[ImageManager] Stage 5: Moving from work to backup folders")
 		try:
-			if self.EMMCIMG == "emmc.img" or self.EMMCIMG == "disk.img" and path.exists("%s/%s" % (self.WORKDIR, self.EMMCIMG)):
-				if path.exists("%s/%s" % (self.WORKDIR, self.EMMCIMG)):
+			if self.EMMCIMG == "emmc.img" or self.EMMCIMG == "disk.img" and exists("%s/%s" % (self.WORKDIR, self.EMMCIMG)):
+				if exists("%s/%s" % (self.WORKDIR, self.EMMCIMG)):
 					move("%s/%s" % (self.WORKDIR, self.EMMCIMG), "%s%s" % (self.MAINDEST, self.EMMCIMG))
-				if path.exists("%s/rootfs.ext4" % self.WORKDIR) and platform != "edision4k":
+				if exists("%s/rootfs.ext4" % self.WORKDIR) and platform != "edision4k":
 					move("%s/rootfs.ext4" % self.WORKDIR, "%s%s" % (self.MAINDEST, self.EMMCIMG))
 			if self.EMMCIMG == "usb_update.bin":
-				if path.exists("%s/%s" % (self.WORKDIR, self.EMMCIMG)):
+				if exists("%s/%s" % (self.WORKDIR, self.EMMCIMG)):
 					move("%s/%s" % (self.WORKDIR, self.EMMCIMG), "%s/%s" % (self.MAINDESTROOT, self.EMMCIMG))
-				if path.exists("%s/fastboot.bin" % self.WORKDIR):
+				if exists("%s/fastboot.bin" % self.WORKDIR):
 					move("%s/fastboot.bin" % self.WORKDIR, "%s/fastboot.bin" % self.MAINDESTROOT)
-				if path.exists("%s/bootargs.bin" % self.WORKDIR):
+				if exists("%s/bootargs.bin" % self.WORKDIR):
 					move("%s/bootargs.bin" % self.WORKDIR, "%s/bootargs.bin" % self.MAINDESTROOT)
-				if path.exists("%s/apploader.bin" % self.WORKDIR):
+				if exists("%s/apploader.bin" % self.WORKDIR):
 					move("%s/apploader.bin" % self.WORKDIR, "%s/apploader.bin" % self.MAINDESTROOT)
 
-			if "bin" or "uImage" in self.KERNELFILE and path.exists("%s/kernel.bin" % self.WORKDIR):
+			if "bin" or "uImage" in self.KERNELFILE and exists("%s/kernel.bin" % self.WORKDIR):
 				move("%s/kernel.bin" % self.WORKDIR, "%s/%s" % (self.MAINDEST, self.KERNELFILE))
 			else:
 				move("%s/vmlinux.gz" % self.WORKDIR, "%s/%s" % (self.MAINDEST, self.KERNELFILE))
@@ -1361,7 +1369,7 @@ class ImageBackup(Screen):
 				system("cp -f /usr/share/fastboot.bin %s/fastboot.bin" % self.MAINDEST2)
 				system("cp -f /usr/share/bootargs.bin %s/bootargs.bin" % self.MAINDEST2)
 				with open("/proc/cmdline", "r") as z:
-					if BoxInfo.getItem("HasMMC") and "root=/dev/mmcblk0p1" in z.read():
+					if HasMMC and "root=/dev/mmcblk0p1" in z.read():
 						move("%s/rootfs.tar.bz2" % self.WORKDIR, "%s/rootfs.tar.bz2" % self.MAINDEST)
 					else:
 						move("%s/rootfs.%s" % (self.WORKDIR, self.ROOTFSTYPE), "%s/%s" % (self.MAINDEST, self.ROOTFSFILE))
@@ -1394,9 +1402,9 @@ class ImageBackup(Screen):
 					line = "rename this file to 'force' to force an update without confirmation"
 					fileout.write(line)
 					fileout.close()
-				if fileExists("/usr/share/enigma2/receiver/burn.bat"):
+				if isfile("/usr/share/enigma2/receiver/burn.bat"):
 					copy("/usr/share/enigma2/receiver/burn.bat", self.MAINDESTROOT + "/burn.bat")
-				if BoxInfo.getItem("HiSilicon") and self.KERN == "mmc":
+				if HiSilicon and self.KERN == "mmc":
 					with open(self.MAINDEST + "/SDAbackup", "w") as fileout:
 						line = "SF8008 indicate type of backup %s" % self.KERN
 						fileout.write(line)
@@ -1411,7 +1419,7 @@ class ImageBackup(Screen):
 						self.session.open(MessageBox, _("Creating image online flash for ofgwrite and recovery eMMC."), MessageBox.TYPE_INFO, timeout=10)
 					else:
 						self.session.open(MessageBox, _("Creating image online flash for ofgwrite."), MessageBox.TYPE_INFO, timeout=10)
-			elif BoxInfo.getItem("HasRootSubdir"):
+			elif HasRootSubdir:
 					with open(self.MAINDEST + "/force_%s_READ.ME" % model, "w") as fileout:
 						line1 = "Rename the unforce_%s.txt to force_%s.txt and move it to the root of your usb-stick" % (model, model)
 						line2 = "When you enter the recovery menu then it will force the image to be installed in the linux selection"
@@ -1423,12 +1431,12 @@ class ImageBackup(Screen):
 						fileout.write(line1)
 						fileout.close()
 			print("[ImageManager] Stage 5: Removing swap.")
-			if path.exists(self.swapdevice + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup"):
+			if exists(self.swapdevice + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup"):
 				system("swapoff " + self.swapdevice + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
 				remove(self.swapdevice + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
-			if path.exists(self.WORKDIR):
+			if exists(self.WORKDIR):
 				rmtree(self.WORKDIR)
-			if (path.exists(self.MAINDEST + "/" + self.ROOTFSFILE) and path.exists(self.MAINDEST + "/" + self.KERNELFILE)) or (model in ("h9", "i55plus") and "root=/dev/mmcblk0p1" in z):
+			if (exists(self.MAINDEST + "/" + self.ROOTFSFILE) and exists(self.MAINDEST + "/" + self.KERNELFILE)) or (model in ("h9", "i55plus") and "root=/dev/mmcblk0p1" in z):
 				for root, dirs, files in walk(self.MAINDEST):
 					for momo in dirs:
 						chmod(path.join(root, momo), 0o644)
@@ -1471,7 +1479,7 @@ class ImageBackup(Screen):
 		#    trim the number of backups kept...
 		import fnmatch
 		try:
-			if config.imagemanager.number_to_keep.value > 0 and path.exists(self.BackupDirectory):  # !?!
+			if config.imagemanager.number_to_keep.value > 0 and exists(self.BackupDirectory):  # !?!
 				images = listdir(self.BackupDirectory)
 				patt = config.imagemanager.folderprefix.value + "-*.zip"
 				emlist = []
@@ -1555,7 +1563,7 @@ class ImageManagerDownload(Screen):
 		self.getImageDistro()
 
 	def getImageDistro(self):
-		if not path.exists(self.BackupDirectory):
+		if not exists(self.BackupDirectory):
 			mkdir(self.BackupDirectory, 0o755)
 
 		if not self.imagesList:

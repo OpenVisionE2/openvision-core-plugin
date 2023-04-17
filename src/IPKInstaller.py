@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-# for localized messages
+from . import _
 from os import listdir, path
 
-from . import _
 from Components.config import config
 from Components.ActionMap import ActionMap
 from Components.Label import Label

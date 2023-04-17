@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# for localized messages
 from . import _
 from Screens.Screen import Screen
 from Components.ActionMap import NumberActionMap
@@ -9,6 +8,8 @@ from Components.Sources.List import List
 from Screens.ParentalControlSetup import ProtectedScreen
 from Components.config import config
 from Components.SystemInfo import BoxInfo
+
+HasH9SD = BoxInfo.getItem("HasH9SD")
 
 
 class VISIONMenu(Screen, ProtectedScreen):
@@ -68,7 +69,7 @@ class VISIONMenu(Screen, ProtectedScreen):
 			self.list.append(("%s" % SwapManager, _("Swap Manager"), (_("Create and Manage your SWAP files.")), None))
 			self.list.append(("%s" % ClientModeBox, _("Client Mode Box"), (_("Use this box as a client of a server.")), None))
 
-			if BoxInfo.getItem("HasH9SD"):
+			if HasH9SD:
 				self.list.append(("%s" % H9SdCardManager, _("H9 SDcard Manager"), (_("Move Nand root to SD card")), None))
 		self["menu"] = List(self.list)
 		self["key_red"] = StaticText(_("Close"))
@@ -146,7 +147,7 @@ class VISIONMenu(Screen, ProtectedScreen):
 				elif currentEntry == (_("Client Mode Box")):
 					from . ClientModeBox import ClientModeBoxWizard
 					self.session.open(ClientModeBoxWizard)
-				elif currentEntry == (_("H9 SDcard Manager")) and BoxInfo.getItem("HasH9SD"):
+				elif currentEntry == (_("H9 SDcard Manager")) and HasH9SD:
 					from . H9SDmanager import H9SDmanager
 					self.session.open(H9SDmanager)
 

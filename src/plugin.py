@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 from . import _
-from os import listdir, path
+from os import listdir
+from os.path import isdir, join, exists, isfile
 from Plugins.Plugin import PluginDescriptor
 from Components.config import config, ConfigBoolean
 from . BackupManager import BackupManagerautostart
 from . ImageManager import ImageManagerautostart
 from . SwapManager import SwapAutostart
 from . SoftcamManager import SoftcamAutostart
-from . ScriptRunner import ScriptRunnerAutostart
 from . IPKInstaller import OpkgInstaller
-from . ClientModeBox import ClientModeBoxWizard
 from Components.SystemInfo import BoxInfo
 
 config.misc.restorewizardrun = ConfigBoolean(default=False)
@@ -41,11 +40,11 @@ def checkConfigBackup():
 		devmounts = []
 		list = []
 		files = []
-		for dir in ["/media/%s/backup" % media for media in listdir("/media/") if path.isdir(path.join("/media/", media))]:
+		for dir in ["/media/%s/backup" % media for media in listdir("/media/") if isdir(join("/media/", media))]:
 			devmounts.append(dir)
 		if len(devmounts):
 			for devpath in devmounts:
-				if path.exists(devpath):
+				if exists(devpath):
 					try:
 						files = listdir(devpath)
 					except:
@@ -55,11 +54,11 @@ def checkConfigBackup():
 				if len(files):
 					for file in files:
 						if file.endswith('.tar.gz') and "vision" in file.lower():
-							list.append((path.join(devpath, file)))
+							list.append((join(devpath, file)))
 		if len(list):
 			print('[Vision] Backup image:', list[0])
 			backupfile = list[0]
-			if path.isfile(backupfile):
+			if isfile(backupfile):
 				setLanguageFromBackup(backupfile)
 			return True
 		else:

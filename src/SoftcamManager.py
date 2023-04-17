@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
+from . import _
 from six import PY2, ensure_str
 
-import re
-from os import path, makedirs, remove, rename, symlink, mkdir, listdir, unlink
+from re import sub
+from os import makedirs, remove, rename, symlink, mkdir, listdir, unlink
+from os.path import exists, isfile, islink, getsize
 from datetime import datetime
 from time import time
 from enigma import eTimer, eConsoleAppContainer
 
-from . import _, PluginLanguageDomain
 import Components.Task
 from Components.ActionMap import ActionMap
 from Components.Sources.StaticText import StaticText
@@ -23,7 +24,6 @@ from Tools.camcontrol import CamControl
 from Tools.Directories import resolveFilename, SCOPE_PLUGINS
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
-from Components.SystemInfo import BoxInfo
 from Components.ConfigList import ConfigListScreen
 
 config.softcammanager = ConfigSubsection()
@@ -50,14 +50,14 @@ def SoftcamAutostart(reason, session=None, **kwargs):
 	if reason == 0:
 		if PY2:
 			print("[SoftcamManager] AutoStart Enabled")
-			if path.exists("/tmp/SoftcamsDisableCheck"):
+			if isfile("/tmp/SoftcamsDisableCheck"):
 				remove("/tmp/SoftcamsDisableCheck")
 			softcamautopoller = SoftcamAutoPoller()
 			softcamautopoller.start()
 		else:
 			link = "/etc/init.d/softcam"
 			print("[SoftcamAutostart] config.misc.softcams.value=%s" % (config.misc.softcams.value))
-			if path.exists(link) and config.misc.softcams.value != "None":
+			if exists(link) and config.misc.softcams.value != "None":
 				scr = "softcam.%s" % config.misc.softcams.value
 				unlink(link)
 				symlink(scr, link)
@@ -68,7 +68,7 @@ def SoftcamAutostart(reason, session=None, **kwargs):
 				softcamautopoller.start()
 			else:
 				print("[SoftcamManager] AutoStart Enabled")
-				if path.exists("/tmp/SoftcamsDisableCheck"):
+				if isfile("/tmp/SoftcamsDisableCheck"):
 					remove("/tmp/SoftcamsDisableCheck")
 				softcamautopoller = SoftcamAutoPoller()
 				softcamautopoller.start()
@@ -155,7 +155,7 @@ class VISIONSoftcamManager(Screen):
 		cams = []
 		cams = listdir('/usr/softcams')
 		selcam = ''
-		if path.islink('/usr/softcams/oscam'):
+		if islink('/usr/softcams/oscam'):
 			current = self["list"].getCurrent()[0]
 			selcam = current[0]
 			print('[SoftcamManager] Selected cam: ' + str(selcam))
@@ -177,7 +177,7 @@ class VISIONSoftcamManager(Screen):
 
 	def changeSelectionState(self):
 		cams = []
-		if path.exists('/usr/softcams/'):
+		if exists('/usr/softcams/'):
 			cams = listdir('/usr/softcams')
 		if cams:
 			self["list"].changeSelectionState()
@@ -213,7 +213,7 @@ class VISIONSoftcamManager(Screen):
 			self.currentactivecamtemp = result
 			self.currentactivecam = "".join([s for s in self.currentactivecamtemp.splitlines(True) if s.strip("\r\n")])
 			self.currentactivecam = self.currentactivecam.replace("\n", ", ")
-			if path.exists("/tmp/SoftcamsScriptsRunning"):
+			if isfile("/tmp/SoftcamsScriptsRunning"):
 				file = open("/tmp/SoftcamsScriptsRunning")
 				SoftcamsScriptsRunning = file.read()
 				file.close()
@@ -231,29 +231,29 @@ class VISIONSoftcamManager(Screen):
 
 	def keyStart(self):
 		cams = []
-		if path.exists('/usr/softcams/'):
+		if exists('/usr/softcams/'):
 			cams = listdir('/usr/softcams')
 		if cams:
 			self.sel = self['list'].getCurrent()[0]
 			selcam = self.sel[0]
 			if self.currentactivecam.find(selcam) < 0:
 				if selcam.lower().endswith('oscam'):
-					if not path.exists('/etc/tuxbox/config/oscam/oscam.conf'):
+					if not isfile('/etc/tuxbox/config/oscam/oscam.conf'):
 						self.session.open(MessageBox, _("No config files found, please setup Oscam first\nin /etc/tuxbox/config/oscam"), MessageBox.TYPE_INFO, timeout=10, close_on_any_key=True)
 					else:
 						self.session.openWithCallback(self.showActivecam, VISIONStartCam, self.sel[0])
 				elif selcam.lower().endswith('smod'):
-					if not path.exists('/etc/tuxbox/config/oscam-smod/oscam.conf'):
+					if not isfile('/etc/tuxbox/config/oscam-smod/oscam.conf'):
 						self.session.open(MessageBox, _("No config files found, please setup Oscam-smod first\nin /etc/tuxbox/config/oscam-smod"), MessageBox.TYPE_INFO, timeout=10, close_on_any_key=True)
 					else:
 						self.session.openWithCallback(self.showActivecam, VISIONStartCam, self.sel[0])
 				elif selcam.lower().endswith('emu'):
-					if not path.exists('/etc/tuxbox/config/oscam-emu/oscam.conf'):
+					if not isfile('/etc/tuxbox/config/oscam-emu/oscam.conf'):
 						self.session.open(MessageBox, _("No config files found, please setup Oscam-emu first\nin /etc/tuxbox/config/oscam-emu"), MessageBox.TYPE_INFO, timeout=10, close_on_any_key=True)
 					else:
 						self.session.openWithCallback(self.showActivecam, VISIONStartCam, self.sel[0])
 				elif selcam.lower().startswith('ncam'):
-					if not path.exists('/etc/tuxbox/config/ncam/ncam.conf'):
+					if not isfile('/etc/tuxbox/config/ncam/ncam.conf'):
 						self.session.open(MessageBox, _("No config files found, please setup Ncam first\nin /etc/tuxbox/config/ncam"), MessageBox.TYPE_INFO, timeout=10, close_on_any_key=True)
 					else:
 						self.session.openWithCallback(self.showActivecam, VISIONStartCam, self.sel[0])
@@ -265,7 +265,7 @@ class VISIONSoftcamManager(Screen):
 
 	def getRestartPID(self):
 		cams = []
-		if path.exists('/usr/softcams/'):
+		if exists('/usr/softcams/'):
 			cams = listdir('/usr/softcams')
 		if cams:
 			self.sel = self['list'].getCurrent()[0]
@@ -287,28 +287,28 @@ class VISIONSoftcamManager(Screen):
 				self.Console.ePopen("kill -9 " + stopcam.replace("\n", ""))
 			else:
 				print('[SoftcamManager] Result failed: ' + str(result))
-			if selectedcam.lower().endswith('oscam') and path.exists('/etc/tuxbox/config/oscam/oscam.conf') == True:
+			if selectedcam.lower().endswith('oscam') and isfile('/etc/tuxbox/config/oscam/oscam.conf') == True:
 				self.session.openWithCallback(self.showActivecam, VISIONStartCam, self.sel[0])
-			if selectedcam.lower().startswith('ncam') and path.exists('/etc/tuxbox/config/ncam/ncam.conf') == True:
+			if selectedcam.lower().startswith('ncam') and isfile('/etc/tuxbox/config/ncam/ncam.conf') == True:
 				self.session.openWithCallback(self.showActivecam, VISIONStartCam, self.sel[0])
-			if selectedcam.lower().endswith('smod') and path.exists('/etc/tuxbox/config/oscam-smod/oscam.conf') == True:
+			if selectedcam.lower().endswith('smod') and isfile('/etc/tuxbox/config/oscam-smod/oscam.conf') == True:
 				self.session.openWithCallback(self.showActivecam, VISIONStartCam, self.sel[0])
-			if selectedcam.lower().endswith('emu') and path.exists('/etc/tuxbox/config/oscam-emu/oscam.conf') == True:
+			if selectedcam.lower().endswith('emu') and isfile('/etc/tuxbox/config/oscam-emu/oscam.conf') == True:
 				self.session.openWithCallback(self.showActivecam, VISIONStartCam, self.sel[0])
-			if selectedcam.lower().endswith('oscam') and path.exists('/etc/tuxbox/config/oscam/oscam.conf') == False:
-				if not path.exists('/etc/tuxbox/config/oscam'):
+			if selectedcam.lower().endswith('oscam') and isfile('/etc/tuxbox/config/oscam/oscam.conf') == False:
+				if not exists('/etc/tuxbox/config/oscam'):
 					makedirs('/etc/tuxbox/config/oscam')
 				self.session.open(MessageBox, _("No config files found, please setup Oscam first\nin /etc/tuxbox/config/oscam."), MessageBox.TYPE_INFO, timeout=10, close_on_any_key=True)
-			if selectedcam.lower().startswith('ncam') and path.exists('/etc/tuxbox/config/ncam/ncam.conf') == False:
-				if not path.exists('/etc/tuxbox/config/ncam'):
+			if selectedcam.lower().startswith('ncam') and isfile('/etc/tuxbox/config/ncam/ncam.conf') == False:
+				if not exists('/etc/tuxbox/config/ncam'):
 					makedirs('/etc/tuxbox/config/ncam')
 				self.session.open(MessageBox, _("No config files found, please setup Ncam first\nin /etc/tuxbox/config/ncam."), MessageBox.TYPE_INFO, timeout=10, close_on_any_key=True)
-			if selectedcam.lower().endswith('emu') and path.exists('/etc/tuxbox/config/oscam-emu/oscam.conf') == False:
-				if not path.exists('/etc/tuxbox/config/oscam-emu'):
+			if selectedcam.lower().endswith('emu') and isfile('/etc/tuxbox/config/oscam-emu/oscam.conf') == False:
+				if not exists('/etc/tuxbox/config/oscam-emu'):
 					makedirs('/etc/tuxbox/config/oscam-emu')
 				self.session.open(MessageBox, _("No config files found, please setup Oscam-emu first\nin /etc/tuxbox/config/oscam-emu."), MessageBox.TYPE_INFO, timeout=10, close_on_any_key=True)
-			if selectedcam.lower().endswith('smod') and path.exists('/etc/tuxbox/config/oscam-smod/oscam.conf') == False:
-				if not path.exists('/etc/tuxbox/config/oscam-smod'):
+			if selectedcam.lower().endswith('smod') and isfile('/etc/tuxbox/config/oscam-smod/oscam.conf') == False:
+				if not exists('/etc/tuxbox/config/oscam-smod'):
 					makedirs('/etc/tuxbox/config/oscam-smod')
 				self.session.open(MessageBox, _("No config files found, please setup Oscam-smod first\nin /etc/tuxbox/config/oscam-smod."), MessageBox.TYPE_INFO, timeout=10, close_on_any_key=True)
 			if not (selectedcam.lower().endswith('oscam') or not selectedcam.lower().startswith('ncam') or not selectedcam.lower().endswith('emu') or not selectedcam.lower().endswith('smod')):
@@ -433,7 +433,7 @@ class VISIONStartCam(Screen):
 		self.count = 0
 		self['connect'].setPixmapNum(0)
 		if startselectedcam.endswith('.sh'):
-			if path.exists('/tmp/SoftcamsScriptsRunning'):
+			if isfile('/tmp/SoftcamsScriptsRunning'):
 				data = open('/tmp/SoftcamsScriptsRunning').read()
 				if data.find(startselectedcam) >= 0:
 					filewrite = open('/tmp/SoftcamsScriptsRunning.tmp', 'w')
@@ -449,7 +449,7 @@ class VISIONStartCam(Screen):
 			open('/tmp/cam.check.log', 'a').write(now.strftime("%Y-%m-%d %H:%M") + ": Starting " + startselectedcam + "\n")
 			self.Console.ePopen('/usr/softcams/' + startselectedcam + ' start')
 		else:
-			if path.exists('/tmp/SoftcamsDisableCheck'):
+			if isfile('/tmp/SoftcamsDisableCheck'):
 				data = open('/tmp/SoftcamsDisableCheck').read()
 				if data.find(startselectedcam) >= 0:
 					now = datetime.now()
@@ -517,9 +517,9 @@ class VISIONStopCam(Screen):
 			now = datetime.now()
 			open('/tmp/cam.check.log', 'a').write(now.strftime("%Y-%m-%d %H:%M") + ": Stopping " + stopselectedcam + "\n")
 			self.Console.ePopen('/usr/softcams/' + stopselectedcam + ' stop')
-			if path.exists('/tmp/SoftcamsScriptsRunning'):
+			if isfile('/tmp/SoftcamsScriptsRunning'):
 				remove('/tmp/SoftcamsScriptsRunning')
-			if path.exists('/etc/SoftcamsAutostart'):
+			if isfile('/etc/SoftcamsAutostart'):
 				data = open('/etc/SoftcamsAutostart').read()
 				finddata = data.find(stopselectedcam)
 				if data.find(stopselectedcam) >= 0:
@@ -538,7 +538,7 @@ class VISIONStopCam(Screen):
 			self['connect'].setPixmapNum(0)
 			stopcam = result
 			print("[SoftcamManager][startShow] stopcam=%s" % stopcam)
-			if path.exists('/etc/SoftcamsAutostart'):
+			if isfile('/etc/SoftcamsAutostart'):
 				data = open('/etc/SoftcamsAutostart').read()
 				finddata = data.find(stopselectedcam)
 				if data.find(stopselectedcam) >= 0:
@@ -583,7 +583,7 @@ class VISIONSoftcamLog(Screen):
 		self["lab5"] = StaticText(_("Sources are available at:"))
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
 
-		if path.exists('/var/volatile/tmp/cam.check.log'):
+		if isfile('/var/volatile/tmp/cam.check.log'):
 			softcamlog = open('/var/volatile/tmp/cam.check.log').read()
 		else:
 			softcamlog = ""
@@ -604,21 +604,21 @@ class SoftcamAutoPoller:
 
 	def __init__(self):
 		# Init Timer
-		if not path.exists('/usr/softcams'):
+		if not exists('/usr/softcams'):
 			mkdir('/usr/softcams', 0o755)
-		if not path.exists('/etc/scce'):
+		if not exists('/etc/scce'):
 			mkdir('/etc/scce', 0o755)
-		if not path.exists('/etc/tuxbox/config'):
+		if not exists('/etc/tuxbox/config'):
 			mkdir('/etc/tuxbox/config', 0o755)
-		if not path.islink('/var/tuxbox'):
+		if not islink('/var/tuxbox'):
 			symlink('/etc/tuxbox', '/var/tuxbox')
-		if not path.exists('/usr/keys'):
+		if not exists('/usr/keys'):
 			mkdir('/usr/keys', 0o755)
-		if not path.islink('/var/keys'):
+		if not islink('/var/keys'):
 			symlink('/usr/keys', '/var/keys')
-		if not path.islink('/etc/keys'):
+		if not islink('/etc/keys'):
 			symlink('/usr/keys', '/etc/keys')
-		if not path.islink('/var/scce'):
+		if not islink('/var/scce'):
 			symlink('/etc/scce', '/var/scce')
 		self.timer = eTimer()
 
@@ -634,13 +634,13 @@ class SoftcamAutoPoller:
 
 	def softcam_check(self):
 		now = int(time())
-		if path.exists('/tmp/SoftcamRuningCheck.tmp'):
+		if isfile('/tmp/SoftcamRuningCheck.tmp'):
 			remove('/tmp/SoftcamRuningCheck.tmp')
 
 		if config.softcammanager.softcams_autostart:
 			Components.Task.job_manager.AddJob(self.createCheckJob())
 
-		if config.softcammanager.softcamtimerenabled.value and path.exists('/tmp/cam.check.log'):
+		if config.softcammanager.softcamtimerenabled.value and isfile('/tmp/cam.check.log'):
 			# 			print("[SoftcamManager] Timer check enabled")
 			now = datetime.now()
 			open('/tmp/cam.check.log', 'a').write(now.strftime("%Y-%m-%d %H:%M") + ": Timer Check Enabled\n")
@@ -663,8 +663,8 @@ class SoftcamAutoPoller:
 	def JobStart(self):
 		self.autostartcams = config.softcammanager.softcams_autostart.value
 		self.Console = Console()
-		if path.exists('/tmp/cam.check.log'):
-			if path.getsize('/tmp/cam.check.log') > 40000:
+		if isfile('/tmp/cam.check.log'):
+			if getsize('/tmp/cam.check.log') > 40000:
 				fh = open('/tmp/cam.check.log', 'rb+')
 				fh.seek(-40000, 2)
 				data = fh.read()
@@ -677,12 +677,12 @@ class SoftcamAutoPoller:
 			softcamcheck = softcamcheck.replace("/usr/softcams/", "")
 			softcamcheck = softcamcheck.replace("\n", "")
 			if softcamcheck.endswith('.sh'):
-				if path.exists('/tmp/SoftcamsDisableCheck'):
+				if isfile('/tmp/SoftcamsDisableCheck'):
 					data = open('/tmp/SoftcamsDisableCheck').read()
 				else:
 					data = ''
 				if data.find(softcamcheck) < 0:
-					if path.exists('/tmp/SoftcamsScriptsRunning'):
+					if isfile('/tmp/SoftcamsScriptsRunning'):
 						data = open('/tmp/SoftcamsScriptsRunning').read()
 						if data.find(softcamcheck) < 0:
 							open('/tmp/SoftcamsScriptsRunning', 'a').write(softcamcheck + '\n')
@@ -693,7 +693,7 @@ class SoftcamAutoPoller:
 						print('[SoftcamManager] Starting ' + softcamcheck)
 						self.Console.ePopen('/usr/softcams/' + softcamcheck + ' start')
 			else:
-				if path.exists('/tmp/SoftcamsDisableCheck'):
+				if isfile('/tmp/SoftcamsDisableCheck'):
 					data = open('/tmp/SoftcamsDisableCheck').read()
 				else:
 					data = ''
@@ -703,38 +703,38 @@ class SoftcamAutoPoller:
 					p = process.ProcessList()
 					softcamcheck_process = str(p.named(softcamcheck)).strip('[]')
 					if softcamcheck_process != "":
-						if path.exists('/tmp/frozen'):
+						if isfile('/tmp/frozen'):
 							remove('/tmp/frozen')
-						if path.exists('/tmp/status.html'):
+						if isfile('/tmp/status.html'):
 							remove('/tmp/status.html')
-						if path.exists('/tmp/index.html'):
+						if isfile('/tmp/index.html'):
 							remove('/tmp/index.html')
 						print('[SoftcamManager] ' + softcamcheck + ' already running')
 						now = datetime.now()
 						open('/tmp/cam.check.log', 'a').write(now.strftime("%Y-%m-%d %H:%M") + ": " + softcamcheck + " running OK\n")
 						if softcamcheck.lower().startswith('oscam') or softcamcheck.lower().startswith('ncam'):
-							if path.exists('/tmp/status.html'):
+							if isfile('/tmp/status.html'):
 								remove('/tmp/status.html')
 							port = ''
-							if path.exists('/etc/tuxbox/config/oscam/oscam.conf'):
+							if isfile('/etc/tuxbox/config/oscam/oscam.conf'):
 								camconf = '/etc/tuxbox/config/oscam/oscam.conf'
-							elif path.exists('/etc/tuxbox/config/ncam/ncam.conf'):
+							elif isfile('/etc/tuxbox/config/ncam/ncam.conf'):
 								camconf = '/etc/tuxbox/config/ncam/ncam.conf'
-							elif path.exists('/etc/tuxbox/config/oscam-emu/oscam.conf'):
+							elif isfile('/etc/tuxbox/config/oscam-emu/oscam.conf'):
 								camconf = '/etc/tuxbox/config/oscam-emu/oscam.conf'
-							elif path.exists('/etc/tuxbox/config/oscam-smod/oscam.conf'):
+							elif isfile('/etc/tuxbox/config/oscam-smod/oscam.conf'):
 								camconf = '/etc/tuxbox/config/oscam-smod/oscam.conf'
 							f = open(camconf, 'r')
 							for line in f.readlines():
 								if line.find('httpport') != -1:
-									port = re.sub("\D", "", line)
+									port = sub("\D", "", line)
 							f.close()
 							print('[SoftcamManager] Checking if ' + softcamcheck + ' is frozen')
 							if port == "":
 								port = "16000"
 							self.Console.ePopen("wget -T 1 http://127.0.0.1:" + port + "/status.html -O /tmp/status.html &> /tmp/frozen")
 							frozen = open('/tmp/frozen').read()
-							if frozen.find('Unauthorized') != -1 or frozen.find('Authorization Required') != -1 or frozen.find('Forbidden') != -1 or frozen.find('Connection refused') != -1 or frozen.find('100%') != -1 or path.exists('/tmp/status.html'):
+							if frozen.find('Unauthorized') != -1 or frozen.find('Authorization Required') != -1 or frozen.find('Forbidden') != -1 or frozen.find('Connection refused') != -1 or frozen.find('100%') != -1 or isfile('/tmp/status.html'):
 								print('[SoftcamManager] ' + softcamcheck + ' is responding like it should')
 								now = datetime.now()
 								open('/tmp/cam.check.log', 'a').write(now.strftime("%Y-%m-%d %H:%M") + ": " + softcamcheck + " is responding like it should\n")

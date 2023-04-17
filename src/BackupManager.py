@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-# for localized messages
-from os import path, stat, mkdir, listdir, remove, statvfs, chmod
+from . import _, PluginLanguageDomain
+from os import stat, mkdir, listdir, remove, statvfs, chmod
+from os.path import exists, isfile, normpath, isdir, join, getmtime
 from time import localtime, time, strftime, mktime
 from datetime import date, datetime
 import tarfile
-import glob
+from glob import glob
 from enigma import eTimer, eEnv, eDVBDB
-from . import _, PluginLanguageDomain
 from Components.ActionMap import ActionMap
 from Components.Button import Button
 from Components.config import configfile, config, ConfigSubsection, ConfigYesNo, ConfigSelection, ConfigText, ConfigNumber, ConfigLocations, NoSave, ConfigClock, ConfigDirectory
@@ -22,8 +22,8 @@ import Components.Task
 from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
 from Screens.Setup import Setup
-from Tools.Directories import fileExists
 from Tools.Notifications import AddPopupWithCallback
+from Tools.Directories import resolveFilename, SCOPE_PLUGINS
 
 currentkernelversion = BoxInfo.getItem("kernel")
 visionversion = BoxInfo.getItem("imgversion")
@@ -40,8 +40,8 @@ NOPLUGINS = 'NoPluginsNotification'
 mountpointchoices = []
 defaultprefix = distro[4:]
 for p in harddiskmanager.getMountedPartitions():
-	if path.exists(p.mountpoint):
-		d = path.normpath(p.mountpoint)
+	if exists(p.mountpoint):
+		d = normpath(p.mountpoint)
 		if BoxInfo.getItem("canMultiBoot"):
 			if "mmcblk0p" in d or "mmcblk1p" in d:
 				continue
@@ -200,7 +200,7 @@ class VISIONBackupManager(Screen):
 		else:
 			mount = config.backupmanager.backuplocation.value
 		if mountpointchoices:
-			if not path.exists(config.backupmanager.backuplocation.value + '/backup'):
+			if not exists(config.backupmanager.backuplocation.value + '/backup'):
 				mkdir(config.backupmanager.backuplocation.value + '/backup', 0o755)
 		try:
 			if not config.backupmanager.backuplocation.value:
@@ -363,9 +363,9 @@ class VISIONBackupManager(Screen):
 				self.sel = self['list'].getCurrent()
 				if not self.BackupRunning:
 					if self.sel:
-						if path.exists('/tmp/ExtraInstalledPlugins'):
+						if isfile('/tmp/ExtraInstalledPlugins'):
 							remove('/tmp/ExtraInstalledPlugins')
-						if path.exists('/tmp/backupkernelversion'):
+						if isfile('/tmp/backupkernelversion'):
 							remove('/tmp/backupkernelversion')
 						self.Console.ePopen("tar -xzvf " + self.BackupDirectory + self.sel + " -C / tmp/ExtraInstalledPlugins tmp/backupkernelversion tmp/backupimageversion", self.settingsRestoreCheck)
 				else:
@@ -385,7 +385,7 @@ class VISIONBackupManager(Screen):
 			print("%s" % err)
 
 	def settingsRestoreCheck(self, result, retval, extra_args=None):
-		if path.exists('/tmp/backupkernelversion'):
+		if isfile('/tmp/backupkernelversion'):
 			with open("/tmp/backupkernelversion", "r") as fd:
 				kernelversion = fd.read()
 			print('[BackupManager] Backup kernel:', kernelversion)
@@ -560,7 +560,7 @@ class VISIONBackupManager(Screen):
 		print('[BackupManager] Restoring stage 3: Kernel version/feeds checks')
 		if self.feeds == 'OK':
 			print('[BackupManager] Restoring stage 3: Feeds are OK')
-			if path.exists('/tmp/backupkernelversion') and path.exists('/tmp/backupimageversion'):
+			if isfile('/tmp/backupkernelversion') and isfile('/tmp/backupimageversion'):
 				with open("/tmp/backupimageversion", "r") as fd:
 					imageversion = fd.read()
 				with open("/tmp/backupkernelversion", "r") as fd:
@@ -614,7 +614,7 @@ class VISIONBackupManager(Screen):
 
 	def Stage3Complete(self, result, retval, extra_args):
 		plugins = []
-		if path.exists('/tmp/ExtraInstalledPlugins') and self.kernelcheck:
+		if isfile('/tmp/ExtraInstalledPlugins') and self.kernelcheck:
 			self.pluginslist = []
 			for line in result.split("\n"):
 				if line:
@@ -628,7 +628,7 @@ class VISIONBackupManager(Screen):
 					if len(parts) > 0 and parts[0] not in plugins:
 						self.pluginslist.append(parts[0])
 
-		if path.exists('/tmp/3rdPartyPlugins') and self.kernelcheck:
+		if isfile('/tmp/3rdPartyPlugins') and self.kernelcheck:
 			self.pluginslist2 = []
 			self.plugfiles = []
 			self.thirdpartyPluginsLocation = " "
@@ -636,7 +636,7 @@ class VISIONBackupManager(Screen):
 				self.thirdpartyPluginsLocation = config.backupmanager.xtraplugindir.value
 				self.thirdpartyPluginsLocation = self.thirdpartyPluginsLocation.replace(' ', '%20')
 				self.plugfiles = self.thirdpartyPluginsLocation.split('/', 3)
-			elif path.exists('/tmp/3rdPartyPluginsLocation'):
+			elif isfile('/tmp/3rdPartyPluginsLocation'):
 				with open("/tmp/3rdPartyPluginsLocation", "r") as fd:
 					self.thirdpartyPluginsLocation = fd.readlines()
 				self.thirdpartyPluginsLocation = "".join(self.thirdpartyPluginsLocation)
@@ -652,19 +652,19 @@ class VISIONBackupManager(Screen):
 					parts = line.strip().split('_')
 					if parts[0] not in plugins:
 						ipk = parts[0]
-						if path.exists(self.thirdpartyPluginsLocation):
+						if exists(self.thirdpartyPluginsLocation):
 							available = listdir(self.thirdpartyPluginsLocation)
 						else:
 							devmounts = []
 							files = []
 							self.plugfile = self.plugfiles[3]
-							for dir in ["/media/%s/%s" % (media, self.plugfile) for media in listdir("/media/") if path.isdir(path.join("/media/", media))]:
+							for dir in ["/media/%s/%s" % (media, self.plugfile) for media in listdir("/media/") if isdir(join("/media/", media))]:
 								if media != "autofs" or "net":
 									devmounts.append(dir)
 							if len(devmounts):
 								for x in devmounts:
 									print("[BackupManager] search dir = %s" % devmounts)
-									if path.exists(x):
+									if exists(x):
 										self.thirdpartyPluginsLocation = x
 										try:
 											available = listdir(self.thirdpartyPluginsLocation)
@@ -679,8 +679,8 @@ class VISIONBackupManager(Screen):
 									# 									print('IPK:',ipk)
 									if fileparts[0] == ipk:
 										self.thirdpartyPluginsLocation = self.thirdpartyPluginsLocation.replace(' ', '%20')
-										ipk = path.join(self.thirdpartyPluginsLocation, file)
-										if path.exists(ipk):
+										ipk = join(self.thirdpartyPluginsLocation, file)
+										if exists(ipk):
 											# 											print('IPK', ipk)
 											self.pluginslist2.append(ipk)
 						print("[BackupManager] pluginslist = %s" % self.pluginslist2)
@@ -749,7 +749,7 @@ class VISIONBackupManager(Screen):
 		self.Stage4Completed = True
 		self.Stage5Completed = True
 		killE2ReBoot = "rm -f /tmp/backupkernelversion && /sbin/init 4 && sleep 10 && tar -xzvf " + self.BackupDirectory + self.sel + " -C / && /sbin/init 6"
-		if self.didPluginsRestore and fileExists("/tmp/backupkernelversion") or self.didSettingsRestore and fileExists("/tmp/backupkernelversion"):
+		if self.didPluginsRestore and isfile("/tmp/backupkernelversion") or self.didSettingsRestore and isfile("/tmp/backupkernelversion"):
 			print('[BackupManager] Restoring backup')
 			self.Console.ePopen("%s" % killE2ReBoot, self.Stage1SettingsComplete, self.session.open(MessageBox, _("Finishing restore, your receiver go to restart."), MessageBox.TYPE_INFO))
 		else:
@@ -1216,44 +1216,46 @@ class BackupFiles(Screen):
 
 	def JobStart(self):
 		self.selectedFiles = config.backupmanager.backupdirs.value
-		if path.exists('/etc/wpa_supplicant.ath0.conf') and '/etc/wpa_supplicant.ath0.conf' not in self.selectedFiles:
+		if isfile('/etc/wpa_supplicant.ath0.conf') and '/etc/wpa_supplicant.ath0.conf' not in self.selectedFiles:
 			self.selectedFiles.append('/etc/wpa_supplicant.ath0.conf')
-		if path.exists('/etc/wpa_supplicant.wlan0.conf') and '/etc/wpa_supplicant.wlan0.conf' not in self.selectedFiles:
+		if isfile('/etc/wpa_supplicant.wlan0.conf') and '/etc/wpa_supplicant.wlan0.conf' not in self.selectedFiles:
 			self.selectedFiles.append('/etc/wpa_supplicant.wlan0.conf')
-		if path.exists('/etc/auto.network') and '/etc/auto.network' not in self.selectedFiles:
+		if exists('/etc/auto.network') and '/etc/auto.network' not in self.selectedFiles:
 			self.selectedFiles.append('/etc/auto.network')
-		if path.exists('/usr/crossepg/crossepg.config') and '/usr/crossepg/crossepg.config' not in self.selectedFiles:
+		if isfile('/usr/crossepg/crossepg.config') and '/usr/crossepg/crossepg.config' not in self.selectedFiles:
 			self.selectedFiles.append('/usr/crossepg/crossepg.config')
-		if path.exists('/usr/crossepg/providers') and '/usr/crossepg/providers' not in self.selectedFiles:
+		if exists('/usr/crossepg/providers') and '/usr/crossepg/providers' not in self.selectedFiles:
 			self.selectedFiles.append('/usr/crossepg/providers')
-		if path.exists('/usr/lib/sabnzbd') and '/usr/lib/sabnzbd' not in self.selectedFiles:
+		if exists('/usr/lib/sabnzbd') and '/usr/lib/sabnzbd' not in self.selectedFiles:
 			self.selectedFiles.append('/usr/lib/sabnzbd')
-#		if path.exists("/etc/samba") and "/etc/samba" not in self.selectedFiles:
+#		if exists("/etc/samba") and "/etc/samba" not in self.selectedFiles:
 #			self.selectedFiles.append("/etc/samba")
-		if path.exists("/etc/samba/smb-user.conf") and "/etc/samba/smb-user.conf" not in self.selectedFiles:
+		if isfile("/etc/samba/smb-user.conf") and "/etc/samba/smb-user.conf" not in self.selectedFiles:
 			self.selectedFiles.append("/etc/samba/smb-user.conf")
-		if path.exists("/etc/samba/private") and "/etc/samba/private" not in self.selectedFiles:
+		if exists("/etc/samba/private") and "/etc/samba/private" not in self.selectedFiles:
 			self.selectedFiles.append("/etc/samba/private")
-		if path.exists('/usr/keys') and '/etc/CCcam.cfg' not in self.selectedFiles:
+		if exists('/usr/keys') and '/etc/CCcam.cfg' not in self.selectedFiles:
 			self.selectedFiles.append('/usr/keys')
-		if path.exists('/opt') and '/opt' not in self.selectedFiles:
+		if exists('/opt') and '/opt' not in self.selectedFiles:
 			self.selectedFiles.append('/opt')
-		if path.exists('/usr/script') and '/usr/script' not in self.selectedFiles:
+		if exists('/usr/script') and '/usr/script' not in self.selectedFiles:
 			self.selectedFiles.append('/usr/script')
-		if path.exists('/usr/sundtek') and '/usr/sundtek' not in self.selectedFiles:
+		if exists('/usr/sundtek') and '/usr/sundtek' not in self.selectedFiles:
 			self.selectedFiles.append('/usr/sundtek')
-		if path.exists('/etc/rc3.d/S99tuner.sh') and '/etc/rc3.d/S99tuner.sh' not in self.selectedFiles:
+		if isfile('/etc/rc3.d/S99tuner.sh') and '/etc/rc3.d/S99tuner.sh' not in self.selectedFiles:
 			self.selectedFiles.append('/etc/rc3.d/S99tuner.sh')
-		if path.exists('/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom/favourites.xml') and '/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom/favourites.xml' not in self.selectedFiles:
-			self.selectedFiles.append('/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom/favourites.xml')
-		if path.exists('/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/providers/terrestrial_finder.xml') and '/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/providers/terrestrial_finder.xml' not in self.selectedFiles:
-			self.selectedFiles.append('/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/providers/terrestrial_finder.xml')
-		if path.exists('/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom'):
-			for custommix in glob.glob('/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom/*CustomMix.xml'):
+		favouritesxml = resolveFilename(SCOPE_PLUGINS, "SystemPlugins/AutoBouquetsMaker/custom/favourites.xml")
+		terrestrialfinderxml = resolveFilename(SCOPE_PLUGINS, "SystemPlugins/AutoBouquetsMaker/providers/terrestrial_finder.xml")
+		if isfile(favouritesxml) and favouritesxml not in self.selectedFiles:
+			self.selectedFiles.append(favouritesxml)
+		if isfile(terrestrialfinderxml) and terrestrialfinderxml not in self.selectedFiles:
+			self.selectedFiles.append(terrestrialfinderxml)
+		if exists(resolveFilename(SCOPE_PLUGINS, "SystemPlugins/AutoBouquetsMaker/custom")):
+			for custommix in glob('/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom/*CustomMix.xml'):
 				if custommix not in self.selectedFiles:
 					self.selectedFiles.append(custommix)
-		if path.exists("/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom/favourites.xml") and "/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom/favourites.xml" not in self.selectedFiles:
-			self.selectedFiles.append("/usr/lib/enigma2/python/Plugins/SystemPlugins/AutoBouquetsMaker/custom/favourites.xml")
+		if isfile(favouritesxml) and favouritesxml not in self.selectedFiles:
+			self.selectedFiles.append(favouritesxml)
 
 		# temp measure: clear "/etc/samba" from settings as this is a system config location, not user files
 		if "/etc/samba" in self.selectedFiles:
@@ -1264,7 +1266,7 @@ class BackupFiles(Screen):
 		configfile.save()
 
 		try:
-			if not path.exists(self.BackupDirectory):
+			if not exists(self.BackupDirectory):
 				mkdir(self.BackupDirectory, 0o755)
 		except Exception as e:
 			print(str(e))
@@ -1306,7 +1308,7 @@ class BackupFiles(Screen):
 						break
 			open('/tmp/ExtraInstalledPlugins', 'w').write('\n'.join(plugins_out))
 
-		if path.exists('/tmp/ExtraInstalledPlugins'):
+		if isfile('/tmp/ExtraInstalledPlugins'):
 			print('[BackupManager] Listing completed.')
 			self.Stage2Completed = True
 		else:
@@ -1322,7 +1324,7 @@ class BackupFiles(Screen):
 		self.Stage3Completed = True
 
 	def Stage4(self):
-		if config.backupmanager.xtraplugindir.value and path.exists(config.backupmanager.xtraplugindir.value):
+		if config.backupmanager.xtraplugindir.value and exists(config.backupmanager.xtraplugindir.value):
 			with open("/tmp/3rdPartyPlugins", "w") as output:
 				for file in listdir(config.backupmanager.xtraplugindir.value):
 					if file.endswith(".ipk"):
@@ -1341,9 +1343,9 @@ class BackupFiles(Screen):
 		tmplist.append("/tmp/ExtraInstalledPlugins")
 		tmplist.append("/tmp/backupkernelversion")
 		tmplist.append("/tmp/backupimageversion")
-		if path.exists("/tmp/3rdPartyPlugins"):
+		if isfile("/tmp/3rdPartyPlugins"):
 			tmplist.append("/tmp/3rdPartyPlugins")
-		if path.exists("/tmp/3rdPartyPluginsLocation"):
+		if isfile("/tmp/3rdPartyPluginsLocation"):
 			tmplist.append("/tmp/3rdPartyPluginsLocation")
 		self.backupdirs = " ".join(tmplist)
 		config.misc.restorewizardrun.setValue(True)
@@ -1399,7 +1401,7 @@ class BackupFiles(Screen):
 		try:
 			if config.backupmanager.types_to_prune.value != "none" \
 			 and config.backupmanager.number_to_keep.value > 0 \
-			 and path.exists(self.BackupDirectory): # !?!
+			 and exists(self.BackupDirectory): # !?!
 				backups = listdir(self.BackupDirectory)
 # Only try to delete backups with the current user prefix
 				emlist = []
@@ -1412,7 +1414,7 @@ class BackupFiles(Screen):
 						elif config.backupmanager.types_to_prune.value == "auto" and ("-Sch-" in fil or "-IM-" in fil or "-SU-" in fil):
 							emlist.append(fil)
 # sort by oldest first...
-				emlist.sort(key=lambda fil: path.getmtime(self.BackupDirectory + fil))
+				emlist.sort(key=lambda fil: getmtime(self.BackupDirectory + fil))
 # ...then, if we have too many, remove the <n> newest from the end
 # and delete what is left
 				if len(emlist) > config.backupmanager.number_to_keep.value:
