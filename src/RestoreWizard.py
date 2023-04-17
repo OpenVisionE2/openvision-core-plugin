@@ -137,6 +137,8 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 		if self.NextStep == 'reboot':
 			if BoxInfo.getItem("hasKexec"):
 				slot = getCurrentImage()
+			if self.didSettingsRestore:
+				self.Console.ePopen("tar -xzvf " + self.fullbackupfilename + " -C /" + " etc/enigma2/settings")
 			kille2reboot = "sleep 10 && killall -9 enigma2 && init 6"
 			self.Console.ePopen("%s" % kille2reboot, self.session.open(MessageBox, _("Finishing restore, your receiver go to restart."), MessageBox.TYPE_INFO))
 		elif self.NextStep == 'settingsquestion' or self.NextStep == 'settingsrestore' or self.NextStep == 'pluginsquestion' or self.NextStep == 'pluginsrestoredevice' or self.NextStep == 'end' or self.NextStep == 'noplugins':
