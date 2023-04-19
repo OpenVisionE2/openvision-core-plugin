@@ -10,7 +10,7 @@ from Screens.HelpMenu import ShowRemoteControl
 from Screens.MessageBox import MessageBox
 from Tools.Directories import fileExists, resolveFilename, SCOPE_PLUGINS
 from Components.SystemInfo import BoxInfo
-from Tools.Multiboot import getCurrentImage
+from Tools.MultiBoot import getCurrentImage
 
 currentkernelversion = BoxInfo.getItem("kernel")
 visionversion = BoxInfo.getItem("imgversion")
