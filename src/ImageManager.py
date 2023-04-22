@@ -403,7 +403,7 @@ class VISIONImageManager(Screen):
 			return
 		print("[ImageManager][keyRestore] self.sel getCurrentImage", self.sel, "   ", getCurrentImage())
 		if getCurrentImage() == 0 and self.isVuKexecCompatibleImage(self.sel): # only if Vu multiboot has been enabled and the image is compatible
-			message = (_("Do you want to flash Recovery image?\nThis will change all eMMC slots.") if "VuSlot0" in self.sel else _("This selection will flash the Recovery image.\nWe advise flashing new image to a MultiBoot slot and restoring (default) settings backup.")) + "\n" + _("Select 'no' to flash a MultiBoot slot.")
+			message = (_("Do you want to flash Recovery image?\nThis will change all eMMC slots.") if "VuSlot0" in self.sel else _("This selection will flash the Recovery image.\nWe advise flashing new image to a MultiBoot slot and restoring (default) settings backup.\nSelect \"NO\" to flash a MultiBoot slot."))
 			ybox = self.session.openWithCallback(self.keyRestorez0, MessageBox, message, default=False)
 			ybox.setTitle(_("Restore confirmation"))
 		else:
@@ -438,7 +438,7 @@ class VISIONImageManager(Screen):
 		if recordings or (next_rec_time > 0 and (next_rec_time - time()) < 360):
 			message = _("Recording(s) are in progress or coming up in few seconds!\nDo you still want to flash image\n%s?") % self.sel
 		else:
-			message = _("Do you want to flash image\n%s") % self.sel
+			message = _("Do you want to flash image?\n%s") % self.sel
 		if BoxInfo.getItem("canMultiBoot") is False:
 			if config.imagemanager.autosettingsbackup.value:
 				self.doSettingsBackup()
