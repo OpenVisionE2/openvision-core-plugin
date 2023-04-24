@@ -274,12 +274,12 @@ class VISIONImageManager(Screen):
 			if mountpointchoices:
 				self.BackupDirectory = config.imagemanager.backuplocation.value + "/imagebackups/"
 				config.imagemanager.backuplocation.save()
+			try:
 				size = statvfs(config.imagemanager.backuplocation.value)
 				free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
 				self["lab7"].setText(_("Device: ") + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select what you want to do"))
 				if not path.exists(config.imagemanager.backuplocation.value + '/imagebackups'):
 					mkdir(config.imagemanager.backuplocation.value + '/imagebackups', 0o755)
-			try:
 				if path.exists(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup"):
 					system("swapoff " + self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
 					remove(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
@@ -499,7 +499,7 @@ class VISIONImageManager(Screen):
 		else:
 			self.TEMPDESTROOT = self.BackupDirectory + "imagerestore"
 		if self.sel.endswith(".zip"):
-			if not path.exists(self.TEMPDESTROOT):
+			if not path.exists(self.TEMPDESTROOT) and path.ismount(self.BackupDirectory):
 				mkdir(self.TEMPDESTROOT, 0o755)
 			self.Console.ePopen("unzip -o %s%s -d %s" % (self.BackupDirectory, self.sel, self.TEMPDESTROOT), self.keyRestore4)
 		else:
@@ -522,7 +522,7 @@ class VISIONImageManager(Screen):
 				else:
 					self.keyRestore6(0)
 		else:
-			self.session.openWithCallback(self.restore_infobox.close, MessageBox, _("Unzip error (also sent to any debug log):\n%s") % result, MessageBox.TYPE_INFO, timeout=20)
+			self.session.openWithCallback(self.restore_infobox.close, MessageBox, _("Unzip error the device is not mounted:\n%s") % result, MessageBox.TYPE_INFO, timeout=20)
 			print("[ImageManager] unzip failed:\n", result)
 			self.close()
 
