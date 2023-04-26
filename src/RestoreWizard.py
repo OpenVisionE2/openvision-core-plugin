@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from . import _
-from os import listdir, path, stat
-from Components.About import about
+from os import listdir, stat
+from os.path import isfile, isdir, join, exists
 from Components.Console import Console
 from Components.Pixmap import Pixmap
 from Components.Sources.StaticText import StaticText
 from Screens.WizardLanguage import WizardLanguage
 from Screens.HelpMenu import ShowRemoteControl
 from Screens.MessageBox import MessageBox
-from Tools.Directories import fileExists, resolveFilename, SCOPE_PLUGINS
+from Tools.Directories import resolveFilename, SCOPE_PLUGINS
 from Components.SystemInfo import BoxInfo
 from Tools.MultiBoot import getCurrentImage
 
@@ -55,11 +55,11 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 		mtimes = []
 		defaultprefix = BoxInfo.getItem("distro")[4:]
 
-		for dir in ["/media/%s/backup" % media for media in listdir("/media/") if path.isdir(path.join("/media/", media))]:
+		for dir in ["/media/%s/backup" % media for media in listdir("/media/") if isdir(join("/media/", media))]:
 			devmounts.append(dir)
 		if len(devmounts):
 			for devpath in devmounts:
-				if path.exists(devpath):
+				if exists(devpath):
 					try:
 						files = listdir(devpath)
 					except:
@@ -69,7 +69,7 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 				if len(files):
 					for file in files:
 						if file.endswith(".tar.gz") and "vision" in file.lower() or file.startswith("%s" % defaultprefix):
-							mtimes.append((path.join(devpath, file), stat(path.join(devpath, file)).st_mtime)) # (filname, mtime)
+							mtimes.append((join(devpath, file), stat(join(devpath, file)).st_mtime)) # (filname, mtime)
 		for file in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]: # sort by mtime
 			list.append((file, file))
 		return list
@@ -190,7 +190,7 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 
 	def doRestoreSettings1(self):
 		print('[RestoreWizard] Stage 1: Check version')
-		if fileExists('/tmp/backupkernelversion'):
+		if isfile('/tmp/backupkernelversion'):
 			kernelversion = open('/tmp/backupkernelversion').read()
 			print('[RestoreWizard] Current kernelversion:', kernelversion)
 			if kernelversion == str(currentkernelversion):
@@ -234,7 +234,7 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 
 	def doRestorePlugins1(self):
 		print('[RestoreWizard] Stage 3: Check Kernel')
-		if fileExists('/tmp/backupkernelversion') and fileExists('/tmp/backupimageversion'):
+		if isfile('/tmp/backupkernelversion') and isfile('/tmp/backupimageversion'):
 			imageversion = open('/tmp/backupimageversion').read()
 			kernelversion = open('/tmp/backupkernelversion').read()
 			print('[RestoreWizard] Backup image:', imageversion)
@@ -302,7 +302,7 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 		self.pluginslist = ""
 		self.pluginslist2 = ""
 		plugins = []
-		if path.exists('/tmp/ExtraInstalledPlugins'):
+		if isfile('/tmp/ExtraInstalledPlugins'):
 			self.pluginslist = []
 			for line in result.split("\n"):
 				if line:
@@ -315,9 +315,9 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 					if len(parts) > 0 and parts[0] not in plugins:
 						self.pluginslist.append(parts[0])
 
-		if path.exists('/tmp/3rdPartyPlugins'):
+		if isfile('/tmp/3rdPartyPlugins'):
 			self.pluginslist2 = []
-			if path.exists('/tmp/3rdPartyPluginsLocation'):
+			if isfile('/tmp/3rdPartyPluginsLocation'):
 				self.thirdpartyPluginsLocation = open('/tmp/3rdPartyPluginsLocation', 'r').readlines()
 				self.thirdpartyPluginsLocation = "".join(self.thirdpartyPluginsLocation)
 				self.thirdpartyPluginsLocation = self.thirdpartyPluginsLocation.replace('\n', '')
@@ -333,19 +333,19 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 					parts = line.strip().split('_')
 					if parts[0] not in plugins:
 						ipk = parts[0]
-						if path.exists(self.thirdpartyPluginsLocation):
+						if exists(self.thirdpartyPluginsLocation):
 							available = listdir(self.thirdpartyPluginsLocation)
 						else:
 							devmounts = []
 							files = []
 							self.plugfile = self.plugfiles[3]
-							for dir in ["/media/%s/%s" % (media, self.plugfile) for media in listdir("/media/") if path.isdir(path.join("/media/", media))]:
+							for dir in ["/media/%s/%s" % (media, self.plugfile) for media in listdir("/media/") if isdir(join("/media/", media))]:
 								if media != "autofs" or "net":
 									devmounts.append(dir)
 							if len(devmounts):
 								for x in devmounts:
 									print("[BackupManager] Search dir = %s" % devmounts)
-									if path.exists(x):
+									if exists(x):
 										self.thirdpartyPluginsLocation = x
 										try:
 											available = listdir(self.thirdpartyPluginsLocation)
@@ -358,8 +358,8 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 									fileparts = file.strip().split('_')
 									if fileparts[0] == ipk:
 										self.thirdpartyPluginsLocation = self.thirdpartyPluginsLocation.replace(' ', '%20')
-										ipk = path.join(self.thirdpartyPluginsLocation, file)
-										if path.exists(ipk):
+										ipk = join(self.thirdpartyPluginsLocation, file)
+										if exists(ipk):
 											self.pluginslist2.append(ipk)
 
 		if len(self.pluginslist) or len(self.pluginslist2):

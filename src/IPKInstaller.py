@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-# for localized messages
-from os import listdir, path
-
 from . import _
+from os import listdir
+from os.path import exists, ismount, join
+
 from Components.config import config
 from Components.ActionMap import ActionMap
 from Components.Label import Label
@@ -92,7 +92,7 @@ class VISIONIPKInstaller(Screen):
 				message = _("It seems you have not setup an extra location. Please set it up in the Backup manager setup menu.")
 				ybox = self.session.open(MessageBox, message, MessageBox.TYPE_INFO)
 				ybox.setTitle(_("Change location"))
-			elif self.defaultDir and not path.exists(self.defaultDir):
+			elif self.defaultDir and not exists(self.defaultDir):
 				message = _("Sorry but that location does not exist or is not setup. Please set it up in the Backup manager setup menu.")
 				ybox = self.session.open(MessageBox, message, MessageBox.TYPE_INFO)
 				ybox.setTitle(_("Change location"))
@@ -118,7 +118,7 @@ class VISIONIPKInstaller(Screen):
 				self["key_green"].setText(_("Install"))
 				self['lab7'].setText(_("Select a package to install:"))
 
-		if path.ismount('/media/usb'):
+		if ismount('/media/usb'):
 			f = listdir('/media/usb')
 			for line in f:
 				if line.find('.ipk') != -1:
@@ -139,7 +139,7 @@ class VISIONIPKInstaller(Screen):
 			sel = self['list'].getCurrent()
 			if sel:
 				self.defaultDir = self.defaultDir.replace(' ', '%20')
-				cmd1 = "/usr/bin/opkg install " + path.join(self.defaultDir, sel)
+				cmd1 = "/usr/bin/opkg install " + join(self.defaultDir, sel)
 				self.session.openWithCallback(self.installFinished(sel), Console, title=_("Installing..."), cmdlist=[cmd1], closeOnSuccess=True)
 
 	def installFinished(self, sel):

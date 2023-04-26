@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
+from . import _
 from six import ensure_str
 
 import errno
-from os import mkdir, path, remove, rename, statvfs, system
-import re
+from os import mkdir, remove, rename
+from os.path import exists, realpath, join, isfile
+from re import search
 
 from enigma import eTimer
-
-from . import _
 
 from Components.ActionMap import ActionMap
 from Components.Label import Label
@@ -22,7 +22,8 @@ from Screens.Screen import Screen
 from Screens.Standby import QUIT_REBOOT, TryQuitMainloop
 from Tools.LoadPixmap import LoadPixmap
 from Tools.Directories import SCOPE_GUISKIN, resolveFilename, SCOPE_PLUGINS
-from re import search
+
+HasSDnomount = BoxInfo.getItem("HasSDnomount")
 
 blacklistedDisks = [
 	1,  	# RAM disk (/dev/ram0=0, /dev/initrd=250 [250=Initial RAM disk for old systems, new systems use 0])
@@ -61,19 +62,19 @@ def getProcPartitions(partitionList):
 			if devMajor in blacklistedDisks:  # Ignore all blacklisted devices.
 				continue
 			if devMajor == 179:
-				if not BoxInfo.getItem("HasSDnomount"):  # Only interested in h9/i55/h9combo(+dups) mmc partitions.  h9combo(+dups) uses mmcblk1p[0-3].
+				if not HasSDnomount:  # Only interested in h9/i55/h9combo(+dups) mmc partitions.  h9combo(+dups) uses mmcblk1p[0-3].
 					continue
 				if BoxInfo.getItem("HasH9SD"):
-					if not re.search("mmcblk0p1", device):  # h9/i55 only mmcblk0p1 mmc partition
+					if not search("mmcblk0p1", device):  # h9/i55 only mmcblk0p1 mmc partition
 						continue
 					if BoxInfo.getItem("HasMMC"):  # With h9/i55 reject mmcblk0p1 mmc partition if root device.
 						continue
-				if BoxInfo.getItem("HasSDnomount")[0] and not re.search("mmcblk1p[0-3]", device):  # h9combo(+dups) uses mmcblk1p[0-3] include
+				if HasSDnomount[0] and not search("mmcblk1p[0-3]", device):  # h9combo(+dups) uses mmcblk1p[0-3] include
 					continue
 			if devMajor == 8:
-				if not re.search("sd[a-z][1-9]", device):  # If storage use partitions only.
+				if not search("sd[a-z][1-9]", device):  # If storage use partitions only.
 					continue
-				if BoxInfo.getItem("HiSilicon") and path.exists("/dev/sda4") and re.search("sd[a][1-4]", device):  # Sf8008 using SDcard for slots ---> exclude
+				if BoxInfo.getItem("HiSilicon") and exists("/dev/sda4") and search("sd[a][1-4]", device):  # Sf8008 using SDcard for slots ---> exclude
 					continue
 			if device in partitions:  # If device is already in partition list ignore it.
 				continue
@@ -82,15 +83,15 @@ def getProcPartitions(partitionList):
 
 
 def buildPartitionInfo(partition, partitionList):
-	if re.search("mmcblk[0-1]p[0-3]", partition):
-		device = re.sub("p[0-9]", "", partition)
+	if search("mmcblk[0-1]p[0-3]", partition):
+		device = sub("p[0-9]", "", partition)
 	else:
-		device = re.sub("[0-9]", "", partition)
-	physicalDevice = path.realpath(path.join("/sys/block", device, "device"))
+		device = sub("[0-9]", "", partition)
+	physicalDevice = realpath(join("/sys/block", device, "device"))
 
-	description = readFile(path.join(physicalDevice, "model"))
+	description = readFile(join(physicalDevice, "model"))
 	if description is None:
-		description = readFile(path.join(physicalDevice, "name"))
+		description = readFile(join(physicalDevice, "name"))
 	if description is None:
 		description = _("Device %s") % partition
 	description = str(description).replace("\n", "")
@@ -107,7 +108,7 @@ def buildPartitionInfo(partition, partitionList):
 	name = _("%s: " % pngType.upper())
 	name += description
 
-	if path.exists(resolveFilename(SCOPE_GUISKIN, "visioncore/dev_%s.png" % pngType)):
+	if isfile(resolveFilename(SCOPE_GUISKIN, "visioncore/dev_%s.png" % pngType)):
 		mypixmap = resolveFilename(SCOPE_GUISKIN, "visioncore/dev_%s.png" % pngType)
 	else:
 		mypixmap = resolveFilename(SCOPE_PLUGINS, "SystemPlugins/Vision/images/dev_%s.png" % pngType)
@@ -313,7 +314,7 @@ class VISIONDevicesPanel(Screen):
 			mountp = parts[1].replace(_("Mount: "), "")
 			device = parts[2].replace(_("Device: "), "")
 			# print("[MountManager][unmount] mountp=%s device=%s" % (mountp, device))
-			exitStatus = system("umount %s" % mountp)
+			exitStatus = Console.ePopen("umount %s" % mountp)
 			if exitStatus == 0:
 				self.session.open(MessageBox, _("Partition: %s  Mount: %s unmounted successfully; if all partitions now unmounted you can remove device.") % (device, mountp), MessageBox.TYPE_INFO)
 				self.setTimer()
@@ -331,7 +332,7 @@ class VISIONDevicesPanel(Screen):
 			mountp = parts[1].replace(_("Mount: "), "")
 			device = parts[2].replace(_("Device: "), "")
 			# print("[MountManager][mount] mountp=%s device=%s" % (mountp, device))
-			exitStatus = system("mount %s" % device)
+			exitStatus = Console.ePopen("mount %s" % device)
 			if exitStatus != 0:
 				self.session.open(MessageBox, _("Mount failed for '%s', error code = '%s'.") % (sel, exitStatus), MessageBox.TYPE_INFO, timeout=10)
 			self.setTimer()
@@ -358,7 +359,7 @@ class VISIONDevicesPanel(Screen):
 			self.mountp = extra_args[1]
 			self.device_uuid = "UUID=" + result.split("UUID=")[1].split(" ")[0].replace('"', '')
 			# print("[MountManager1][addFstab1]: device = %s, mountp=%s, UUID=%s" %(self.device, self.mountp, self.device_uuid))
-			if not path.exists(self.mountp):
+			if not exists(self.mountp):
 				mkdir(self.mountp, 0o755)
 			open("/etc/fstab.tmp", "w").writelines([l for l in open("/etc/fstab").readlines() if "/media/hdd" not in l])
 			rename("/etc/fstab.tmp", "/etc/fstab")
@@ -516,8 +517,8 @@ class DeviceMountSetup(Screen, ConfigListScreen):
 		if result:
 			self.device = extra_args[0]
 			self.mountp = extra_args[1]
-			uuid = re.search('UUID=\"([^\"]+)\"', result)
-			type = re.search('TYPE=\"([^\"]+)\"', result)
+			uuid = search('UUID=\"([^\"]+)\"', result)
+			type = search('TYPE=\"([^\"]+)\"', result)
 			if uuid and type:
 				self.device_uuid = "UUID=" + uuid.group(1)
 				self.device_type = type.group(1)
@@ -528,7 +529,7 @@ class DeviceMountSetup(Screen, ConfigListScreen):
 					self.device_type = "ntfs-3g"
 				elif self.device_type.startswith("ntfs") and result.find("ntfs-3g") == -1:
 					self.device_type = "ntfs"
-				if not path.exists(self.mountp):
+				if not exists(self.mountp):
 					mkdir(self.mountp, 0o755)
 				open("/etc/fstab.tmp", "w").writelines([l for l in open("/etc/fstab").readlines() if self.device not in l])
 				rename("/etc/fstab.tmp", "/etc/fstab")

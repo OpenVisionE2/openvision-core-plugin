@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import gettext
+from gettext import bindtextdomain, dgettext, gettext
 from Components.Language import language
 from Tools.Directories import resolveFilename, SCOPE_PLUGINS
 
@@ -13,15 +13,15 @@ def pluginlanguagedomain():
 
 
 def localeInit():
-	gettext.bindtextdomain(PluginLanguageDomain, resolveFilename(SCOPE_PLUGINS, PluginLanguagePath))
+	bindtextdomain(PluginLanguageDomain, resolveFilename(SCOPE_PLUGINS, PluginLanguagePath))
 
 
 def _(txt):
-	if gettext.dgettext(PluginLanguageDomain, txt):
-		return gettext.dgettext(PluginLanguageDomain, txt)
+	if dgettext(PluginLanguageDomain, txt):
+		return dgettext(PluginLanguageDomain, txt)
 	else:
 		print("[" + PluginLanguageDomain + "] Fallback to default translation for " + txt)
-		return gettext.gettext(txt)
+		return gettext(txt)
 
 
 localeInit()

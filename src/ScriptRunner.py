@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
-# for localized messages
 from . import _, PluginLanguageDomain
 
 from Screens.Screen import Screen
 from Screens.Console import Console
 from Screens.Setup import Setup
 from Components.ActionMap import ActionMap
-from Components.Label import Label
 from Components.Sources.StaticText import StaticText
 from Components.config import config, ConfigSubsection, ConfigYesNo
 from . IPKInstaller import OpkgInstaller
 from Components.PluginComponent import plugins
 from Tools.Directories import resolveFilename, SCOPE_PLUGINS
-from os import path, mkdir, listdir, rename
+from os import mkdir, listdir, rename
+from os.path import exists
 
 config.scriptrunner = ConfigSubsection()
 config.scriptrunner.close = ConfigYesNo(default=False)
@@ -35,9 +34,9 @@ class VISIONScriptRunner(OpkgInstaller):
 	def __init__(self, session, list=None):
 		if not list:
 			list = []
-			if path.exists('/usr/scripts') and not path.exists('/usr/script'):
+			if exists('/usr/scripts') and not exists('/usr/script'):
 				rename('/usr/scripts', '/usr/script')
-			if not path.exists('/usr/script'):
+			if not exists('/usr/script'):
 				mkdir('/usr/script', 0o755)
 			f = listdir('/usr/script')
 			for line in f:

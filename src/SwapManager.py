@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-# for localized messages
-from os import system, stat as mystat, path, remove, rename
+from . import _
+from os import stat as mystat, remove, rename
+from os.path import normpath, exists, isfile
 from glob import glob
 import stat
 
 from enigma import eTimer
 
-from . import _
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
 from Screens.ChoiceBox import ChoiceBox
@@ -58,15 +58,15 @@ class StartSwap:
 		else:
 			devicelist = []
 			for p in harddiskmanager.getMountedPartitions():
-				d = path.normpath(p.mountpoint)
-				if (path.exists(p.mountpoint) and p.mountpoint != "/"
+				d = normpath(p.mountpoint)
+				if (exists(p.mountpoint) and p.mountpoint != "/"
 					 and not p.mountpoint.startswith("/media/net/")
 					 and not p.mountpoint.startswith("/media/autofs/")):
 					devicelist.append((p.description, d))
 			if len(devicelist):
 				for device in devicelist:
 					for filename in glob(device[1] + "/swap*"):
-						if path.exists(filename):
+						if exists(filename):
 							swap_place = filename
 							print("[SwapManager] Found a swap file on ", swap_place)
 
@@ -74,7 +74,7 @@ class StartSwap:
 		swapfile = f.read()
 		if swapfile.find(swap_place) == -1:
 			print("[SwapManager] Starting swap file on ", swap_place)
-			system("swapon " + swap_place)
+			Console().ePopen("swapon %s" % swap_place)
 		else:
 			print("[SwapManager] Swap file is already active on ", swap_place)
 		f.close()
@@ -156,11 +156,11 @@ class VISIONSwap(Screen):
 
 	def getSwapDevice(self):
 		self.activityTimer.stop()
-		if path.exists('/etc/rcS.d/S98SwapManager'):
+		if isfile('/etc/rcS.d/S98SwapManager'):
 			remove('/etc/rcS.d/S98SwapManager')
 			config.visionsettings.swapautostart.value = True
 			config.visionsettings.swapautostart.save()
-		if path.exists('/tmp/swapdevices.tmp'):
+		if isfile('/tmp/swapdevices.tmp'):
 			remove('/tmp/swapdevices.tmp')
 		self.Console.ePopen("parted -l /dev/sd? | grep swap", self.updateSwap2)
 
@@ -191,8 +191,8 @@ class VISIONSwap(Screen):
 			self["key_blue"].setText(_("Create"))
 			devicelist = []
 			for p in harddiskmanager.getMountedPartitions():
-				d = path.normpath(p.mountpoint)
-				if path.exists("/media/"):
+				d = normpath(p.mountpoint)
+				if exists("/media/"):
 					devicelist.append((p.description, d))
 			if len(devicelist):
 				for device in devicelist:
@@ -203,7 +203,7 @@ class VISIONSwap(Screen):
 						self.swapsize = info[stat.ST_SIZE]
 						continue
 
-				if not path.exists("/media/") and p.mountpoint == "/":
+				if not exists("/media/") and p.mountpoint == "/":
 					devicelist.append((p.description, d))
 			if len(devicelist):
 				for device in devicelist:
