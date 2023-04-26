@@ -281,12 +281,12 @@ class VISIONImageManager(Screen):
 			if mountpointchoices:
 				self.BackupDirectory = config.imagemanager.backuplocation.value + "/imagebackups/"
 				config.imagemanager.backuplocation.save()
+			try:
 				size = statvfs(config.imagemanager.backuplocation.value)
 				free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
 				self["lab7"].setText(_("Device: ") + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select what you want to do"))
 				if not exists(config.imagemanager.backuplocation.value + '/imagebackups'):
 					mkdir(config.imagemanager.backuplocation.value + '/imagebackups', 0o755)
-			try:
 				if exists(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup"):
 					system("swapoff " + self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
 					remove(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + str(imageversion) + "-swapfile_backup")
@@ -408,9 +408,9 @@ class VISIONImageManager(Screen):
 		self.sel = self["list"].getCurrent() # (name, link)
 		if not self.sel:
 			return
-		print("[ImageManager][keyRestore] self.sel getCurrentImage", self.sel[0], "   ", getCurrentImage())
-		if getCurrentImage() == 0 and self.isVuKexecCompatibleImage(self.sel[0]): # only if Vu multiboot has been enabled and the image is compatible
-			message = (_("Do you want to flash Recovery image?\nThis will change all eMMC slots.") if "VuSlot0" in self.sel[0] else _("This selection will flash the Recovery image.\nWe advise flashing new image to a MultiBoot slot and restoring (default) settings backup.")) + "\n" + _("Select 'no' to flash a MultiBoot slot.")
+		print("[ImageManager][keyRestore] self.sel getCurrentImage", self.sel, "   ", getCurrentImage())
+		if getCurrentImage() == 0 and self.isVuKexecCompatibleImage(self.sel): # only if Vu multiboot has been enabled and the image is compatible
+			message = (_("Do you want to flash Recovery image?\nThis will change all eMMC slots.") if "VuSlot0" in self.sel else _("This selection will flash the Recovery image.\nWe advise flashing new image to a MultiBoot slot and restoring (default) settings backup.\nSelect \"NO\" to flash a MultiBoot slot."))
 			ybox = self.session.openWithCallback(self.keyRestorez0, MessageBox, message, default=False)
 			ybox.setTitle(_("Restore confirmation"))
 		else:
@@ -443,9 +443,9 @@ class VISIONImageManager(Screen):
 		if not recordings:
 			next_rec_time = self.session.nav.RecordTimer.getNextRecordingTime()
 		if recordings or (next_rec_time > 0 and (next_rec_time - time()) < 360):
-			message = _("Recording(s) are in progress or coming up in few seconds!\nDo you still want to flash image\n%s?") % self.sel[0]
+			message = _("Recording(s) are in progress or coming up in few seconds!\nDo you still want to flash image\n%s?") % self.sel
 		else:
-			message = _("Do you want to flash image\n%s") % self.sel[0]
+			message = _("Do you want to flash image?\n%s") % self.sel
 		if not canMultiBoot:
 			if config.imagemanager.autosettingsbackup.value:
 				self.doSettingsBackup()
@@ -506,7 +506,7 @@ class VISIONImageManager(Screen):
 		else:
 			self.TEMPDESTROOT = self.BackupDirectory + "imagerestore"
 		if self.sel.endswith(".zip"):
-			if not exists(self.TEMPDESTROOT):
+			if not exists(self.TEMPDESTROOT) and ismount(self.BackupDirectory):
 				mkdir(self.TEMPDESTROOT, 0o755)
 			self.Console.ePopen("unzip -o %s%s -d %s" % (self.BackupDirectory, self.sel, self.TEMPDESTROOT), self.keyRestore4)
 		else:
@@ -529,7 +529,7 @@ class VISIONImageManager(Screen):
 				else:
 					self.keyRestore6(0)
 		else:
-			self.session.openWithCallback(self.restore_infobox.close, MessageBox, _("Unzip error (also sent to any debug log):\n%s") % result, MessageBox.TYPE_INFO, timeout=20)
+			self.session.openWithCallback(self.restore_infobox.close, MessageBox, _("Unzip error the device is not mounted:\n%s") % result, MessageBox.TYPE_INFO, timeout=20)
 			print("[ImageManager] unzip failed:\n", result)
 			self.close()
 
