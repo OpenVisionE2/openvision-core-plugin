@@ -308,7 +308,7 @@ class VISIONImageManager(Screen):
 	def doDownload(self):
 		try:
 			if self.BackupDirectory:
-				choices = [("Open Vision", config.imagemanager.imagefeed_OV), ("OpenATV", config.imagemanager.imagefeed_ATV), ("OpenPLi", config.imagemanager.imagefeed_PLi), ("OpenViX", config.imagemanager.imagefeed_ViX), ("OpenBh", config.imagemanager.imagefeed_OBH)]
+				choices = [("Open Vision", config.imagemanager.imagefeed_OV), ("ATV", config.imagemanager.imagefeed_ATV), ("OpenPLi", config.imagemanager.imagefeed_PLi), ("OpenViX", config.imagemanager.imagefeed_ViX), ("OpenBh", config.imagemanager.imagefeed_OBH)]
 				message = _("From which image library do you want to download?")
 				self.session.openWithCallback(self.doDownloadCallback, MessageBox, message, list=sorted(sorted(choices, key=lambda choice: choice[0]), key=lambda choice: choice[0] == distro, reverse=True), default=0, simple=True)
 		except OSError as err:
@@ -1523,7 +1523,7 @@ class ImageManagerDownload(Screen):
 
 	def __init__(self, session, BackupDirectory, ConfigObj):
 		Screen.__init__(self, session)
-		self.setTitle(_("%s downloads") % {config.imagemanager.imagefeed_OV: "Open Vision", config.imagemanager.imagefeed_ATV: "OpenATV", config.imagemanager.imagefeed_PLi: "OpenPLi", config.imagemanager.imagefeed_ViX: "OpenViX", config.imagemanager.imagefeed_OBH: "OpenBh"}.get(ConfigObj, ''))
+		self.setTitle(_("%s downloads") % {config.imagemanager.imagefeed_OV: "Open Vision", config.imagemanager.imagefeed_ATV: "ATV", config.imagemanager.imagefeed_PLi: "OpenPLi", config.imagemanager.imagefeed_ViX: "OpenViX", config.imagemanager.imagefeed_OBH: "OpenBh"}.get(ConfigObj, ''))
 		self.ConfigObj = ConfigObj
 		self.BackupDirectory = BackupDirectory
 		self["key_red"] = Button(_("Close"))
