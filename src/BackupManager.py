@@ -1157,7 +1157,7 @@ class BackupFiles(Screen):
 		self.schedulebackup = schedulebackup
 		self.BackupDevice = config.backupmanager.backuplocation.value
 		print("[BackupManager] Device: " + self.BackupDevice)
-		self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
+		self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/' if not config.backupmanager.backuplocation.value.endswith("/") else config.backupmanager.backuplocation.value + 'backup/'
 		print("[BackupManager] Directory: " + self.BackupDirectory)
 		self.Stage1Completed = False
 		self.Stage2Completed = False
