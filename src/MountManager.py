@@ -241,11 +241,12 @@ class VISIONDevicesPanel(Screen):
 		else:
 			size = statvfs(0)
 		free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
-		if harddiskmanager.HDDList() and partition != "None" and free != 0:
+		if harddiskmanager.HDDList():
 			self["key_red"] = StaticText("")
-			self["key_green"] = StaticText(_("Setup mounts"))
-			self["key_yellow"] = StaticText(_("Unmount"))
-			self["key_blue"] = StaticText(_("Mount"))
+			self["key_green"] = StaticText(_("Setup mounts")) if mount != "/" else StaticText("")
+			if partition != "None" and free > 0:
+				self["key_yellow"] = StaticText(_("Unmount"))
+			self["key_blue"] = StaticText(_("Mount")) if mount != "/" else StaticText("")
 		else:
 			self["key_green"] = StaticText("")
 			self["key_yellow"] = StaticText("")
@@ -308,15 +309,7 @@ class VISIONDevicesPanel(Screen):
 		BoxInfo.setItem("MountManager", True)
 		getProcPartitions(self.list)
 		self["list"].list = self.list
-		if exists(mount):
-			size = statvfs(mount)
-		else:
-			size = statvfs(0)
-		free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
-		if sel:
-			self["lab7"].hide() if partition != "None" and free != 0 else self["lab7"].setText(_("This device is not mounted.") if harddiskmanager.HDDList() else "")
-		else:
-			self["lab7"].hide() if partition != "None" and free != 0 else self["lab7"].setText(_("Your device is not available.\nRecommended reboot receiver.") if harddiskmanager.HDDList() else "")
+		self["lab7"].setText(_("No device available.")) if mount == "/" else self["lab7"].hide()
 
 	def setupMounts(self):
 		sel = self["list"].getCurrent()
@@ -324,6 +317,8 @@ class VISIONDevicesPanel(Screen):
 			self.session.openWithCallback(self.setTimer, DeviceMountSetup)	# print("[MountManager][setupMounts]")
 
 	def unmount(self):
+		if partition == "None":
+			return
 		sel = self["list"].getCurrent()
 		# print("[MountManager][unmount] sel1=%s sel2=%s" % (sel[0], sel[1]))
 		if sel:
@@ -342,19 +337,20 @@ class VISIONDevicesPanel(Screen):
 				return -1
 
 	def mount(self):
-		sel = self["list"].getCurrent()
-		# print("[MountManager][mount] sel1=%s sel2=%s" % (sel[0], sel[1]))
-		if sel:
-			des = sel[1]
-			des = des.replace("\n", "\t")
-			parts = des.strip().split("\t")
-			mountp = parts[1].replace(_("Mount: "), "")
-			device = parts[2].replace(_("Device: "), "")
-			# print("[MountManager][mount] mountp=%s device=%s" % (mountp, device))
-			exitStatus = Console.ePopen("mount %s" % device)
-			if exitStatus != 0:
-				self.session.open(MessageBox, _("Mount failed for '%s', error code = '%s'.") % (sel, exitStatus), MessageBox.TYPE_INFO, timeout=10)
-			self.setTimer()
+		if mount != "/":
+			sel = self["list"].getCurrent()
+			# print("[MountManager][mount] sel1=%s sel2=%s" % (sel[0], sel[1]))
+			if sel:
+				des = sel[1]
+				des = des.replace("\n", "\t")
+				parts = des.strip().split("\t")
+				mountp = parts[1].replace(_("Mount: "), "")
+				device = parts[2].replace(_("Device: "), "")
+				# print("[MountManager][mount] mountp=%s device=%s" % (mountp, device))
+				exitStatus = Console.ePopen("mount %s" % device)
+				if exitStatus != 0:
+					self.session.open(MessageBox, _("Mount failed for '%s', error code = '%s'.") % (sel, exitStatus), MessageBox.TYPE_INFO, timeout=10)
+				self.setTimer()
 
 	def saveMounts(self):
 		if len(self["list"].list) < 1:
