@@ -195,20 +195,24 @@ class VISIONBackupManager(Screen):
 		Components.Task.job_manager.in_background = in_background
 
 	def populate_List(self):
-		if config.backupmanager.backuplocation.getValue():
-			mount = config.backupmanager.backuplocation.value, config.backupmanager.backuplocation.value[:-1]
-		else:
-			mount = config.backupmanager.backuplocation.value
-		if mountpointchoices:
-			if not exists(config.backupmanager.backuplocation.value + '/backup'):
-				mkdir(config.backupmanager.backuplocation.value + '/backup', 0o755)
 		try:
+			if config.backupmanager.backuplocation.getValue():
+				mount = config.backupmanager.backuplocation.value, config.backupmanager.backuplocation.value[:-1]
+			else:
+				mount = config.backupmanager.backuplocation.value
+			if mountpointchoices:
+				if not exists(config.backupmanager.backuplocation.value + '/backup'):
+					mkdir(config.backupmanager.backuplocation.value + '/backup', 0o755)
+
 			if not config.backupmanager.backuplocation.value:
+				if harddiskmanager.HDDList():
+					from Screens.Standby import TryQuitMainloop
+					self.session.open(TryQuitMainloop, 2)
 				self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
 					"cancel": self.close,
 					"menu": self.createSetup
 				}, -1)
-				self["lab7"].setText(_("Device: No found or not mount") + "\n" + _("Check devices availables in Mount Manager"))
+				self["lab7"].setText(_("Device not available"))
 			else:
 				hdd = "/media/hdd/"
 				size = statvfs(config.backupmanager.backuplocation.value)
@@ -260,7 +264,7 @@ class VISIONBackupManager(Screen):
 				if not self.BackupRunning and config.backupmanager.backuplocation.value:
 					self["key_green"].setText(_("New backup"))
 		except OSError as err:
-			self["lab7"].setText(_("Device: None available") + "\n" + "%s" % err + "\n" + _("There is a problem with this device."))
+			self["lab7"].setText(_("Device not available") + "\n" + "%s" % err + "\n" + _("There is a problem with this device."))
 			self["list"].hide()
 			self["key_red"].setText("")
 			self["key_green"].setText("")
