@@ -302,6 +302,7 @@ class VISIONDevicesPanel(Screen):
 		self.activityTimer.start(10)
 
 	def findPartitions(self):
+		sel = self["list"].getCurrent()
 		self.activityTimer.stop()
 		self.list = []
 		BoxInfo.setItem("MountManager", True)
@@ -312,7 +313,10 @@ class VISIONDevicesPanel(Screen):
 		else:
 			size = statvfs(0)
 		free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
-		self["lab7"].hide() if partition != "None" and free != 0 else self["lab7"].setText(_("Your device is not available.\nRecommended reboot receiver.") if harddiskmanager.HDDList() else _("Device is not available."))
+		if sel:
+			self["lab7"].hide() if partition != "None" and free != 0 else self["lab7"].setText(_("This device is not mounted.") if harddiskmanager.HDDList() else "")
+		else:
+			self["lab7"].hide() if partition != "None" and free != 0 else self["lab7"].setText(_("Your device is not available.\nRecommended reboot receiver.") if harddiskmanager.HDDList() else "")
 
 	def setupMounts(self):
 		sel = self["list"].getCurrent()

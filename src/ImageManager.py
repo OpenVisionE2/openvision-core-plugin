@@ -58,7 +58,7 @@ mountpointchoices = []
 partitions = sorted(harddiskmanager.getMountedPartitions(), key=lambda partitions: partitions.device or "")
 for parts in partitions:
 	partition = join(str(parts.device))
-	mount = join(str(parts.mountpoint))
+	nameDevice = join(str(parts.description))
 	if exists(parts.mountpoint):
 		d = normpath(parts.mountpoint)
 		if canMultiBoot:
@@ -201,6 +201,8 @@ class VISIONImageManager(Screen):
 
 	def backupRunning(self):
 		try:
+			size = statvfs(config.imagemanager.backuplocation.value)
+			free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
 			if self.BackupDirectory:
 				self.BackupRunning = False
 				for job in Components.Task.job_manager.getPendingJobs():
@@ -208,7 +210,7 @@ class VISIONImageManager(Screen):
 						self.BackupRunning = True
 				if self.BackupRunning:
 					self["key_green"].setText(_("View progress"))
-				if partition != "None" and not self.BackupRunning:
+				if partition != "None" and not self.BackupRunning and free > 0:
 					self["key_green"].setText(_("New backupimage"))
 				self.activityTimer.startLongTimer(1)
 				self.refreshList()
@@ -284,9 +286,8 @@ class VISIONImageManager(Screen):
 					}, -1)
 					self["lab7"].setText(_("Device is not available."))
 				else:
-					self["lab7"].setText(_("Device: ") + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
-					self.BackupDirectory = config.imagemanager.backuplocation.value + "/imagebackups/"
-					config.imagemanager.backuplocation.save()
+					self.BackupDirectory = config.imagemanager.backuplocation.value + "/imagebackups/" if not config.imagemanager.backuplocation.value.endswith("/") else config.imagemanager.backuplocation.value + "imagebackups/"
+					self["lab7"].setText(nameDevice.split()[0] + " " + nameDevice.split()[1] + "\n\n" + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
 					self["myactions"] = ActionMap(["ColorActions", "OkCancelActions", "DirectionActions", "MenuActions", "HelpActions"], {
 						"cancel": self.close,
 						"red": self.keyDelete,
@@ -319,6 +320,7 @@ class VISIONImageManager(Screen):
 					"menu": self.createSetup
 				}, -1)
 				hotplugInfoDevice
+				self["key_green"].setText("")
 
 	def createSetup(self):
 		self.session.openWithCallback(self.setupDone, ImageManagerSetup)
@@ -1733,6 +1735,26 @@ class ImageManagerDownload(Screen):
 class ImageManagerSetup(Setup):
 	def __init__(self, session):
 		Setup.__init__(self, session=session, setup="visionimagemanager", plugin="SystemPlugins/Vision", PluginLanguageDomain=PluginLanguageDomain)
+		self["actions"] = ActionMap(["SetupActions", "OkCancelActions", "MenuActions"], {
+			"ok": self.keySelect,
+			"cancel": self.keyCancel,
+			"menu": self.keyMenu,
+			"save": self.keySave,
+			"left": self.keyLeft,
+			"right": self.keyLeft
+		})
+
+	def keySelect(self):
+		Setup.keySelect(self)
+
+	def keyCancel(self):
+		Setup.keyCancel(self)
+
+	def keyMenu(self):
+		Setup.keyMenu(self)
+
+	def keyLeft(self):
+		Setup.keyLeft(self)
 
 	def keySave(self):
 		config.imagemanager.imagefeed_OV = ConfigText(default="https://images.openvision.dedyn.io/json", fixed_size=False) if config.usage.alternative_imagefeed.value != "all" else ConfigText(default="https://images.openvision.dedyn.io/json%s" % config.usage.alternative_imagefeed.value, fixed_size=False)

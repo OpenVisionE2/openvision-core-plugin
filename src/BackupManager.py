@@ -11,7 +11,6 @@ from Components.ActionMap import ActionMap
 from Components.Button import Button
 from Components.config import configfile, config, ConfigSubsection, ConfigYesNo, ConfigSelection, ConfigText, ConfigNumber, ConfigLocations, NoSave, ConfigClock, ConfigDirectory
 from Components.Console import Console
-from Components.ConfigList import ConfigListScreen
 from Components.FileList import MultiFileSelectList, FileList
 from Components.Harddisk import harddiskmanager
 from Components.Label import Label
@@ -43,7 +42,7 @@ defaultprefix = distro[4:]
 partitions = sorted(harddiskmanager.getMountedPartitions(), key=lambda partitions: partitions.device or "")
 for parts in partitions:
 	partition = join(str(parts.device))
-	mount = join(str(parts.mountpoint))
+	nameDevice = join(str(parts.description))
 	if exists(parts.mountpoint):
 		d = normpath(parts.mountpoint)
 		if BoxInfo.getItem("canMultiBoot"):
@@ -219,7 +218,6 @@ class VISIONBackupManager(Screen):
 					mountpoint = config.backupmanager.backuplocation.value, config.backupmanager.backuplocation.value[:-1]
 					if not exists(config.backupmanager.backuplocation.value + '/backup'):
 						mkdir(config.backupmanager.backuplocation.value + '/backup', 0o755)
-				hdd = "/media/hdd/"
 				size = statvfs(config.backupmanager.backuplocation.value)
 				free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
 				if free == 0:
@@ -229,7 +227,6 @@ class VISIONBackupManager(Screen):
 						}, -1)
 					self["lab7"].setText(_("Device is not available."))
 				else:
-					self["lab7"].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
 					self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', "MenuActions", "TimerEditActions"], {
 						'cancel': self.close,
 						'ok': self.keyResstore,
@@ -240,15 +237,8 @@ class VISIONBackupManager(Screen):
 						"menu": self.createSetup,
 						'log': self.showLog
 					}, -1)
-					if mountpoint not in config.backupmanager.backuplocation.choices.choices:
-						self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
-						config.backupmanager.backuplocation.save()
-						self["lab7"].setText(_("Device: ") + str(mount) + " " + _("Free space:") + " " + str(free) + _(" GB"))
-					if mountpoint not in config.backupmanager.backuplocation.choices.choices and hdd not in config.backupmanager.backuplocation.choices.choices:
-						self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
-						config.backupmanager.backuplocation.save()
-					else:
-						self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
+					self["lab7"].setText(nameDevice.split()[0] + " " + nameDevice.split()[1] + "\n\n" + _("Mount: ") + " " + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
+					self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/' if not config.backupmanager.backuplocation.value.endswith("/") else config.backupmanager.backuplocation.value + 'backup/'
 					del self.emlist[:]
 					backups = listdir(self.BackupDirectory)
 					mtimes = []
@@ -796,7 +786,7 @@ class BackupSelection(Screen):
 		self.filelist = MultiFileSelectList(self.selectedFiles, defaultDir)
 		self["checkList"] = self.filelist
 
-		self["actions"] = ActionMap(["DirectionActions", "OkCancelActions", "ShortcutActions", "MenuActions"], {
+		self["actions"] = ActionMap(["NavigationActions", "OkCancelActions", "ShortcutActions", "MenuActions"], {
 			"cancel": self.exit,
 			"red": self.exit,
 			"yellow": self.changeSelectionState,
@@ -980,10 +970,17 @@ class VISIONBackupManagerMenu(Setup):
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
 		self["key_yellow"] = Button(_("Choose files"))
 		self["key_blue"] = Button(_("Choose IPK folder"))
-		self["actions2"] = ActionMap(["ColorActions", "VirtualKeyboardActions"], {
+		self["actions2"] = ActionMap(["ColorActions", "VirtualKeyboardActions", "SetupActions", "ConfigListActions"], {
+			"cancel": self.keyCancel,
+			"red": self.keyCancel,
 			"yellow": self.chooseFiles,
+			"green": self.keySave,
 			"blue": self.chooseXtraPluginDir,
-			"green": self.keySave
+			"ok": self.keyMenu,
+			"save": self.keySave,
+			"menu": self.keyMenu,
+			"left": self.keyLeft,
+			"right": self.keyLeft
 		}, -2)
 
 	def chooseFiles(self):
@@ -998,8 +995,17 @@ class VISIONBackupManagerMenu(Setup):
 		config.backupmanager.save()
 		config.save()
 
+	def keyCancel(self):
+		Setup.keyCancel(self)
+
+	def keyMenu(self):
+		Setup.keyMenu(self)
+
+	def keyLeft(self):
+		Setup.keyLeft(self)
+
 	def keySave(self):
-		ConfigListScreen.keySave(self)
+		Setup.keySave(self)
 
 
 class VISIONBackupManagerLogView(Screen):
