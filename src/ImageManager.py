@@ -8,7 +8,7 @@ import tempfile
 
 from enigma import eTimer, fbClass
 from os import stat, system, mkdir, makedirs, listdir, remove, rename, rmdir, statvfs, chmod, walk
-from os.path import exists, isfile, join, normpath, ismount, split, getmtime, isdir
+from os.path import exists, isfile, join, normpath, ismount, split, getmtime, isdir, splitext
 from shutil import rmtree, move, copy, copyfile
 from time import localtime, time, strftime, mktime
 from Components.ActionMap import ActionMap
@@ -228,11 +228,10 @@ class VISIONImageManager(Screen):
 			images = listdir(self.BackupDirectory)
 			del self.emlist[:]
 			mtimes = []
-			for fil in images:
-				if fil.endswith(".zip") or isdir(join(self.BackupDirectory, fil)):
-					mtimes.append((fil, stat(self.BackupDirectory + fil).st_mtime))  # (filname, mtime)
-			for fil in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]:  # sort by mtime
-				self.emlist.append(fil)
+			for file in [x for x in images if splitext(x)[1] == ".zip" and model in x]:
+					mtimes.append((file, stat(self.BackupDirectory + file).st_mtime))  # (filname, mtime)
+			for file in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]:  # sort by mtime
+				self.emlist.append(file)
 			if len(self.emlist):
 				self["list"].setList(self.emlist)
 				self["list"].show()

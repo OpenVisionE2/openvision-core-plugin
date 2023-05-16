@@ -68,8 +68,9 @@ class RestoreWizard(WizardLanguage, ShowRemoteControl):
 					files = []
 				if len(files):
 					for file in files:
-						if file.endswith(".tar.gz") and "vision" in file.lower() or file.startswith("%s" % defaultprefix):
-							mtimes.append((join(devpath, file), stat(join(devpath, file)).st_mtime)) # (filname, mtime)
+						if BoxInfo.getItem("model") in file:
+							if file.endswith(".tar.gz") and "vision" in file.lower() or file.startswith("%s" % defaultprefix):
+								mtimes.append((join(devpath, file), stat(join(devpath, file)).st_mtime)) # (filname, mtime)
 		for file in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]: # sort by mtime
 			list.append((file, file))
 		return list

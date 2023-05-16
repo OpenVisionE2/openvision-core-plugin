@@ -253,13 +253,14 @@ class VISIONBackupManager(Screen):
 					backups = listdir(self.BackupDirectory)
 					mtimes = []
 					for fil in backups:
-						if fil.endswith(".tar.gz") and "vision" in fil.lower() or fil.startswith("%s" % defaultprefix):
-							if fil.startswith(defaultprefix):   # Ensure the current image backup are sorted to the top
-								prefix = "B"
-							else:
-								prefix = "A"
-							key = "%s-%012u" % (prefix, stat(self.BackupDirectory + fil).st_mtime)
-							mtimes.append((fil, key)) # (filname, prefix-mtime)
+						if model in fil:
+							if fil.endswith(".tar.gz") and "vision" in fil.lower() or fil.startswith("%s" % defaultprefix):
+								if fil.startswith(defaultprefix):   # Ensure the current image backup are sorted to the top
+									prefix = "B"
+								else:
+									prefix = "A"
+								key = "%s-%012u" % (prefix, stat(self.BackupDirectory + fil).st_mtime)
+								mtimes.append((fil, key)) # (filname, prefix-mtime)
 					for fil in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]: # sort by mtime
 						self.emlist.append(fil)
 					self["list"].setList(self.emlist)
