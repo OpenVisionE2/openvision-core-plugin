@@ -3,9 +3,9 @@ from . import _
 from six import ensure_str
 
 import errno
-from os import mkdir, remove, rename
+from os import mkdir, remove, rename, statvfs
 from os.path import exists, realpath, join, isfile
-from re import search
+from re import search, sub
 
 from enigma import eTimer
 
