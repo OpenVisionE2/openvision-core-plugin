@@ -11,6 +11,7 @@ from Components.ActionMap import ActionMap
 from Components.Button import Button
 from Components.config import configfile, config, ConfigSubsection, ConfigYesNo, ConfigSelection, ConfigText, ConfigNumber, ConfigLocations, NoSave, ConfigClock, ConfigDirectory
 from Components.Console import Console
+from Components.ConfigList import ConfigListScreen
 from Components.FileList import MultiFileSelectList, FileList
 from Components.Harddisk import harddiskmanager
 from Components.Label import Label
@@ -39,15 +40,17 @@ NOPLUGINS = 'NoPluginsNotification'
 
 mountpointchoices = []
 defaultprefix = distro[4:]
-for p in harddiskmanager.getMountedPartitions():
-	if exists(p.mountpoint):
-		d = normpath(p.mountpoint)
+partitions = sorted(harddiskmanager.getMountedPartitions(), key=lambda partitions: partitions.device or "")
+for parts in partitions:
+	partition = join(str(parts.device))
+	mount = join(str(parts.mountpoint))
+	if exists(parts.mountpoint):
+		d = normpath(parts.mountpoint)
 		if BoxInfo.getItem("canMultiBoot"):
 			if "mmcblk0p" in d or "mmcblk1p" in d:
 				continue
-		if p.mountpoint != '/':
-			mountpointchoices.append((p.mountpoint, d))
-	print("[BackupManager]mountpointchoices = %s" % mountpointchoices)
+		if parts.mountpoint != "/":
+			mountpointchoices.append((parts.mountpoint, d))
 
 config.backupmanager = ConfigSubsection()
 config.backupmanager.backupdirs = ConfigLocations(
@@ -148,7 +151,8 @@ class VISIONBackupManager(Screen):
 			backuptext = _("Next backup: ") + strftime(_("%a %e %b  %-H:%M"), t)
 		else:
 			backuptext = _("Next backup: ")
-		self["backupstatus"].setText(str(backuptext))
+		if config.backupmanager.schedule.value:
+			self["backupstatus"].setText(str(backuptext))
 		if not self.selectionChanged in self["list"].onSelectionChanged:
 			self["list"].onSelectionChanged.append(self.selectionChanged)
 
@@ -176,12 +180,14 @@ class VISIONBackupManager(Screen):
 						self.BackupRunning = True
 				if self.BackupRunning:
 					self["key_green"].setText(_("View progress"))
-				if config.backupmanager.backuplocation.value and not self.BackupRunning:
+				size = statvfs(config.backupmanager.backuplocation.value)
+				free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
+				if config.backupmanager.backuplocation.value and not self.BackupRunning and free > 0:
 					self["key_green"].setText(_("New backup"))
 				self.activityTimer.startLongTimer(5)
 				self.populate_List()
 		except OSError as err:
-			print("%s" % err)
+			pass
 
 	def getJobName(self, job):
 		return "%s: %s (%d%%)" % (job.getStatustext(), job.name, int(100 * job.progress / float(job.end)))
@@ -195,85 +201,88 @@ class VISIONBackupManager(Screen):
 		Components.Task.job_manager.in_background = in_background
 
 	def populate_List(self):
+		hotplugInfoDevice = self["lab7"].setText(_("Your device is not available.\nRecommended reboot receiver.") if harddiskmanager.HDDList() else _("Device is not available."))
 		try:
-			if config.backupmanager.backuplocation.getValue():
-				mount = config.backupmanager.backuplocation.value, config.backupmanager.backuplocation.value[:-1]
-			else:
-				mount = config.backupmanager.backuplocation.value
-			if mountpointchoices:
-				if not exists(config.backupmanager.backuplocation.value + '/backup'):
-					mkdir(config.backupmanager.backuplocation.value + '/backup', 0o755)
-
-			if not config.backupmanager.backuplocation.value:
-				if harddiskmanager.HDDList():
-					from Screens.Standby import TryQuitMainloop
-					self.session.open(TryQuitMainloop, 2)
+			if partition == "None":
 				self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
 					"cancel": self.close,
 					"menu": self.createSetup
 				}, -1)
-				self["lab7"].setText(_("Device not available"))
+				self["list"].hide()
+				self["key_red"].setText("")
+				self["key_green"].setText("")
+				self["key_yellow"].setText("")
+				self["key_blue"].setText("")
+				hotplugInfoDevice
 			else:
+				if config.backupmanager.backuplocation.getValue():
+					mountpoint = config.backupmanager.backuplocation.value, config.backupmanager.backuplocation.value[:-1]
+					if not exists(config.backupmanager.backuplocation.value + '/backup'):
+						mkdir(config.backupmanager.backuplocation.value + '/backup', 0o755)
 				hdd = "/media/hdd/"
 				size = statvfs(config.backupmanager.backuplocation.value)
 				free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
-				self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', "MenuActions", "TimerEditActions"], {
-					'cancel': self.close,
-					'ok': self.keyResstore,
-					'red': self.keyDelete,
-					'green': self.greenPressed,
-					'yellow': self.keyResstore,
-					'blue': self.restoreSettings,
-					"menu": self.createSetup,
-					'log': self.showLog
-				}, -1)
-				if mount not in config.backupmanager.backuplocation.choices.choices:
-					self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
-					config.backupmanager.backuplocation.save()
-					self["lab7"].setText(_("The chosen location does not exist, using.") + "\n" + _("Select a backup to restore:"))
-				if mount not in config.backupmanager.backuplocation.choices.choices and hdd not in config.backupmanager.backuplocation.choices.choices:
-					self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
-					config.backupmanager.backuplocation.save()
-					self["lab7"].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select a backup to restore:"))
+				if free == 0:
+					self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
+						"cancel": self.close,
+						"menu": self.createSetup
+						}, -1)
+					self["lab7"].setText(_("Device is not available."))
 				else:
-					self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
-					self["lab7"].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB") + "\n" + _("Select a backup to restore:"))
-				del self.emlist[:]
-				backups = listdir(self.BackupDirectory)
-				mtimes = []
-				for fil in backups:
-					if fil.endswith(".tar.gz") and "vision" in fil.lower() or fil.startswith("%s" % defaultprefix):
-						if fil.startswith(defaultprefix):   # Ensure the current image backup are sorted to the top
-							prefix = "B"
-						else:
-							prefix = "A"
-						key = "%s-%012u" % (prefix, stat(self.BackupDirectory + fil).st_mtime)
-						mtimes.append((fil, key)) # (filname, prefix-mtime)
-				for fil in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]: # sort by mtime
-					self.emlist.append(fil)
-				self["list"].setList(self.emlist)
-				if len(self.emlist):
-					self["list"].show()
-					self["key_red"].setText(_("Delete"))
-					self["key_yellow"].setText(_("Restore"))
-					self["key_blue"].setText(_("Restore settings"))
-				else:
-					self["key_red"].setText("")
-					self["key_yellow"].setText("")
-					self["key_blue"].setText("")
-				if not self.BackupRunning and config.backupmanager.backuplocation.value:
-					self["key_green"].setText(_("New backup"))
-		except OSError as err:
-			self["lab7"].setText(_("Device not available") + "\n" + "%s" % err + "\n" + _("There is a problem with this device."))
-			self["list"].hide()
-			self["key_red"].setText("")
-			self["key_green"].setText("")
-			self["key_yellow"].setText("")
-			self["key_blue"].setText("")
+					self["lab7"].setText(_("Device: ") + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
+					self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', "MenuActions", "TimerEditActions"], {
+						'cancel': self.close,
+						'ok': self.keyResstore,
+						'red': self.keyDelete,
+						'green': self.greenPressed,
+						'yellow': self.keyResstore,
+						'blue': self.restoreSettings,
+						"menu": self.createSetup,
+						'log': self.showLog
+					}, -1)
+					if mountpoint not in config.backupmanager.backuplocation.choices.choices:
+						self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
+						config.backupmanager.backuplocation.save()
+						self["lab7"].setText(_("Device: ") + str(mount) + " " + _("Free space:") + " " + str(free) + _(" GB"))
+					if mountpoint not in config.backupmanager.backuplocation.choices.choices and hdd not in config.backupmanager.backuplocation.choices.choices:
+						self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
+						config.backupmanager.backuplocation.save()
+					else:
+						self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/'
+					del self.emlist[:]
+					backups = listdir(self.BackupDirectory)
+					mtimes = []
+					for fil in backups:
+						if fil.endswith(".tar.gz") and "vision" in fil.lower() or fil.startswith("%s" % defaultprefix):
+							if fil.startswith(defaultprefix):   # Ensure the current image backup are sorted to the top
+								prefix = "B"
+							else:
+								prefix = "A"
+							key = "%s-%012u" % (prefix, stat(self.BackupDirectory + fil).st_mtime)
+							mtimes.append((fil, key)) # (filname, prefix-mtime)
+					for fil in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]: # sort by mtime
+						self.emlist.append(fil)
+					self["list"].setList(self.emlist)
+					if len(self.emlist):
+						self["list"].show()
+						self["key_red"].setText(_("Delete"))
+						self["key_yellow"].setText(_("Restore"))
+						self["key_blue"].setText(_("Restore settings"))
+					else:
+						self["key_red"].setText("")
+						self["key_yellow"].setText("")
+						self["key_blue"].setText("")
+					size = statvfs(config.backupmanager.backuplocation.value)
+					free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
+					if not self.BackupRunning and config.backupmanager.backuplocation.value and free > 0:
+						self["key_green"].setText(_("New backup"))
+		except:
+			self["key_green"].setText("")  # device lost, then actions cancel screen or actions menu is possible
 			self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
 				"cancel": self.close,
 				"menu": self.createSetup
 			}, -1)
+			hotplugInfoDevice
 
 	def createSetup(self):
 		self.session.openWithCallback(self.setupDone, VISIONBackupManagerMenu, 'visionbackupmanager', 'SystemPlugins/Vision', PluginLanguageDomain)
@@ -317,7 +326,8 @@ class VISIONBackupManager(Screen):
 			backuptext = _("Next backup: ") + strftime(_("%a %e %b  %-H:%M"), t)
 		else:
 			backuptext = _("Next backup: ")
-		self["backupstatus"].setText(str(backuptext))
+		if config.backupmanager.schedule.value:
+			self["backupstatus"].setText(str(backuptext))
 
 	def keyDelete(self):
 		try:
@@ -972,6 +982,7 @@ class VISIONBackupManagerMenu(Setup):
 		self["actions2"] = ActionMap(["ColorActions", "VirtualKeyboardActions"], {
 			"yellow": self.chooseFiles,
 			"blue": self.chooseXtraPluginDir,
+			"green": self.keySave
 		}, -2)
 
 	def chooseFiles(self):
@@ -985,6 +996,9 @@ class VISIONBackupManagerMenu(Setup):
 		config.backupmanager.backupdirs.save()
 		config.backupmanager.save()
 		config.save()
+
+	def keySave(self):
+		ConfigListScreen.keySave(self)
 
 
 class VISIONBackupManagerLogView(Screen):
@@ -1357,14 +1371,14 @@ class BackupFiles(Screen):
 		configfile.save()
 		print("[BackupManager] Backup running")
 		backupdate = datetime.now()
-		backupType = "-"
-		if self.updatebackup:
-			backupType = "-SU-"
-		elif self.imagebackup:
-			backupType = "-IM-"
+		backupType = ""
+		if self.updatebackup or self.imagebackup:
+			backupType = "PREV-UPDATE-"
 		elif self.schedulebackup:
-			backupType = "-Sch-"
-		self.Backupfile = self.BackupDirectory + config.backupmanager.folderprefix.value + '-' + str(distro) + backupType + str(visionversion) + '-' + str(visionrevision) + '-' + str(model) + '-' + backupdate.strftime("%Y%m%d-%H%M") + '.tar.gz'
+			backupType = "Sch-"
+		else:
+			backupType = ""
+		self.Backupfile = self.BackupDirectory + config.backupmanager.folderprefix.value + '-' + distro + '-' + backupType + model + '-' + backupdate.strftime("%Y%m%d-%H%M") + '.tar.gz'
 # Need to create a list of what to backup, so that spaces and special
 # characters don't get lost on, or mangle, the command line
 #
