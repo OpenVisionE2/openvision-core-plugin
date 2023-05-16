@@ -1337,9 +1337,7 @@ class BackupFiles(Screen):
 			print('[BackupManager] Listing completed.')
 			self.Stage2Completed = True
 		else:
-			self.session.openWithCallback(self.BackupComplete, MessageBox, _("Plugin listing failed - e. g. wrong backup destination or no space left on backup device."), MessageBox.TYPE_INFO, timeout=10)
-			print('[BackupManager] Result.', result)
-			print("{BackupManager] Plugin listing failed - e. g. wrong backup destination or no space left on backup device")
+			self.session.open(MessageBox, _('Device is not available.\nError: %s\n\nPress RED button in next screen \"Job cancel\"') % result, MessageBox.TYPE_ERROR, timeout=15)
 
 	def Stage3(self):
 		print('[BackupManager] Finding kernel version:' + str(currentkernelversion))
@@ -1402,9 +1400,7 @@ class BackupFiles(Screen):
 				remove('/tmp/ExtraInstalledPlugins')
 				self.Stage5Completed = True
 			else:
-				self.session.openWithCallback(self.BackupComplete, MessageBox, _("Backup failed - e. g. wrong backup destination or no space left on backup device."), MessageBox.TYPE_INFO, timeout=10)
-				print('[BackupManager] Result.', result)
-				print("{BackupManager] Backup failed - e. g. wrong backup destination or no space left on backup device")
+				self.session.open(MessageBox, _('Device is not available.\nError: %s\n\nPress RED button in next screen \"Job cancel\"') % result, MessageBox.TYPE_ERROR, timeout=15)
 		except OSError as err:
 			print("%s" % err)
 # Delete the list of backup files now that it's finished.

@@ -1094,6 +1094,8 @@ class ImageBackup(Screen):
 			print("[ImageManager] doBackup1 Error: %s" % err)
 			if self.errorCallback:
 				self.errorCallback(err)
+			else:
+				self.session.open(MessageBox, _('Device is not available.\nError: %s\n\nPress RED button in next screen \"Job cancel\"') % err, MessageBox.TYPE_ERROR, timeout=15)
 
 	def Stage1Complete(self, result, retval, extra_args=None):
 		if retval == 0:
