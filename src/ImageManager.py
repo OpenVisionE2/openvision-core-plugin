@@ -576,7 +576,7 @@ class VISIONImageManager(Screen):
 					if isfile("/boot/STARTUP") and isfile("/boot/STARTUP_6"):
 						copyfile("/boot/STARTUP_%s" % self.multibootslot, "/boot/STARTUP")
 				elif hasKexec:
-					if BoxInfo.getItem("HasKexecUSB") and "mmcblk" not in self.MTDROOTFS:
+					if BoxInfo.setItem('HasKexecUSB', True) and "mmcblk" not in self.MTDROOTFS:
 						   CMD = "/usr/bin/ofgwrite -r%s -kzImage -s'%s/linuxrootfs' -m%s '%s'" % (self.MTDROOTFS, model[2:], self.multibootslot, MAINDEST)
 					else:
 						   CMD = "/usr/bin/ofgwrite -r%s -kzImage -m%s '%s'" % (self.MTDROOTFS, self.multibootslot, MAINDEST)
