@@ -328,13 +328,14 @@ class VISIONDevicesPanel(Screen):
 			mountp = parts[1].replace(_("Mount: "), "")
 			device = parts[2].replace(_("Device: "), "")
 			# print("[MountManager][unmount] mountp=%s device=%s" % (mountp, device))
-			exitStatus = Console.ePopen("umount %s" % mountp)
+			exitStatus = self.Console.ePopen("umount %s" % mountp)
 			if exitStatus == 0:
 				self.session.open(MessageBox, _("Partition: %s  Mount: %s unmounted successfully; if all partitions now unmounted you can remove device.") % (device, mountp), MessageBox.TYPE_INFO)
 				self.setTimer()
 			else:
-				self.session.open(MessageBox, _("Cannot unmount partition '%s'.  Make sure this partition is not in use.  (SWAP, record/timeshift, etc.)") % mountp, MessageBox.TYPE_INFO)
-				return -1
+				# self.session.open(MessageBox, _("Cannot unmount partition '%s'.  Make sure this partition is not in use.  (SWAP, record/timeshift, etc.)") % mountp, MessageBox.TYPE_INFO)
+				# return -1
+				self.setTimer()
 
 	def mount(self):
 		if mount != "/":
@@ -347,9 +348,7 @@ class VISIONDevicesPanel(Screen):
 				mountp = parts[1].replace(_("Mount: "), "")
 				device = parts[2].replace(_("Device: "), "")
 				# print("[MountManager][mount] mountp=%s device=%s" % (mountp, device))
-				exitStatus = Console.ePopen("mount %s" % device)
-				if exitStatus != 0:
-					self.session.open(MessageBox, _("Mount failed for '%s', error code = '%s'.") % (sel, exitStatus), MessageBox.TYPE_INFO, timeout=10)
+				self.Console.ePopen("mount %s" % device)
 				self.setTimer()
 
 	def saveMounts(self):
