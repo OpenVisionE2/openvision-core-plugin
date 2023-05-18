@@ -51,11 +51,18 @@ for parts in partitions:
 		if parts.mountpoint != "/":
 			mountpointchoices.append((parts.mountpoint, d))
 
+
+def getMountDefault(mountpointchoices):
+	mountpointchoices = {x[1]: x[0] for x in mountpointchoices}
+	default = mountpointchoices.get(parts.mountpoint)
+	return default
+
+
 config.backupmanager = ConfigSubsection()
 config.backupmanager.backupdirs = ConfigLocations(
 	default=[eEnv.resolve('${sysconfdir}/enigma2/'), eEnv.resolve('${sysconfdir}/fstab'), eEnv.resolve('${sysconfdir}/hostname'), eEnv.resolve('${sysconfdir}/network/interfaces'), eEnv.resolve('${sysconfdir}/passwd'), eEnv.resolve('${sysconfdir}/shadow'), eEnv.resolve('${sysconfdir}/etc/shadow'),
 			 eEnv.resolve('${sysconfdir}/resolv.conf'), eEnv.resolve('${sysconfdir}/ushare.conf'), eEnv.resolve('${sysconfdir}/inadyn.conf'), eEnv.resolve('${sysconfdir}/tuxbox/config/'), eEnv.resolve('${sysconfdir}/wpa_supplicant.conf')])
-config.backupmanager.backuplocation = ConfigSelection(choices=mountpointchoices)
+config.backupmanager.backuplocation = ConfigSelection(choices=mountpointchoices, default=getMountDefault(mountpointchoices))
 config.backupmanager.backupretry = ConfigNumber(default=30)
 config.backupmanager.backupretrycount = NoSave(ConfigNumber(default=0))
 config.backupmanager.folderprefix = ConfigText(default=defaultprefix, fixed_size=False)
@@ -200,80 +207,80 @@ class VISIONBackupManager(Screen):
 		Components.Task.job_manager.in_background = in_background
 
 	def populate_List(self):
-		hotplugInfoDevice = self["lab7"].setText(_("Your device is not available.\nRecommended reboot receiver.") if harddiskmanager.HDDList() else _("Device is not available."))
-		try:
-			if partition == "None":
-				self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
-					"cancel": self.close,
-					"menu": self.createSetup
-				}, -1)
-				self["list"].hide()
-				self["key_red"].setText("")
-				self["key_green"].setText("")
-				self["key_yellow"].setText("")
-				self["key_blue"].setText("")
-				hotplugInfoDevice
-			else:
-				if config.backupmanager.backuplocation.getValue():
-					mountpoint = config.backupmanager.backuplocation.value, config.backupmanager.backuplocation.value[:-1]
-					if not exists(config.backupmanager.backuplocation.value + '/backup'):
-						mkdir(config.backupmanager.backuplocation.value + '/backup', 0o755)
-				size = statvfs(config.backupmanager.backuplocation.value)
-				free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
-				if free == 0:
-					self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
-						"cancel": self.close,
-						"menu": self.createSetup
-						}, -1)
-					self["lab7"].setText(_("Device is not available."))
-				else:
-					self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', "MenuActions", "TimerEditActions"], {
-						'cancel': self.close,
-						'ok': self.keyResstore,
-						'red': self.keyDelete,
-						'green': self.greenPressed,
-						'yellow': self.keyResstore,
-						'blue': self.restoreSettings,
-						"menu": self.createSetup,
-						'log': self.showLog
-					}, -1)
-					self["lab7"].setText(nameDevice.split()[0] + " " + nameDevice.split()[1] + "\n\n" + _("Mount: ") + " " + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
-					self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/' if not config.backupmanager.backuplocation.value.endswith("/") else config.backupmanager.backuplocation.value + 'backup/'
-					del self.emlist[:]
-					backups = listdir(self.BackupDirectory)
-					mtimes = []
-					for fil in backups:
-						if model in fil:
-							if fil.endswith(".tar.gz") and "vision" in fil.lower() or fil.startswith("%s" % defaultprefix):
-								if fil.startswith(defaultprefix):   # Ensure the current image backup are sorted to the top
-									prefix = "B"
-								else:
-									prefix = "A"
-								key = "%s-%012u" % (prefix, stat(self.BackupDirectory + fil).st_mtime)
-								mtimes.append((fil, key)) # (filname, prefix-mtime)
-					for fil in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]: # sort by mtime
-						self.emlist.append(fil)
-					self["list"].setList(self.emlist)
-					if len(self.emlist):
-						self["list"].show()
-						self["key_red"].setText(_("Delete"))
-						self["key_yellow"].setText(_("Restore"))
-						self["key_blue"].setText(_("Restore settings"))
-					else:
-						self["key_red"].setText("")
-						self["key_yellow"].setText("")
-						self["key_blue"].setText("")
-					size = statvfs(config.backupmanager.backuplocation.value)
-					free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
-					if not self.BackupRunning and config.backupmanager.backuplocation.value and free > 0:
-						self["key_green"].setText(_("New backup"))
-		except:
-			self["key_green"].setText("")  # device lost, then actions cancel screen or actions menu is possible
+		hotplugInfoDevice = self["lab7"].setText(_("Your mount has changed, restart enigma2 for apply you new mount.") if harddiskmanager.HDDList() else _("No device available."))
+		if partition == "None" and not mountpointchoices:
 			self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
 				"cancel": self.close,
 				"menu": self.createSetup
 			}, -1)
-			hotplugInfoDevice
+			self["list"].hide()
+			self["key_red"].setText("")
+			self["key_green"].setText("")
+			self["key_yellow"].setText("")
+			self["key_blue"].setText("")
+			return hotplugInfoDevice
+		else:
+			try:
+				size = statvfs(config.backupmanager.backuplocation.value)
+				free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
+				if free == 0 and not mountpointchoices:
+					self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
+						"cancel": self.close,
+						"menu": self.createSetup
+					}, -1)
+					self["lab7"].setText(_("No device available."))
+				if config.backupmanager.backuplocation.value != "/" and not exists(config.backupmanager.backuplocation.value + '/backup'):
+					mkdir(config.backupmanager.backuplocation.value + '/backup', 0o755)
+				self['myactions'] = ActionMap(['ColorActions', 'OkCancelActions', "MenuActions", "TimerEditActions"], {
+					"cancel": self.close,
+					"ok": self.keyResstore,
+					"red": self.keyDelete,
+					"green": self.greenPressed,
+					"yellow": self.keyResstore,
+					"blue": self.restoreSettings,
+					"menu": self.createSetup,
+					"log": self.showLog
+				}, -1)
+				if nameDevice.split()[0] != "Internal" and not "/media/net" in config.backupmanager.backuplocation.value and not "/media/autofs" in config.backupmanager.backuplocation.value and free > 0:
+					self["lab7"].setText(nameDevice.split()[0] + " " + nameDevice.split()[1] + "\n\n" + _("Mount: ") + " " + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
+				elif free > 0:
+					self["lab7"].setText(_("Network server:\n") + _("Mount: ") + " " + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
+				else:
+					self["lab7"].setText(_("Your mount has changed, restart enigma2 for apply you new mount."))
+				self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/' if not config.backupmanager.backuplocation.value.endswith("/") else config.backupmanager.backuplocation.value + 'backup/'
+				del self.emlist[:]
+				backups = listdir(self.BackupDirectory)
+				mtimes = []
+				for fil in backups:
+					if model in fil:
+						if fil.endswith(".tar.gz") and "vision" in fil.lower() or fil.startswith("%s" % defaultprefix):
+							if fil.startswith(defaultprefix):   # Ensure the current image backup are sorted to the top
+								prefix = "B"
+							else:
+								prefix = "A"
+							key = "%s-%012u" % (prefix, stat(self.BackupDirectory + fil).st_mtime)
+							mtimes.append((fil, key)) # (filname, prefix-mtime)
+				for fil in [x[0] for x in sorted(mtimes, key=lambda x: x[1], reverse=True)]: # sort by mtime
+					self.emlist.append(fil)
+				self["list"].setList(self.emlist)
+				if len(self.emlist):
+					self["list"].show()
+					self["key_red"].setText(_("Delete"))
+					self["key_yellow"].setText(_("Restore"))
+					self["key_blue"].setText(_("Restore settings"))
+				else:
+					self["key_red"].setText("")
+					self["key_yellow"].setText("")
+					self["key_blue"].setText("")
+				if not self.BackupRunning and config.backupmanager.backuplocation.value and free > 0:
+					self["key_green"].setText(_("New backup"))
+			except:
+				self["key_green"].setText("")  # device lost, then actions cancel screen or actions menu is possible
+				self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
+					"cancel": self.close,
+					"menu": self.createSetup
+				}, -1)
+				hotplugInfoDevice
 
 	def createSetup(self):
 		self.session.openWithCallback(self.setupDone, VISIONBackupManagerMenu, 'visionbackupmanager', 'SystemPlugins/Vision', PluginLanguageDomain)

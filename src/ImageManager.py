@@ -66,10 +66,18 @@ for parts in partitions:
 				continue
 		if parts.mountpoint != "/":
 			mountpointchoices.append((parts.mountpoint, d))
+
+
+def getMountDefault(mountpointchoices):
+	mountpointchoices = {x[1]: x[0] for x in mountpointchoices}
+	default = mountpointchoices.get(parts.mountpoint)
+	return default
+
+
 defaultprefix = distro
 config.imagemanager = ConfigSubsection()
 config.imagemanager.autosettingsbackup = ConfigYesNo(default=True)
-config.imagemanager.backuplocation = ConfigSelection(choices=mountpointchoices)
+config.imagemanager.backuplocation = ConfigSelection(choices=mountpointchoices, default=getMountDefault(mountpointchoices))
 config.imagemanager.backupretry = ConfigNumber(default=30)
 config.imagemanager.backupretrycount = NoSave(ConfigNumber(default=0))
 config.imagemanager.folderprefix = ConfigText(default=distro, fixed_size=False)
@@ -243,14 +251,10 @@ class VISIONImageManager(Screen):
 			else:
 				self["key_red"].setText("")
 				self["key_blue"].setText("")
-				self["key_yellow"].setText(_("Downloads"))
-		else:
-			hotplugInfoDevice
-			self["list"].hide()
-			self["key_red"].setText("")
-			self["key_green"].setText("")
-			self["key_blue"].setText("")
-			self["key_yellow"].setText("")
+				if config.imagemanager.backuplocation.value != "/":
+					size = statvfs(config.imagemanager.backuplocation.value)
+					free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
+					self["key_yellow"].setText(_("Downloads")) if free > 0 else self["key_yellow"].setText("")
 
 	def getJobName(self, job):
 		return "%s: %s (%d%%)" % (job.getStatustext(), job.name, int(100 * job.progress / float(job.end)))
@@ -263,8 +267,8 @@ class VISIONImageManager(Screen):
 		Components.Task.job_manager.in_background = in_background
 
 	def populate_List(self):
-		hotplugInfoDevice = self["lab7"].setText(_("Your device is not available.\nRecommended reboot receiver.") if harddiskmanager.HDDList() else _("Device is not available."))
-		if partition == "None":
+		hotplugInfoDevice = self["lab7"].setText(_("Your mount has changed, restart enigma2 for apply you new mount.") if harddiskmanager.HDDList() else _("Device is not available."))
+		if partition == "None" and not mountpointchoices:
 			self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
 				"cancel": self.close,
 				"menu": self.createSetup
@@ -279,15 +283,20 @@ class VISIONImageManager(Screen):
 			try:
 				size = statvfs(config.imagemanager.backuplocation.value)
 				free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
-				if free == 0:
-					self["myactions"] = ActionMap(["ColorActions", "OkCancelActions", "DirectionActions", "MenuActions", "HelpActions"], {
-						'cancel': self.close,
+				if free == 0 and not mountpointchoices:
+					self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
+						"cancel": self.close,
 						"menu": self.createSetup
 					}, -1)
 					self["lab7"].setText(_("Device is not available."))
 				else:
 					self.BackupDirectory = config.imagemanager.backuplocation.value + "/imagebackups/" if not config.imagemanager.backuplocation.value.endswith("/") else config.imagemanager.backuplocation.value + "imagebackups/"
-					self["lab7"].setText(nameDevice.split()[0] + " " + nameDevice.split()[1] + "\n\n" + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
+					if nameDevice.split()[0] != "Internal" and not "/media/net" in config.imagemanager.backuplocation.value and not "/media/autofs" in config.imagemanager.backuplocation.value and free > 0:
+						self["lab7"].setText(nameDevice.split()[0] + " " + nameDevice.split()[1] + "\n\n" + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
+					elif free > 0:
+						self["lab7"].setText(_("Network server:\n") + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
+					else:
+						self["lab7"].setText(_("Your mount has changed, restart enigma2 for apply you new mount."))
 					self["myactions"] = ActionMap(["ColorActions", "OkCancelActions", "DirectionActions", "MenuActions", "HelpActions"], {
 						"cancel": self.close,
 						"red": self.keyDelete,
@@ -300,12 +309,11 @@ class VISIONImageManager(Screen):
 						"down": self.refreshDown,
 						"displayHelp": self.doDownload
 					}, -1)
-					if not exists(config.imagemanager.backuplocation.value + '/imagebackups'):
+					if config.imagemanager.backuplocation.value != "/" and not exists(config.imagemanager.backuplocation.value + '/imagebackups'):
 						mkdir(config.imagemanager.backuplocation.value + '/imagebackups', 0o755)
 					if exists(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + imagetype + "-swapfile_backup"):
 						system("swapoff " + self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + imagetype + "-swapfile_backup")
 						remove(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + imagetype + "-swapfile_backup")
-					self.refreshList()
 					if self.BackupDirectory and free > 0:
 						self["list"].show()
 						self["key_red"].setText(_("Delete"))
@@ -321,6 +329,7 @@ class VISIONImageManager(Screen):
 				}, -1)
 				hotplugInfoDevice
 				self["key_green"].setText("")
+		self.refreshList()
 
 	def createSetup(self):
 		self.session.openWithCallback(self.setupDone, ImageManagerSetup)

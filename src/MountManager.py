@@ -243,10 +243,10 @@ class VISIONDevicesPanel(Screen):
 		free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
 		if harddiskmanager.HDDList():
 			self["key_red"] = StaticText("")
-			self["key_green"] = StaticText(_("Setup mounts")) if mount != "/" else StaticText("")
+			self["key_green"] = StaticText(_("Setup mounts"))
 			if partition != "None" and free > 0:
 				self["key_yellow"] = StaticText(_("Unmount"))
-			self["key_blue"] = StaticText(_("Mount")) if mount != "/" else StaticText("")
+			self["key_blue"] = StaticText(_("Mount"))
 		else:
 			self["key_green"] = StaticText("")
 			self["key_yellow"] = StaticText("")
@@ -309,7 +309,7 @@ class VISIONDevicesPanel(Screen):
 		BoxInfo.setItem("MountManager", True)
 		getProcPartitions(self.list)
 		self["list"].list = self.list
-		self["lab7"].setText(_("No device available.")) if mount == "/" else self["lab7"].hide()
+		self["lab7"].setText(_("No device available.")) if not harddiskmanager.HDDList() else self["lab7"].hide()
 
 	def setupMounts(self):
 		sel = self["list"].getCurrent()
@@ -338,7 +338,7 @@ class VISIONDevicesPanel(Screen):
 				self.setTimer()
 
 	def mount(self):
-		if mount != "/":
+		if harddiskmanager.HDDList():
 			sel = self["list"].getCurrent()
 			# print("[MountManager][mount] sel1=%s sel2=%s" % (sel[0], sel[1]))
 			if sel:
