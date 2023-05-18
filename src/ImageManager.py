@@ -439,10 +439,11 @@ class VISIONImageManager(Screen):
 		if not self.sel:
 			return
 		print("[ImageManager][keyRestore] self.sel getCurrentImage", self.sel, "   ", getCurrentImage())
-		if getCurrentImage() == 0 and self.isVuKexecCompatibleImage(self.sel): # only if Vu multiboot has been enabled and the image is compatible
-			message = (_("Do you want to flash Recovery image?\nThis will change all eMMC slots.") if "VuSlot0" in self.sel else _("This selection will flash the Recovery image.\nWe advise flashing new image to a MultiBoot slot and restoring (default) settings backup.\nSelect \"NO\" to flash a MultiBoot slot."))
-			ybox = self.session.openWithCallback(self.keyRestorez0, MessageBox, message, default=False)
-			ybox.setTitle(_("Restore confirmation"))
+		if platform == "vu4kgen":
+			if getCurrentImage() == 0 and self.isVuKexecCompatibleImage(self.sel): # only if Vu multiboot has been enabled and the image is compatible
+				message = (_("Do you want to flash Recovery image?\nThis will change all eMMC slots.") if "VuSlot0" in self.sel else _("This selection will flash the Recovery image.\nWe advise flashing new image to a MultiBoot slot and restoring (default) settings backup.\nSelect \"NO\" to flash a MultiBoot slot."))
+				ybox = self.session.openWithCallback(self.keyRestorez0, MessageBox, message, default=False)
+				ybox.setTitle(_("Restore confirmation"))
 		else:
 			self.keyRestore1()
 
@@ -456,11 +457,11 @@ class VISIONImageManager(Screen):
 			self.keyRestore1()
 
 	def keyRestorez1(self, retval):
-		if retval:
+		if retval and platform == "vu4kgen":
 			self.VuKexecCopyimage()
 		else:
 			self.multibootslot = 0												# set slot0 to be flashed
-			self.Console.ePopen("umount /proc/cmdline", self.keyRestore3)		# tell ofgwrite not Vu Multiboot
+			self.Console.ePopen("umount /proc/cmdline", self.keyRestore3) # tell ofgwrite not Vu Multiboot
 
 	def keyRestore1(self):
 		self.HasSDmmc = False
@@ -575,7 +576,7 @@ class VISIONImageManager(Screen):
 			CMD = "/usr/bin/ofgwrite -r -k '%s'" % MAINDEST
 			# normal non multiboot receiver
 			if canMultiBoot:
-				if self.multibootslot == 0 and hasKexec:	# reset Vu Multiboot slot0
+				if platform == "vu4kgen" and self.multibootslot == 0 and hasKexec: # reset Vu Multiboot slot0
 					kz0 = mtdkernel
 					rz0 = mtdrootfs
 					CMD = "/usr/bin/ofgwrite -kkz0 -rrz0 '%s'" % MAINDEST	# slot0 treat as kernel/root only multiboot receiver
@@ -585,8 +586,9 @@ class VISIONImageManager(Screen):
 					if isfile("/boot/STARTUP") and isfile("/boot/STARTUP_6"):
 						copyfile("/boot/STARTUP_%s" % self.multibootslot, "/boot/STARTUP")
 				elif hasKexec:
-					if BoxInfo.setItem('HasKexecUSB', True) and "mmcblk" not in self.MTDROOTFS:
-						   CMD = "/usr/bin/ofgwrite -r%s -kzImage -s'%s/linuxrootfs' -m%s '%s'" % (self.MTDROOTFS, model[2:], self.multibootslot, MAINDEST)
+					if platform == "vu4kgen" and BoxInfo.setItem('HasKexecUSB', True) and "mmcblk" not in self.MTDROOTFS:
+						   vumodel = model[2:]
+						   CMD = "/usr/bin/ofgwrite -r%s -kzImage -s'%s/linuxrootfs' -m%s '%s'" % (self.MTDROOTFS, vumodel, self.multibootslot, MAINDEST)
 					else:
 						   CMD = "/usr/bin/ofgwrite -r%s -kzImage -m%s '%s'" % (self.MTDROOTFS, self.multibootslot, MAINDEST)
 					print("[ImageManager] running commnd:%s slot = %s" % (CMD, self.multibootslot))
@@ -648,46 +650,39 @@ class VISIONImageManager(Screen):
 			else:
 				return False
 
-	def isVuKexecCompatibleImage(self, name):
-		retval = False
-		if "VuSlot0" in name:
-			retval = True
-		else:
-			name_split = name.split("-")
-			if len(name_split) > 1 and name_split[0] in ("openbh", "openvix", "openvision") and name[-8:] == "_usb.zip": # "_usb.zip" only in build server images
-				parts = name_split[1].split(".")
-				if len(parts) > 1 and parts[0].isnumeric() and parts[1].isnumeric():
-					version = float(parts[0] + "." + parts[1])
-					if name_split[0] == "openbh" and version > 5.1:
-						retval = True
-					if name_split[0] == "openvix" and (version > 6.3 or version == 6.3 and len(parts) > 2 and parts[2].isnumeric() and int(parts[2]) > 2): # greater than 6.2.002
-						retval = True
-					if name_split[0] == "openvision":
-						retval = True
-		return retval
+	if platform == "vu4kgen":
+		def isVuKexecCompatibleImage(self, name):
+			retval = False
+			if "VuSlot0" in name:
+				retval = True
+			else:
+				name_split = name.split("-")
+				if len(name_split) > 1 and name_split[0] in ("openbh", "openvix", "openvision", "openatv", "openpli") and name[-8:] == "_usb.zip": # "_usb.zip" only in build server images
+					retval = True
+			return retval
 
-	def VuKexecCopyimage(self):
-		installedHDD = False
-		with open("/proc/mounts", "r") as fd:
-			lines = fd.readlines()
-		result = [line.strip().split(" ") for line in lines]
-		print("[ImageManager][VuKexecCopyimage] result", result)
-		for item in result:
-			if '/media/hdd' in item[1] and "/dev/sd" in item[0]:
-				installedHDD = True
-				break
-		if installedHDD and exists("/media/hdd"):
-			if not exists("/media/hdd/%s" % model):
-				mkdir("/media/hdd/%s" % model)
-			for usbslot in range(1, 4):
-				if exists("/linuxrootfs%s" % usbslot):
-					if exists("/media/hdd/%s/linuxrootfs%s/" % (model, usbslot)):
-						rmtree("/media/hdd/%s/linuxrootfs%s" % (model, usbslot), ignore_errors=True)
-					Console().ePopen("cp -R /linuxrootfs%s . /media/hdd/%s/" % (usbslot, model))
-		if not installedHDD:
-			self.session.open(MessageBox, _("ImageManager - no HDD unable to backup Vu+ Multiboot eMMC slots"), MessageBox.TYPE_INFO, timeout=5)
-		self.multibootslot = 0												# set slot0 to be flashed
-		self.Console.ePopen("umount /proc/cmdline", self.keyRestore3)		# tell ofgwrite not Vu Multiboot
+		def VuKexecCopyimage(self):
+			installedHDD = False
+			with open("/proc/mounts", "r") as fd:
+				lines = fd.readlines()
+			result = [line.strip().split(" ") for line in lines]
+			print("[ImageManager][VuKexecCopyimage] result", result)
+			for item in result:
+				if '/media/hdd' in item[1] and "/dev/sd" in item[0]:
+					installedHDD = True
+					break
+			if installedHDD and exists("/media/hdd"):
+				if not exists("/media/hdd/%s" % model):
+					mkdir("/media/hdd/%s" % model)
+				for usbslot in range(1, 4):
+					if exists("/linuxrootfs%s" % usbslot):
+						if exists("/media/hdd/%s/linuxrootfs%s/" % (model, usbslot)):
+							rmtree("/media/hdd/%s/linuxrootfs%s" % (model, usbslot), ignore_errors=True)
+						Console().ePopen("cp -R /linuxrootfs%s . /media/hdd/%s/" % (usbslot, model))
+			if not installedHDD:
+				self.session.open(MessageBox, _("ImageManager - no HDD unable to backup Vu+ Multiboot eMMC slots"), MessageBox.TYPE_INFO, timeout=5)
+			self.multibootslot = 0												# set slot0 to be flashed
+			self.Console.ePopen("umount /proc/cmdline", self.keyRestore3) # tell ofgwrite not Vu Multiboot
 
 
 class AutoImageManagerTimer:
@@ -861,7 +856,8 @@ class ImageBackup(Screen):
 		self.MKUBIFS_ARGS = BoxInfo.getItem("mkubifs")
 		self.ROOTFSTYPE = imagefs.strip()
 		self.ROOTFSSUBDIR = "none"
-		self.VuSlot0 = ""
+		if platform == "vu4kgen":
+			self.VuSlot0 = ""
 		self.EMMCIMG = "none"
 		self.MTDBOOT = "none"
 		if canBackupEMC:
@@ -874,7 +870,8 @@ class ImageBackup(Screen):
 			if hasKexec:
 				self.MTDKERNEL = mtdkernel if slot == 0 else canMultiBoot[slot]["kernel"]
 				self.MTDROOTFS = mtdrootfs if slot == 0 else canMultiBoot[slot]["device"].split("/")[2]
-				self.VuSlot0 = "-VuSlot0" if slot == 0 else ""
+				if platform == "vu4kgen":
+					self.VuSlot0 = "-VuSlot0" if slot == 0 else ""
 			else:
 				self.MTDKERNEL = canMultiBoot[slot]["kernel"].split("/")[2]
 			if HasMultibootMTD:
@@ -1516,8 +1513,11 @@ class ImageBackup(Screen):
 				if self.EMMCIMG in ("emmc.img", "disk.img") and platform != "edision4k" or self.EMMCIMG == "usb_update.bin" and self.ROOTFSSUBDIR.endswith("1"):
 					self.commandMB.append("7za a -r -bt -bd %s%s-%s-%s-%s-%s-%s_recovery_emmc.zip %s/*" % (self.BackupDirectory, self.IMAGEDISTRO, self.DISTROTYPE, self.DISTROVERSION, self.DISTROREVISION, self.MODEL, self.BackupDate, self.MAINDESTROOT))
 				else:
-					self.commandMB.append("7za a -r -bt -bd %s%s-%s-%s-%s-%s-%s%s_mmc.zip %s/*" % (self.BackupDirectory, self.IMAGEDISTRO, self.DISTROTYPE, self.DISTROVERSION, self.DISTROREVISION, self.MODEL, self.BackupDate, self.VuSlot0, self.MAINDESTROOT))
-					self.commandMB.append("sync")
+					if platform == "vu4kgen":
+						self.commandMB.append("7za a -r -bt -bd %s%s-%s-%s-%s-%s-%s%s_mmc.zip %s/*" % (self.BackupDirectory, self.IMAGEDISTRO, self.DISTROTYPE, self.DISTROVERSION, self.DISTROREVISION, self.MODEL, self.BackupDate, self.VuSlot0, self.MAINDESTROOT))
+						self.commandMB.append("sync")
+					else:
+						pass
 			else:
 				self.commandMB.append("cd " + self.MAINDESTROOT + " && zip -r " + self.MAINDESTROOT + "_usb.zip *")
 		except Exception as err:
