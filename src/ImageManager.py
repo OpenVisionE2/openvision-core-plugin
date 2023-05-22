@@ -267,7 +267,7 @@ class VISIONImageManager(Screen):
 		Components.Task.job_manager.in_background = in_background
 
 	def populate_List(self):
-		hotplugInfoDevice = self["lab7"].setText(_("Your mount has changed, restart enigma2 for apply you new mount.") if harddiskmanager.HDDList() else _("Device is not available."))
+		hotplugInfoDevice = self["lab7"].setText(_("Your mount has changed, restart enigma2 for apply you new mount.") if harddiskmanager.HDDList() else _("No device available."))
 		if partition == "None" and not mountpointchoices:
 			self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
 				"cancel": self.close,
@@ -288,39 +288,40 @@ class VISIONImageManager(Screen):
 						"cancel": self.close,
 						"menu": self.createSetup
 					}, -1)
-					self["lab7"].setText(_("Device is not available."))
+					self["lab7"].setText(_("No device available."))
+				if config.imagemanager.backuplocation.value != "/" and not exists(config.imagemanager.backuplocation.value + '/imagebackups'):
+					mkdir(config.imagemanager.backuplocation.value + '/imagebackups', 0o755)
+				self["myactions"] = ActionMap(["ColorActions", "OkCancelActions", "DirectionActions", "MenuActions", "HelpActions"], {
+					"cancel": self.close,
+					"red": self.keyDelete,
+					"green": self.greenPressed,
+					"yellow": self.doDownload,
+					"menu": self.createSetup,
+					"ok": self.keyRestore,
+					"blue": self.keyRestore,
+					"up": self.refreshUp,
+					"down": self.refreshDown,
+					"displayHelp": self.doDownload
+				}, -1)
+				if nameDevice.split()[0] != "Internal" and not "/media/net" in config.imagemanager.backuplocation.value and not "/media/autofs" in config.imagemanager.backuplocation.value and free > 0:
+					self["lab7"].setText(nameDevice.split()[0] + " " + nameDevice.split()[1] + "\n\n" + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
+				elif free > 0:
+					self["lab7"].setText(_("Network server:\n") + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
 				else:
-					self.BackupDirectory = config.imagemanager.backuplocation.value + "/imagebackups/" if not config.imagemanager.backuplocation.value.endswith("/") else config.imagemanager.backuplocation.value + "imagebackups/"
-					if nameDevice.split()[0] != "Internal" and not "/media/net" in config.imagemanager.backuplocation.value and not "/media/autofs" in config.imagemanager.backuplocation.value and free > 0:
-						self["lab7"].setText(nameDevice.split()[0] + " " + nameDevice.split()[1] + "\n\n" + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
-					elif free > 0:
-						self["lab7"].setText(_("Network server:\n") + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
-					else:
-						self["lab7"].setText(_("Your mount has changed, restart enigma2 for apply you new mount."))
-					self["myactions"] = ActionMap(["ColorActions", "OkCancelActions", "DirectionActions", "MenuActions", "HelpActions"], {
-						"cancel": self.close,
-						"red": self.keyDelete,
-						"green": self.greenPressed,
-						"yellow": self.doDownload,
-						"menu": self.createSetup,
-						"ok": self.keyRestore,
-						"blue": self.keyRestore,
-						"up": self.refreshUp,
-						"down": self.refreshDown,
-						"displayHelp": self.doDownload
-					}, -1)
-					if config.imagemanager.backuplocation.value != "/" and not exists(config.imagemanager.backuplocation.value + '/imagebackups'):
-						mkdir(config.imagemanager.backuplocation.value + '/imagebackups', 0o755)
-					if exists(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + imagetype + "-swapfile_backup"):
-						system("swapoff " + self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + imagetype + "-swapfile_backup")
-						remove(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + imagetype + "-swapfile_backup")
-					if self.BackupDirectory and free > 0:
-						self["list"].show()
-						self["key_red"].setText(_("Delete"))
-						self["key_yellow"].setText(_("Downloads"))
-						self["key_blue"].setText(_("Flash"))
-					if self.BackupDirectory and not self.BackupRunning and free > 0:
-						self["key_green"].setText(_("New backupimage"))
+					self["lab7"].setText(_("Your mount has changed, restart enigma2 for apply you new mount."))
+				self.BackupDirectory = config.imagemanager.backuplocation.value + "/imagebackups/" if not config.imagemanager.backuplocation.value.endswith("/") else config.imagemanager.backuplocation.value + "imagebackups/"
+				if nameDevice.split()[0] != "Internal" and not "/media/net" in config.imagemanager.backuplocation.value and not "/media/autofs" in config.imagemanager.backuplocation.value and free > 0:
+					self["lab7"].setText(nameDevice.split()[0] + " " + nameDevice.split()[1] + "\n\n" + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
+				if exists(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + imagetype + "-swapfile_backup"):
+					system("swapoff " + self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + imagetype + "-swapfile_backup")
+					remove(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + imagetype + "-swapfile_backup")
+				if self.BackupDirectory and free > 0:
+					self["list"].show()
+					self["key_red"].setText(_("Delete"))
+					self["key_yellow"].setText(_("Downloads"))
+					self["key_blue"].setText(_("Flash"))
+				if self.BackupDirectory and not self.BackupRunning and free > 0:
+					self["key_green"].setText(_("New backupimage"))
 			except:
 				self["key_green"].setText("")  # device lost, then actions cancel screen or actions menu is possible
 				self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
@@ -1101,7 +1102,7 @@ class ImageBackup(Screen):
 			if self.errorCallback:
 				self.errorCallback(err)
 			else:
-				self.session.open(MessageBox, _('Device is not available.\nError: %s\n\nPress RED button in next screen \"Job cancel\"') % err, MessageBox.TYPE_ERROR, timeout=15)
+				self.session.open(MessageBox, _('No device available.\nError: %s\n\nPress RED button in next screen \"Job cancel\"') % err, MessageBox.TYPE_ERROR, timeout=15)
 
 	def Stage1Complete(self, result, retval, extra_args=None):
 		if retval == 0:
