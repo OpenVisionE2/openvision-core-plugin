@@ -218,7 +218,7 @@ class VISIONImageManager(Screen):
 						self.BackupRunning = True
 				if self.BackupRunning:
 					self["key_green"].setText(_("View progress"))
-				if partition != "None" and not self.BackupRunning:
+				if config.imagemanager.backuplocation.value != "/" and not self.BackupRunning:
 					self["key_green"].setText(_("New backupimage"))
 				self.activityTimer.startLongTimer(1)
 				self.refreshList()
@@ -234,7 +234,7 @@ class VISIONImageManager(Screen):
 	def refreshList(self):
 		if self.BackupDirectory == " ":
 			return
-		if partition != "None":
+		if config.imagemanager.backuplocation.value != "/":
 			images = listdir(self.BackupDirectory)
 			del self.emlist[:]
 			mtimes = []
