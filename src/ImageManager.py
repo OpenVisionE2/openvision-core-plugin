@@ -58,7 +58,6 @@ mountpointchoices = []
 partitions = sorted(harddiskmanager.getMountedPartitions(), key=lambda partitions: partitions.device or "")
 for parts in partitions:
 	partition = join(str(parts.device))
-	nameDevice = join(str(parts.description))
 	if exists(parts.mountpoint):
 		d = normpath(parts.mountpoint)
 		if canMultiBoot:
@@ -303,15 +302,13 @@ class VISIONImageManager(Screen):
 					"down": self.refreshDown,
 					"displayHelp": self.doDownload
 				}, -1)
-				if nameDevice.split()[0] != "Internal" and not "/media/net" in config.imagemanager.backuplocation.value and not "/media/autofs" in config.imagemanager.backuplocation.value and free > 0:
-					self["lab7"].setText(nameDevice.split()[0] + " " + nameDevice.split()[1] + "\n\n" + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
+				if not "/media/net" in config.imagemanager.backuplocation.value and not "/media/autofs" in config.imagemanager.backuplocation.value and free > 0:
+					self["lab7"].setText(_("Storage Device:\n") + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
 				elif free > 0:
 					self["lab7"].setText(_("Network server:\n") + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
 				else:
 					self["lab7"].setText(_("Your mount has changed, restart enigma2 for apply you new mount."))
 				self.BackupDirectory = config.imagemanager.backuplocation.value + "/imagebackups/" if not config.imagemanager.backuplocation.value.endswith("/") else config.imagemanager.backuplocation.value + "imagebackups/"
-				if nameDevice.split()[0] != "Internal" and not "/media/net" in config.imagemanager.backuplocation.value and not "/media/autofs" in config.imagemanager.backuplocation.value and free > 0:
-					self["lab7"].setText(nameDevice.split()[0] + " " + nameDevice.split()[1] + "\n\n" + _("Mount: ") + " " + config.imagemanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
 				if exists(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + imagetype + "-swapfile_backup"):
 					system("swapoff " + self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + imagetype + "-swapfile_backup")
 					remove(self.BackupDirectory + config.imagemanager.folderprefix.value + "-" + imagetype + "-swapfile_backup")
@@ -1754,7 +1751,7 @@ class ImageManagerSetup(Setup):
 			"menu": self.keyMenu,
 			"save": self.keySave,
 			"left": self.keyLeft,
-			"right": self.keyLeft
+			"right": self.keyRight
 		})
 
 	def keySelect(self):
@@ -1768,6 +1765,9 @@ class ImageManagerSetup(Setup):
 
 	def keyLeft(self):
 		Setup.keyLeft(self)
+
+	def keyRight(self):
+		Setup.keyRight(self)
 
 	def keySave(self):
 		config.imagemanager.imagefeed_OV = ConfigText(default="https://images.openvision.dedyn.io/json", fixed_size=False) if config.usage.alternative_imagefeed.value != "all" else ConfigText(default="https://images.openvision.dedyn.io/json%s" % config.usage.alternative_imagefeed.value, fixed_size=False)
