@@ -24,11 +24,6 @@ from Tools.LoadPixmap import LoadPixmap
 from Tools.Directories import SCOPE_GUISKIN, resolveFilename, SCOPE_PLUGINS
 from Components.Harddisk import harddiskmanager
 
-partitions = sorted(harddiskmanager.getMountedPartitions(), key=lambda partitions: partitions.device or "")
-for parts in partitions:
-	partition = join(str(parts.device))
-	mount = join(str(parts.mountpoint))
-
 HasSDnomount = BoxInfo.getItem("HasSDnomount")
 
 blacklistedDisks = [
@@ -236,17 +231,11 @@ class VISIONDevicesPanel(Screen):
 		self["lab5"] = StaticText(_("Sources are available at:"))
 		self["lab6"] = StaticText(_("https://github.com/OpenVisionE2"))
 		self["lab7"] = Label(_("Please wait while scanning for devices..."))
-		if exists(mount):
-			size = statvfs(mount)
-		else:
-			size = statvfs(0)
-		free = (size.f_bfree * size.f_frsize) // (1024 * 1024) // 1000
 		if harddiskmanager.HDDList():
 			self["key_red"] = StaticText("")
 			self["key_green"] = StaticText(_("Setup mounts"))
-			if partition != "None" and free > 0:
-				self["key_yellow"] = StaticText(_("Unmount"))
 			self["key_blue"] = StaticText(_("Mount"))
+			self["key_yellow"] = StaticText(_("Unmount"))
 		else:
 			self["key_green"] = StaticText("")
 			self["key_yellow"] = StaticText("")
@@ -317,8 +306,6 @@ class VISIONDevicesPanel(Screen):
 			self.session.openWithCallback(self.setTimer, DeviceMountSetup)	# print("[MountManager][setupMounts]")
 
 	def unmount(self):
-		if partition == "None":
-			return
 		sel = self["list"].getCurrent()
 		# print("[MountManager][unmount] sel1=%s sel2=%s" % (sel[0], sel[1]))
 		if sel:

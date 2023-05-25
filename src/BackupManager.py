@@ -41,14 +41,12 @@ mountpointchoices = []
 defaultprefix = distro[4:]
 partitions = sorted(harddiskmanager.getMountedPartitions(), key=lambda partitions: partitions.device or "")
 for parts in partitions:
-	partition = join(str(parts.device))
-	if exists(parts.mountpoint):
-		d = normpath(parts.mountpoint)
-		if BoxInfo.getItem("canMultiBoot"):
-			if "mmcblk0p" in d or "mmcblk1p" in d:
-				continue
-		if parts.mountpoint != "/":
-			mountpointchoices.append((parts.mountpoint, d))
+	d = normpath(parts.mountpoint)
+	if BoxInfo.getItem("canMultiBoot"):
+		if "mmcblk0p" in d or "mmcblk1p" in d:
+			continue
+	if parts.mountpoint != "/":
+		mountpointchoices.append((parts.mountpoint, d))
 
 
 def getMountDefault(mountpointchoices):
@@ -206,8 +204,8 @@ class VISIONBackupManager(Screen):
 		Components.Task.job_manager.in_background = in_background
 
 	def populate_List(self):
-		hotplugInfoDevice = self["lab7"].setText(_("Your mount has changed, restart enigma2 for apply you new mount.") if harddiskmanager.HDDList() else _("No device available."))
-		if partition == "None" and not mountpointchoices:
+		hotplugInfoDevice = self["lab7"].setText(_("Your mount has changed, restart enigma2 to updated.") if harddiskmanager.HDDList() else _("No device available."))
+		if not mountpointchoices:
 			self["myactions"] = ActionMap(["OkCancelActions", "MenuActions"], {
 				"cancel": self.close,
 				"menu": self.createSetup
@@ -241,11 +239,11 @@ class VISIONBackupManager(Screen):
 					"log": self.showLog
 				}, -1)
 				if not "/media/net" in config.backupmanager.backuplocation.value and not "/media/autofs" in config.backupmanager.backuplocation.value and free > 0:
-					self["lab7"].setText(_("Storage Device:\n") + _("Mount: ") + " " + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
+					self["lab7"].setText(_("Storage Device:\n\n") + _("Mount: ") + " " + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
 				elif free > 0:
-					self["lab7"].setText(_("Network server:\n") + _("Mount: ") + " " + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
+					self["lab7"].setText(_("Network server:\n\n") + _("Mount: ") + " " + config.backupmanager.backuplocation.value + " " + _("Free space:") + " " + str(free) + _(" GB"))
 				else:
-					self["lab7"].setText(_("Your mount has changed, restart enigma2 for apply you new mount."))
+					self["lab7"].setText(_("Your mount has changed, restart enigma2 to updated."))
 				self.BackupDirectory = config.backupmanager.backuplocation.value + '/backup/' if not config.backupmanager.backuplocation.value.endswith("/") else config.backupmanager.backuplocation.value + 'backup/'
 				del self.emlist[:]
 				backups = listdir(self.BackupDirectory)
